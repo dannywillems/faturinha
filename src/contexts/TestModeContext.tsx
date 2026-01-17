@@ -2,7 +2,7 @@ import {
   createContext,
   useContext,
   useState,
-  useEffect,
+  useMemo,
   useCallback,
   type ReactNode,
   type ReactElement,
@@ -33,16 +33,15 @@ export function TestModeProvider({
     return localStorage.getItem(TEST_MODE_KEY) === 'true';
   });
 
-  const [db, setDb] = useState<AppDatabase>(() =>
-    createDatabase(isTestMode ? 'FaturinhaTestDB' : 'FaturinhaDB')
-  );
+  // Track a version to force db recreation
+  const [dbVersion, setDbVersion] = useState(0);
 
-  // Recreate database when mode changes
-  useEffect(() => {
+  // Create database using useMemo to avoid effect setState issues
+  const db = useMemo<AppDatabase>(() => {
     const dbName = isTestMode ? 'FaturinhaTestDB' : 'FaturinhaDB';
-    const newDb = createDatabase(dbName);
-    setDb(newDb);
-  }, [isTestMode]);
+    return createDatabase(dbName);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [isTestMode, dbVersion]);
 
   const enterTestMode = useCallback(async (): Promise<void> => {
     localStorage.setItem(TEST_MODE_KEY, 'true');
@@ -74,8 +73,8 @@ export function TestModeProvider({
     // Re-seed with fresh test data
     await seedTestData(testDb);
 
-    // Force re-render by creating new db instance
-    setDb(createDatabase('FaturinhaTestDB'));
+    // Force re-render by incrementing db version
+    setDbVersion((v) => v + 1);
   }, [isTestMode]);
 
   return (
@@ -93,6 +92,7 @@ export function TestModeProvider({
   );
 }
 
+// eslint-disable-next-line react-refresh/only-export-components
 export function useTestMode(): TestModeContextType {
   const context = useContext(TestModeContext);
   if (!context) {
@@ -102,6 +102,7 @@ export function useTestMode(): TestModeContextType {
 }
 
 // Hook to get the current database instance
+// eslint-disable-next-line react-refresh/only-export-components
 export function useDb(): AppDatabase {
   const { db } = useTestMode();
   return db;

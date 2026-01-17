@@ -142,20 +142,22 @@ export function InvoiceForm(): ReactElement {
   });
 
   const [existingInvoice, setExistingInvoice] = useState<Invoice | null>(null);
-  const [focusNewItem, setFocusNewItem] = useState(false);
   const newItemRef = useRef<HTMLInputElement>(null);
+  const shouldFocusNewItem = useRef(false);
 
   // Auto-focus on new item description field
   useEffect(() => {
-    if (focusNewItem && newItemRef.current) {
+    if (shouldFocusNewItem.current && newItemRef.current) {
       newItemRef.current.focus();
-      setFocusNewItem(false);
+      shouldFocusNewItem.current = false;
     }
-  }, [focusNewItem, formData.items.length]);
+  }, [formData.items.length]);
 
+  // Initialize form defaults from settings - intentional setState in effect for initialization
   useEffect(() => {
     if (settings && settings[0]) {
       const currentSettings = settings[0];
+
       setFormData((prev) => ({
         ...prev,
         currency: prev.currency || currentSettings.defaultCurrency,
@@ -166,6 +168,7 @@ export function InvoiceForm(): ReactElement {
       if (!formData.dueDate && currentSettings.defaultPaymentTermsDays) {
         const dueDate = new Date();
         dueDate.setDate(dueDate.getDate() + currentSettings.defaultPaymentTermsDays);
+
         setFormData((prev) => ({
           ...prev,
           dueDate: dueDate.toISOString().split('T')[0],
@@ -178,12 +181,14 @@ export function InvoiceForm(): ReactElement {
         validUntil.setDate(
           validUntil.getDate() + currentSettings.defaultQuoteValidityDays
         );
+
         setFormData((prev) => ({
           ...prev,
           validUntil: validUntil.toISOString().split('T')[0],
         }));
       }
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [settings]);
 
   // Load existing invoice/quote for editing or duplication
@@ -349,7 +354,7 @@ export function InvoiceForm(): ReactElement {
       ...prev,
       items: [...prev.items, createEmptyItem()],
     }));
-    setFocusNewItem(true);
+    shouldFocusNewItem.current = true;
   };
 
   const removeItem = (index: number) => {

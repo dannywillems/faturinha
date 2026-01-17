@@ -21,19 +21,22 @@ export function Settings(): ReactElement {
   const currentSettings = existingSettings?.[0];
   const settingsId = currentSettings?.id;
 
-  const updateField = async <K extends keyof Omit<SettingsType, 'id'>>(
-    field: K,
-    value: SettingsType[K]
-  ) => {
-    if (settingsId) {
-      await db.settings.update(settingsId, { [field]: value });
-    } else {
-      await db.settings.add({
-        ...DEFAULT_SETTINGS,
-        [field]: value,
-      } as SettingsType);
-    }
-  };
+  const updateField = useCallback(
+    async <K extends keyof Omit<SettingsType, 'id'>>(
+      field: K,
+      value: SettingsType[K]
+    ) => {
+      if (settingsId) {
+        await db.settings.update(settingsId, { [field]: value });
+      } else {
+        await db.settings.add({
+          ...DEFAULT_SETTINGS,
+          [field]: value,
+        } as SettingsType);
+      }
+    },
+    [db.settings, settingsId]
+  );
 
   const getValue = <K extends keyof Omit<SettingsType, 'id'>>(
     field: K

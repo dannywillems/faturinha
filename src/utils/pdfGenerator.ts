@@ -102,7 +102,7 @@ function getStatusColor(status: string): number[] {
   }
 }
 
-function getStatusText(status: string, _isQuote: boolean): string {
+function getStatusText(status: string): string {
   const statusMap: Record<string, string> = {
     draft: 'Draft',
     sent: 'Sent',
@@ -282,7 +282,7 @@ function drawClientAndMeta(
   const statusColor = getStatusColor(invoice.status);
   setColor(ctx.pdf, statusColor);
   ctx.pdf.setFont('helvetica', 'bold');
-  ctx.pdf.text(getStatusText(invoice.status, isQuote), valueX, ctx.y, { align: 'right' });
+  ctx.pdf.text(getStatusText(invoice.status), valueX, ctx.y, { align: 'right' });
 
   ctx.y = Math.max(leftEndY, ctx.y + LINE_HEIGHT);
   ctx.y += SECTION_GAP;

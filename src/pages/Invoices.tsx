@@ -23,7 +23,7 @@ export function Invoices() {
   const { t } = useTranslation();
 
   const invoices = useLiveQuery(() =>
-    db.invoices.orderBy('createdAt').reverse().toArray()
+    db.invoices.orderBy('issueDate').reverse().toArray()
   );
   const clients = useLiveQuery(() => db.clients.toArray());
 

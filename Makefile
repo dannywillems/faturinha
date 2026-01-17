@@ -65,8 +65,27 @@ deploy-preview: ## Deploy preview to Cloudflare Pages
 	./deploy/deploy.sh preview
 
 .PHONY: test
-test: ## Run tests
+test: ## Run unit tests
 	npm run test
+
+.PHONY: test-e2e
+test-e2e: ## Run Playwright E2E tests
+	npm run test:e2e
+
+.PHONY: test-e2e-ui
+test-e2e-ui: ## Run Playwright tests with interactive UI
+	npm run test:e2e:ui
+
+.PHONY: test-e2e-headed
+test-e2e-headed: ## Run Playwright tests in headed browser mode
+	npm run test:e2e:headed
+
+.PHONY: test-e2e-report
+test-e2e-report: ## Show Playwright HTML test report
+	npm run test:e2e:report
+
+.PHONY: test-all
+test-all: test test-e2e ## Run all tests (unit + E2E)
 
 .PHONY: clean
 clean: ## Clean build artifacts

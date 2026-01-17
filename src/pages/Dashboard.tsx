@@ -1,12 +1,14 @@
+import type { ReactElement } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useLiveQuery } from 'dexie-react-hooks';
-import { db } from '../db';
+import { useDb } from '../contexts/TestModeContext';
 
-export function Dashboard() {
+export function Dashboard(): ReactElement {
   const { t } = useTranslation();
+  const db = useDb();
 
-  const invoices = useLiveQuery(() => db.invoices.toArray());
-  const clients = useLiveQuery(() => db.clients.toArray());
+  const invoices = useLiveQuery(() => db.invoices.toArray(), [db]);
+  const clients = useLiveQuery(() => db.clients.toArray(), [db]);
 
   const stats = {
     total: invoices?.length ?? 0,

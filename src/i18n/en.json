@@ -16,6 +16,13 @@
     "paidThisMonth": "Paid This Month",
     "overdueInvoices": "Overdue Invoices"
   },
+  "documents": {
+    "invoice": "Invoice",
+    "quote": "Quote",
+    "all": "All Documents",
+    "invoicesOnly": "Invoices Only",
+    "quotesOnly": "Quotes Only"
+  },
   "invoices": {
     "title": "Invoices",
     "create": "New Invoice",
@@ -29,7 +36,10 @@
       "sent": "Sent",
       "paid": "Paid",
       "overdue": "Overdue",
-      "cancelled": "Cancelled"
+      "cancelled": "Cancelled",
+      "accepted": "Accepted",
+      "declined": "Declined",
+      "expired": "Expired"
     },
     "fields": {
       "invoiceNumber": "Invoice Number",
@@ -51,6 +61,30 @@
     "removeItem": "Remove Item",
     "empty": "No invoices yet",
     "emptyDescription": "Create your first invoice to get started"
+  },
+  "quotes": {
+    "title": "Quotes",
+    "create": "New Quote",
+    "edit": "Edit Quote",
+    "duplicate": "Duplicate Quote",
+    "delete": "Delete",
+    "send": "Send Quote",
+    "convertToInvoice": "Convert to Invoice",
+    "markAccepted": "Mark as Accepted",
+    "markDeclined": "Mark as Declined",
+    "status": {
+      "draft": "Draft",
+      "sent": "Sent",
+      "accepted": "Accepted",
+      "declined": "Declined",
+      "expired": "Expired"
+    },
+    "fields": {
+      "quoteNumber": "Quote Number",
+      "validUntil": "Valid Until"
+    },
+    "empty": "No quotes yet",
+    "emptyDescription": "Create your first quote to get started"
   },
   "clients": {
     "title": "Clients",
@@ -93,6 +127,12 @@
       "paymentTerms": "Default Payment Terms (days)",
       "defaultNotes": "Default Notes"
     },
+    "quote": {
+      "title": "Quote Settings",
+      "quotePrefix": "Quote Number Prefix",
+      "nextQuoteNumber": "Next Quote Number",
+      "validityPeriod": "Default Validity Period (days)"
+    },
     "data": {
       "title": "Data Management",
       "export": "Export All Data",
@@ -134,5 +174,13 @@
       "status": "/status INV-2024-001",
       "reminder": "/reminder INV-2024-001"
     }
+  },
+  "testMode": {
+    "enter": "Enter Test Mode",
+    "exit": "Exit Test Mode",
+    "banner": "TEST MODE - Changes will not affect your real data",
+    "reset": "Reset Test Data",
+    "resetConfirm": "Reset all test data to initial demo state?",
+    "resetSuccess": "Test data has been reset"
   }
 }

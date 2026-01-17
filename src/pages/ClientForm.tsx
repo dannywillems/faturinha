@@ -1,16 +1,20 @@
+import type { ReactElement } from 'react';
 import { useState, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useNavigate, useParams } from 'react-router-dom';
-import { db } from '../db';
+import { useDb } from '../contexts/TestModeContext';
 import type { Client } from '../types';
 
-export function ClientForm() {
+export function ClientForm(): ReactElement {
   const { t } = useTranslation();
   const navigate = useNavigate();
   const { id } = useParams<{ id: string }>();
+  const db = useDb();
   const isEditing = Boolean(id);
 
-  const [formData, setFormData] = useState<Omit<Client, 'id' | 'createdAt' | 'updatedAt'>>({
+  const [formData, setFormData] = useState<
+    Omit<Client, 'id' | 'createdAt' | 'updatedAt'>
+  >({
     name: '',
     email: '',
     phone: '',
@@ -46,7 +50,7 @@ export function ClientForm() {
         }
       });
     }
-  }, [id]);
+  }, [id, db]);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();

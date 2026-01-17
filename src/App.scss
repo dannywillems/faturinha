@@ -1,3 +1,4 @@
+@use 'sass:color';
 @use 'styles/variables' as *;
 
 * {
@@ -37,6 +38,74 @@ body {
 .app-layout {
   display: flex;
   min-height: 100vh;
+
+  &.test-mode {
+    .sidebar {
+      border-right-color: $color-warning;
+    }
+
+    .main-content {
+      padding-top: calc($spacing-8 + 48px);
+    }
+  }
+}
+
+// =============================================================================
+// Test Mode Banner
+// =============================================================================
+.test-mode-banner {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 48px;
+  background-color: $color-warning;
+  color: #000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: $spacing-4;
+  font-weight: $font-weight-semibold;
+  font-size: $font-size-sm;
+  z-index: 1000;
+  padding: 0 $spacing-4;
+
+  .test-mode-actions {
+    display: flex;
+    gap: $spacing-2;
+  }
+
+  .btn-reset {
+    background-color: rgba(0, 0, 0, 0.1);
+    border-color: rgba(0, 0, 0, 0.2);
+    color: #000;
+
+    &:hover {
+      background-color: rgba(0, 0, 0, 0.2);
+    }
+  }
+
+  .btn-exit {
+    background-color: #000;
+    border-color: #000;
+    color: #fff;
+
+    &:hover {
+      background-color: #333;
+    }
+  }
+}
+
+.test-badge {
+  display: inline-block;
+  background-color: $color-warning;
+  color: #000;
+  font-size: $font-size-xs;
+  font-weight: $font-weight-bold;
+  padding: $spacing-1 $spacing-2;
+  border-radius: $radius-base;
+  margin-left: $spacing-2;
+  vertical-align: middle;
 }
 
 // =============================================================================
@@ -50,12 +119,43 @@ body {
   position: fixed;
   height: 100vh;
   overflow-y: auto;
+  display: flex;
+  flex-direction: column;
 
-  .logo h1 {
-    font-size: $font-size-2xl;
-    font-weight: $font-weight-semibold;
-    color: $color-primary;
+  .test-mode & {
+    top: 48px;
+    height: calc(100vh - 48px);
+  }
+
+  .logo {
+    display: flex;
+    align-items: center;
     margin-bottom: $spacing-8;
+
+    h1 {
+      font-size: $font-size-2xl;
+      font-weight: $font-weight-semibold;
+      color: $color-primary;
+    }
+  }
+}
+
+.sidebar-footer {
+  margin-top: auto;
+  padding-top: $spacing-4;
+  border-top: 1px solid $color-border;
+}
+
+.btn-test-mode {
+  width: 100%;
+  background-color: transparent;
+  border: 1px dashed $color-border;
+  color: $color-text-muted;
+
+  &:hover {
+    background-color: $color-bg;
+    border-style: solid;
+    color: $color-text;
   }
 }
 
@@ -209,6 +309,21 @@ tr:last-child td {
   border-bottom: none;
 }
 
+.actions-cell {
+  display: flex;
+  gap: $spacing-2;
+  justify-content: flex-end;
+}
+
+td a {
+  color: $color-primary;
+  text-decoration: none;
+
+  &:hover {
+    text-decoration: underline;
+  }
+}
+
 // =============================================================================
 // Status Badges
 // =============================================================================
@@ -292,6 +407,269 @@ tr:last-child td {
 }
 
 // =============================================================================
+// Invoice Items (Form)
+// =============================================================================
+.invoice-items {
+  margin-bottom: $spacing-6;
+
+  .items-table {
+    margin-bottom: $spacing-4;
+    border: 1px solid $color-border;
+    border-radius: $radius-md;
+    overflow: hidden;
+
+    th {
+      background-color: color.adjust($color-bg, $lightness: -2%);
+      font-size: $font-size-xs;
+      font-weight: $font-weight-semibold;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      padding: $spacing-3 $spacing-2;
+    }
+
+    td {
+      padding: $spacing-2;
+      vertical-align: middle;
+    }
+
+    // Alternating row colors
+    tbody tr {
+      transition: background-color 0.15s ease;
+
+      &:nth-child(even) {
+        background-color: color.adjust($color-bg, $lightness: -1%);
+      }
+
+      &:hover {
+        background-color: color.adjust($color-primary-light, $alpha: -0.9);
+      }
+    }
+
+    // Column widths
+    th:nth-child(1),
+    td:nth-child(1) {
+      width: 35%;
+    }
+
+    th:nth-child(2),
+    td:nth-child(2),
+    th:nth-child(3),
+    td:nth-child(3),
+    th:nth-child(4),
+    td:nth-child(4) {
+      width: 12%;
+      text-align: center;
+    }
+
+    th:nth-child(5),
+    td:nth-child(5) {
+      width: 15%;
+      text-align: right;
+    }
+
+    th:nth-child(6),
+    td:nth-child(6) {
+      width: 50px;
+      text-align: center;
+    }
+
+    // Inputs within table
+    input {
+      width: 100%;
+      padding: $spacing-2;
+      font-size: $font-size-sm;
+      border: 1px solid $color-border;
+      border-radius: $radius-sm;
+      background-color: $color-surface;
+      transition: border-color 0.15s ease, box-shadow 0.15s ease;
+
+      &:focus {
+        outline: none;
+        border-color: $color-primary;
+        box-shadow: 0 0 0 2px $color-primary-light;
+      }
+    }
+
+    input[type='number'] {
+      text-align: right;
+    }
+  }
+
+  .item-total {
+    font-weight: $font-weight-semibold;
+    color: $color-text;
+    white-space: nowrap;
+  }
+
+  // Input with prefix/suffix wrapper
+  .input-with-addon {
+    display: flex;
+    align-items: center;
+
+    .input-addon {
+      padding: $spacing-2;
+      background-color: $color-bg;
+      border: 1px solid $color-border;
+      font-size: $font-size-sm;
+      color: $color-text-muted;
+      white-space: nowrap;
+    }
+
+    .input-addon-prefix {
+      border-right: none;
+      border-radius: $radius-sm 0 0 $radius-sm;
+    }
+
+    .input-addon-suffix {
+      border-left: none;
+      border-radius: 0 $radius-sm $radius-sm 0;
+    }
+
+    input {
+      border-radius: 0;
+      flex: 1;
+      min-width: 0;
+    }
+
+    &.has-prefix input {
+      border-top-left-radius: 0;
+      border-bottom-left-radius: 0;
+    }
+
+    &.has-suffix input {
+      border-top-right-radius: 0;
+      border-bottom-right-radius: 0;
+    }
+  }
+
+  // Delete button
+  .btn-delete-item {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 32px;
+    height: 32px;
+    padding: 0;
+    background-color: transparent;
+    border: 1px solid transparent;
+    border-radius: $radius-sm;
+    color: $color-text-muted;
+    cursor: pointer;
+    transition: all 0.15s ease;
+
+    &:hover:not(:disabled) {
+      background-color: color.adjust($color-error, $alpha: -0.9);
+      border-color: color.adjust($color-error, $alpha: -0.7);
+      color: $color-error;
+    }
+
+    &:disabled {
+      opacity: 0.3;
+      cursor: not-allowed;
+    }
+
+    svg {
+      width: 18px;
+      height: 18px;
+    }
+  }
+
+  // Add item button
+  .btn-add-item {
+    display: inline-flex;
+    align-items: center;
+    gap: $spacing-2;
+
+    svg {
+      width: 16px;
+      height: 16px;
+    }
+  }
+}
+
+.invoice-totals {
+  background-color: $color-surface;
+  border: 1px solid $color-border;
+  border-radius: $radius-md;
+  padding: $spacing-4;
+  max-width: 300px;
+  margin-left: auto;
+
+  .total-row {
+    display: flex;
+    justify-content: space-between;
+    padding: $spacing-2 0;
+    font-size: $font-size-sm;
+    color: $color-text-secondary;
+
+    & + .total-row {
+      border-top: 1px solid $color-border;
+    }
+  }
+
+  .total-final {
+    margin-top: $spacing-2;
+    padding-top: $spacing-3;
+    border-top: 2px solid $color-text;
+    font-size: $font-size-lg;
+    font-weight: $font-weight-bold;
+    color: $color-text;
+  }
+}
+
+.form-section {
+  background-color: $color-surface;
+  border: 1px solid $color-border;
+  border-radius: $radius-md;
+  padding: $spacing-6;
+  margin-bottom: $spacing-6;
+
+  h3 {
+    font-size: $font-size-base;
+    font-weight: $font-weight-semibold;
+    margin-bottom: $spacing-4;
+    color: $color-text;
+  }
+}
+
+.form-row {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: $spacing-4;
+}
+
+.document-type-toggle {
+  display: flex;
+  gap: $spacing-2;
+  background-color: color.adjust($color-bg, $lightness: -2%);
+  padding: $spacing-1;
+  border-radius: $radius-md;
+  width: fit-content;
+
+  .toggle-label {
+    cursor: pointer;
+
+    input[type='radio'] {
+      display: none;
+    }
+
+    .toggle-option {
+      display: inline-block;
+      padding: $spacing-2 $spacing-4;
+      border-radius: $radius-sm;
+      font-weight: $font-weight-medium;
+      transition: all 0.2s ease;
+      color: $color-text-secondary;
+    }
+
+    input[type='radio']:checked + .toggle-option {
+      background-color: $color-primary;
+      color: white;
+    }
+  }
+}
+
+// =============================================================================
 // Settings
 // =============================================================================
 .settings-section {
@@ -336,6 +714,388 @@ tr:last-child td {
 .save-success {
   color: $color-success;
   font-size: $font-size-sm;
+}
+
+// =============================================================================
+// Invoice View Page
+// =============================================================================
+.invoice-view-page {
+  .page-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: $spacing-4;
+  }
+
+  .header-left {
+    display: flex;
+    flex-direction: column;
+    gap: $spacing-2;
+
+    .back-link {
+      color: $color-text-muted;
+      text-decoration: none;
+      font-size: $font-size-sm;
+
+      &:hover {
+        color: $color-primary;
+      }
+    }
+  }
+
+  .header-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: $spacing-2;
+  }
+
+  .invoice-preview-container {
+    display: flex;
+    justify-content: center;
+    padding: $spacing-6 0;
+  }
+}
+
+// Hidden container for PDF generation - positioned off-screen
+.invoice-print-container {
+  position: absolute;
+  left: -9999px;
+  top: 0;
+  width: 210mm; // A4 width
+  overflow: visible;
+  pointer-events: none;
+
+  // Force the print preview to render at exact A4 dimensions
+  .invoice-preview-print {
+    width: 210mm;
+    min-height: 297mm;
+    padding: 15mm;
+    box-sizing: border-box;
+    background-color: white;
+    font-size: 12px;
+    line-height: 1.4;
+
+    // Ensure all child elements use consistent sizing
+    * {
+      box-sizing: border-box;
+    }
+
+    // Override any responsive styles
+    .invoice-preview-header {
+      display: flex;
+      flex-direction: row;
+      justify-content: space-between;
+      margin-bottom: 8mm;
+      padding-bottom: 5mm;
+      border-bottom: 2px solid $color-primary;
+    }
+
+    .invoice-preview-details {
+      display: flex;
+      flex-direction: row;
+      justify-content: space-between;
+      margin-bottom: 8mm;
+    }
+
+    .invoice-preview-items {
+      width: 100%;
+      margin-bottom: 6mm;
+
+      th,
+      td {
+        padding: 3mm 2mm;
+      }
+    }
+
+    .invoice-preview-totals {
+      margin-bottom: 8mm;
+    }
+
+    .invoice-preview-notes {
+      margin-bottom: 8mm;
+    }
+  }
+}
+
+.btn-secondary {
+  background-color: $color-surface;
+  border-color: $color-border;
+  color: $color-text;
+
+  &:hover {
+    background-color: $color-bg;
+  }
+}
+
+.btn-success {
+  background-color: $color-success;
+  border-color: $color-success;
+  color: white;
+
+  &:hover {
+    background-color: color.adjust($color-success, $lightness: -10%);
+    border-color: color.adjust($color-success, $lightness: -10%);
+  }
+}
+
+.btn-danger {
+  background-color: $color-error;
+  border-color: $color-error;
+  color: white;
+
+  &:hover {
+    background-color: color.adjust($color-error, $lightness: -10%);
+    border-color: color.adjust($color-error, $lightness: -10%);
+  }
+}
+
+// =============================================================================
+// Invoice Preview Component
+// =============================================================================
+.invoice-preview {
+  width: 210mm;
+  min-height: 297mm;
+  background-color: white;
+  padding: $spacing-8;
+  box-shadow: $shadow-md;
+  font-size: $font-size-sm;
+  color: $color-text;
+
+  @media print {
+    box-shadow: none;
+    padding: 0;
+    width: 100%;
+  }
+}
+
+.invoice-preview-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: $spacing-8;
+  padding-bottom: $spacing-6;
+  border-bottom: 2px solid $color-primary;
+
+  .business-info {
+    display: flex;
+    gap: $spacing-4;
+  }
+
+  .business-logo {
+    max-width: 80px;
+    max-height: 80px;
+    object-fit: contain;
+  }
+
+  .business-details {
+    p {
+      margin: 0;
+      line-height: 1.5;
+      color: $color-text-secondary;
+    }
+  }
+
+  .business-name {
+    font-size: $font-size-lg;
+    font-weight: $font-weight-semibold;
+    color: $color-text;
+    margin-bottom: $spacing-1;
+  }
+
+  .invoice-title {
+    text-align: right;
+
+    h1 {
+      font-size: $font-size-3xl;
+      font-weight: $font-weight-bold;
+      color: $color-primary;
+      margin: 0;
+    }
+
+    .invoice-number {
+      font-size: $font-size-lg;
+      color: $color-text-secondary;
+      margin-top: $spacing-1;
+    }
+  }
+}
+
+.invoice-preview-details {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: $spacing-8;
+
+  .bill-to {
+    h3 {
+      font-size: $font-size-xs;
+      font-weight: $font-weight-semibold;
+      color: $color-text-muted;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      margin-bottom: $spacing-2;
+    }
+
+    .client-name {
+      font-size: $font-size-base;
+      font-weight: $font-weight-semibold;
+      margin-bottom: $spacing-1;
+    }
+
+    p {
+      margin: 0;
+      line-height: 1.5;
+      color: $color-text-secondary;
+    }
+  }
+
+  .invoice-meta {
+    text-align: right;
+
+    .meta-row {
+      display: flex;
+      justify-content: flex-end;
+      gap: $spacing-4;
+      margin-bottom: $spacing-1;
+    }
+
+    .meta-label {
+      color: $color-text-muted;
+    }
+
+    .meta-value {
+      font-weight: $font-weight-medium;
+      min-width: 120px;
+    }
+  }
+}
+
+.invoice-preview-items {
+  width: 100%;
+  margin-bottom: $spacing-6;
+  border: 1px solid $color-border;
+  border-radius: $radius-base;
+
+  th {
+    background-color: $color-bg;
+    font-size: $font-size-xs;
+    font-weight: $font-weight-semibold;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: $color-text-muted;
+  }
+
+  .col-description {
+    width: 40%;
+  }
+
+  .col-quantity,
+  .col-tax {
+    width: 10%;
+    text-align: center;
+  }
+
+  .col-price,
+  .col-total {
+    width: 20%;
+    text-align: right;
+  }
+
+  td.col-quantity,
+  td.col-tax {
+    text-align: center;
+  }
+
+  td.col-price,
+  td.col-total {
+    text-align: right;
+  }
+}
+
+.invoice-preview-totals {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  margin-bottom: $spacing-8;
+
+  .totals-row {
+    display: flex;
+    gap: $spacing-8;
+    padding: $spacing-2 0;
+    min-width: 250px;
+
+    .totals-label {
+      color: $color-text-muted;
+    }
+
+    .totals-value {
+      text-align: right;
+      min-width: 100px;
+    }
+  }
+
+  .totals-final {
+    border-top: 2px solid $color-text;
+    padding-top: $spacing-2;
+    margin-top: $spacing-2;
+
+    .totals-label,
+    .totals-value {
+      font-size: $font-size-lg;
+      font-weight: $font-weight-bold;
+      color: $color-text;
+    }
+  }
+}
+
+.invoice-preview-notes {
+  margin-bottom: $spacing-8;
+  padding: $spacing-4;
+  background-color: $color-bg;
+  border-radius: $radius-base;
+
+  h3 {
+    font-size: $font-size-xs;
+    font-weight: $font-weight-semibold;
+    color: $color-text-muted;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    margin-bottom: $spacing-2;
+  }
+
+  p {
+    margin: 0;
+    white-space: pre-wrap;
+    color: $color-text-secondary;
+  }
+}
+
+.invoice-preview-footer {
+  text-align: center;
+  padding-top: $spacing-6;
+  border-top: 1px solid $color-border;
+  color: $color-text-muted;
+  font-size: $font-size-sm;
+}
+
+// Print styles
+@media print {
+  .sidebar,
+  .page-header,
+  .header-actions {
+    display: none !important;
+  }
+
+  .main-content {
+    margin-left: 0 !important;
+    padding: 0 !important;
+  }
+
+  .invoice-preview-container {
+    padding: 0 !important;
+  }
+
+  .invoice-preview {
+    box-shadow: none !important;
+  }
 }
 
 // =============================================================================
@@ -393,5 +1153,260 @@ tr:last-child td {
   table {
     display: block;
     overflow-x: auto;
+  }
+
+  // Invoice items mobile card layout
+  .invoice-items {
+    .items-table {
+      display: block;
+      border: none;
+      background: transparent;
+
+      thead {
+        display: none;
+      }
+
+      tbody {
+        display: flex;
+        flex-direction: column;
+        gap: $spacing-4;
+      }
+
+      tr {
+        display: flex;
+        flex-direction: column;
+        background-color: $color-surface;
+        border: 1px solid $color-border;
+        border-radius: $radius-md;
+        padding: $spacing-4;
+        position: relative;
+
+        &:hover {
+          background-color: $color-surface;
+        }
+      }
+
+      td {
+        display: flex;
+        align-items: center;
+        padding: $spacing-2 0;
+        border: none;
+
+        &::before {
+          content: attr(data-label);
+          font-size: $font-size-xs;
+          font-weight: $font-weight-semibold;
+          color: $color-text-muted;
+          text-transform: uppercase;
+          min-width: 80px;
+          margin-right: $spacing-3;
+        }
+
+        &:first-child {
+          padding-top: 0;
+
+          input {
+            font-weight: $font-weight-medium;
+          }
+        }
+
+        &:last-child {
+          position: absolute;
+          top: $spacing-3;
+          right: $spacing-3;
+          padding: 0;
+
+          &::before {
+            display: none;
+          }
+        }
+      }
+
+      .item-total {
+        font-size: $font-size-lg;
+        padding-top: $spacing-3;
+        margin-top: $spacing-2;
+        border-top: 1px solid $color-border;
+
+        &::before {
+          font-size: $font-size-sm;
+        }
+      }
+
+      input {
+        flex: 1;
+      }
+
+      .input-with-addon {
+        flex: 1;
+      }
+    }
+
+    .btn-delete-item {
+      width: 36px;
+      height: 36px;
+    }
+  }
+
+  .invoice-totals {
+    max-width: none;
+  }
+
+  .form-row {
+    grid-template-columns: 1fr;
+  }
+
+  // Test mode banner mobile adjustments
+  .test-mode-banner {
+    position: relative;
+    flex-direction: column;
+    height: auto;
+    padding: $spacing-3 $spacing-4;
+    gap: $spacing-2;
+
+    .test-mode-actions {
+      width: 100%;
+      justify-content: center;
+    }
+  }
+
+  .app-layout.test-mode {
+    .sidebar {
+      top: 0;
+      height: auto;
+    }
+
+    .main-content {
+      padding-top: $spacing-4;
+    }
+  }
+
+  // Invoice view actions
+  .invoice-view-page {
+    .header-actions {
+      width: 100%;
+
+      .btn {
+        flex: 1;
+        text-align: center;
+        min-width: 0;
+        padding: $spacing-2;
+        font-size: $font-size-xs;
+      }
+    }
+  }
+
+  // Invoices list table mobile
+  .invoices-list {
+    table {
+      font-size: $font-size-sm;
+    }
+
+    th,
+    td {
+      padding: $spacing-2;
+    }
+
+    .actions-cell {
+      flex-direction: column;
+      gap: $spacing-1;
+
+      .btn {
+        width: 100%;
+      }
+    }
+  }
+
+  // Form sections padding
+  .form-section {
+    padding: $spacing-4;
+  }
+
+  // Settings sections
+  .settings-section {
+    padding: $spacing-4;
+  }
+
+  // Document type toggle
+  .document-type-toggle {
+    width: 100%;
+    justify-content: center;
+  }
+}
+
+// Extra small screens
+@media (max-width: $breakpoint-sm) {
+  .stats-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .page-header {
+    h1 {
+      font-size: $font-size-2xl;
+    }
+  }
+
+  // Hide less important columns on very small screens
+  .invoices-list {
+    table {
+      th:nth-child(3),
+      td:nth-child(3),
+      th:nth-child(4),
+      td:nth-child(4) {
+        display: none;
+      }
+    }
+  }
+
+  // Invoice items card layout improvements for small screens
+  .invoice-items {
+    .items-table {
+      td {
+        flex-direction: column;
+        align-items: flex-start;
+
+        &::before {
+          margin-bottom: $spacing-1;
+          margin-right: 0;
+        }
+      }
+
+      .input-with-addon {
+        width: 100%;
+      }
+    }
+  }
+
+  // Sidebar navigation as horizontal scroll
+  .nav-links {
+    overflow-x: auto;
+    flex-wrap: nowrap;
+    padding-bottom: $spacing-2;
+
+    a {
+      white-space: nowrap;
+    }
+  }
+
+  // Invoice view buttons stacked
+  .invoice-view-page {
+    .header-actions {
+      flex-direction: column;
+
+      .btn {
+        width: 100%;
+      }
+    }
+  }
+
+  // Invoice preview scaling
+  .invoice-preview-container {
+    overflow-x: auto;
+
+    .invoice-preview {
+      min-width: 100%;
+      width: auto;
+      transform-origin: top left;
+    }
   }
 }

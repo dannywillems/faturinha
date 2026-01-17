@@ -1,13 +1,16 @@
+import type { ReactElement } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useLiveQuery } from 'dexie-react-hooks';
 import { Link } from 'react-router-dom';
-import { db } from '../db';
+import { useDb } from '../contexts/TestModeContext';
 
-export function Clients() {
+export function Clients(): ReactElement {
   const { t } = useTranslation();
+  const db = useDb();
 
-  const clients = useLiveQuery(() =>
-    db.clients.orderBy('name').toArray()
+  const clients = useLiveQuery(
+    () => db.clients.orderBy('name').toArray(),
+    [db]
   );
 
   if (!clients) {

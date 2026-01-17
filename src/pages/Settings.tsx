@@ -2,7 +2,7 @@ import type { ChangeEvent, ReactElement } from 'react';
 import { useState, useCallback } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useLiveQuery } from 'dexie-react-hooks';
-import { db } from '../db';
+import { useDb } from '../contexts/TestModeContext';
 import type { Settings as SettingsType, CurrencyCode, Client, Invoice } from '../types';
 import { DEFAULT_SETTINGS } from '../types';
 
@@ -11,8 +11,9 @@ const ALLOWED_IMAGE_TYPES = ['image/png', 'image/jpeg', 'image/svg+xml'];
 
 export function Settings(): ReactElement {
   const { t } = useTranslation();
+  const db = useDb();
 
-  const existingSettings = useLiveQuery(() => db.settings.toArray());
+  const existingSettings = useLiveQuery(() => db.settings.toArray(), [db]);
   const [saved, setSaved] = useState<boolean>(false);
   const [logoError, setLogoError] = useState<string | null>(null);
 

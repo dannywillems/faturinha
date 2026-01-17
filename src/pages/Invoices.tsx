@@ -1,7 +1,8 @@
+import type { ReactElement } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useLiveQuery } from 'dexie-react-hooks';
 import { Link } from 'react-router-dom';
-import { db } from '../db';
+import { useDb } from '../contexts/TestModeContext';
 import type { Invoice, Client } from '../types';
 
 function formatCurrency(amount: number, currency: string): string {
@@ -19,13 +20,15 @@ function formatDate(date: Date): string {
   }).format(new Date(date));
 }
 
-export function Invoices() {
+export function Invoices(): ReactElement {
   const { t } = useTranslation();
+  const db = useDb();
 
-  const invoices = useLiveQuery(() =>
-    db.invoices.orderBy('issueDate').reverse().toArray()
+  const invoices = useLiveQuery(
+    () => db.invoices.orderBy('issueDate').reverse().toArray(),
+    [db]
   );
-  const clients = useLiveQuery(() => db.clients.toArray());
+  const clients = useLiveQuery(() => db.clients.toArray(), [db]);
 
   const clientMap = new Map<number, Client>();
   clients?.forEach((client) => {
@@ -38,11 +41,16 @@ export function Invoices() {
 
   const getStatusClass = (status: Invoice['status']): string => {
     const classes: Record<Invoice['status'], string> = {
+      // Invoice statuses
       draft: 'status-draft',
       sent: 'status-sent',
       paid: 'status-paid',
       overdue: 'status-overdue',
       cancelled: 'status-cancelled',
+      // Quote statuses
+      accepted: 'status-accepted',
+      declined: 'status-declined',
+      expired: 'status-expired',
     };
     return classes[status];
   };
@@ -82,7 +90,11 @@ export function Invoices() {
             <tbody>
               {invoices.map((invoice) => (
                 <tr key={invoice.id}>
-                  <td>{invoice.invoiceNumber}</td>
+                  <td>
+                    <Link to={`/invoices/${invoice.id}/view`}>
+                      {invoice.invoiceNumber}
+                    </Link>
+                  </td>
                   <td>{getClientName(invoice.clientId)}</td>
                   <td>{formatDate(invoice.issueDate)}</td>
                   <td>{formatDate(invoice.dueDate)}</td>
@@ -92,8 +104,17 @@ export function Invoices() {
                       {t(`invoices.status.${invoice.status}`)}
                     </span>
                   </td>
-                  <td>
-                    <Link to={`/invoices/${invoice.id}`} className="btn btn-sm">
+                  <td className="actions-cell">
+                    <Link
+                      to={`/invoices/${invoice.id}/view`}
+                      className="btn btn-sm"
+                    >
+                      View
+                    </Link>
+                    <Link
+                      to={`/invoices/${invoice.id}/edit`}
+                      className="btn btn-sm"
+                    >
                       {t('common.edit')}
                     </Link>
                   </td>

@@ -27,19 +27,25 @@ test.describe('Invoice Duplication', () => {
     page: import('@playwright/test').Page
   ): Promise<void> {
     await page.goto('/invoices/new');
-    await page.selectOption('select#clientId', { label: 'Duplication Test Client' });
+    await page.selectOption('select#clientId', {
+      label: 'Duplication Test Client',
+    });
 
     // Fill due date
     await page.fill('input#dueDate', '2024-02-15');
 
     const firstItem = page.locator('.items-table tbody tr').first();
-    await firstItem.locator('input[placeholder="Description"]').fill('Original Service');
+    await firstItem
+      .locator('input[placeholder="Description"]')
+      .fill('Original Service');
     await firstItem.locator('input[type="number"]').nth(0).fill('5');
     await firstItem.locator('input[type="number"]').nth(1).fill('100');
 
     await page.click('button:has-text("Add Item")');
     const secondItem = page.locator('.items-table tbody tr').nth(1);
-    await secondItem.locator('input[placeholder="Description"]').fill('Original Product');
+    await secondItem
+      .locator('input[placeholder="Description"]')
+      .fill('Original Product');
     await secondItem.locator('input[type="number"]').nth(0).fill('2');
     await secondItem.locator('input[type="number"]').nth(1).fill('250');
 
@@ -48,7 +54,16 @@ test.describe('Invoice Duplication', () => {
     await expect(page).toHaveURL('/invoices');
   }
 
-  test('should navigate to duplicate form from invoice list', async ({ page }) => {
+  // Helper to extract invoice ID from URL like /invoices/1/view or /invoices/1/edit
+  function extractInvoiceId(href: string | null): string | undefined {
+    if (!href) return undefined;
+    const match = href.match(/\/invoices\/(\d+)\//);
+    return match ? match[1] : undefined;
+  }
+
+  test('should navigate to duplicate form from invoice list', async ({
+    page,
+  }) => {
     // Create client and invoice first
     await createTestClient(page);
     await createTestInvoice(page);
@@ -57,10 +72,9 @@ test.describe('Invoice Duplication', () => {
     await page.goto('/invoices');
 
     // Find the first invoice and get its ID for duplication
-    // Click on the edit link to get the invoice ID
-    const editLink = page.locator('a:has-text("Edit")').first();
-    const href = await editLink.getAttribute('href');
-    const invoiceId = href?.split('/').pop();
+    const viewLink = page.locator('a:has-text("View")').first();
+    const href = await viewLink.getAttribute('href');
+    const invoiceId = extractInvoiceId(href);
 
     // Navigate to duplicate URL
     await page.goto(`/invoices/new?duplicate=${invoiceId}`);
@@ -78,9 +92,9 @@ test.describe('Invoice Duplication', () => {
 
     // Go to invoices page and get invoice ID
     await page.goto('/invoices');
-    const editLink = page.locator('a:has-text("Edit")').first();
-    const href = await editLink.getAttribute('href');
-    const invoiceId = href?.split('/').pop();
+    const viewLink = page.locator('a:has-text("View")').first();
+    const href = await viewLink.getAttribute('href');
+    const invoiceId = extractInvoiceId(href);
 
     // Navigate to duplicate URL
     await page.goto(`/invoices/new?duplicate=${invoiceId}`);
@@ -110,16 +124,16 @@ test.describe('Invoice Duplication', () => {
 
     // Go to invoices page and get invoice ID
     await page.goto('/invoices');
-    const editLink = page.locator('a:has-text("Edit")').first();
-    const href = await editLink.getAttribute('href');
-    const invoiceId = href?.split('/').pop();
+    const viewLink = page.locator('a:has-text("View")').first();
+    const href = await viewLink.getAttribute('href');
+    const invoiceId = extractInvoiceId(href);
 
     // Navigate to duplicate URL
     await page.goto(`/invoices/new?duplicate=${invoiceId}`);
 
     // Verify client is preserved
     const clientSelect = page.locator('select#clientId');
-    await expect(clientSelect).toHaveValue(/\d+/); // Should have a numeric value (client ID)
+    await expect(clientSelect).toHaveValue(/\d+/);
   });
 
   test('should preserve notes when duplicating', async ({ page }) => {
@@ -129,9 +143,9 @@ test.describe('Invoice Duplication', () => {
 
     // Go to invoices page and get invoice ID
     await page.goto('/invoices');
-    const editLink = page.locator('a:has-text("Edit")').first();
-    const href = await editLink.getAttribute('href');
-    const invoiceId = href?.split('/').pop();
+    const viewLink = page.locator('a:has-text("View")').first();
+    const href = await viewLink.getAttribute('href');
+    const invoiceId = extractInvoiceId(href);
 
     // Navigate to duplicate URL
     await page.goto(`/invoices/new?duplicate=${invoiceId}`);
@@ -141,25 +155,29 @@ test.describe('Invoice Duplication', () => {
     await expect(notesField).toHaveValue('Original invoice notes');
   });
 
-  test('should create new invoice with new number when duplicating', async ({ page }) => {
+  test('should create new invoice with new number when duplicating', async ({
+    page,
+  }) => {
     // Create client and invoice first
     await createTestClient(page);
     await createTestInvoice(page);
 
-    // Get original invoice count
+    // Get original invoice count - wait for table to be populated first
     await page.goto('/invoices');
-    const originalCount = await page.locator('tbody tr').count();
+    await expect(page.locator('tbody tr')).toHaveCount(1);
 
     // Get invoice ID for duplication
-    const editLink = page.locator('a:has-text("Edit")').first();
-    const href = await editLink.getAttribute('href');
-    const invoiceId = href?.split('/').pop();
+    const viewLink = page.locator('a:has-text("View")').first();
+    const href = await viewLink.getAttribute('href');
+    const invoiceId = extractInvoiceId(href);
 
     // Navigate to duplicate URL and wait for form to load
     await page.goto(`/invoices/new?duplicate=${invoiceId}`);
 
     // Wait for the form to be populated with duplicated data
-    await expect(page.locator('textarea#notes')).toHaveValue('Original invoice notes');
+    await expect(page.locator('textarea#notes')).toHaveValue(
+      'Original invoice notes'
+    );
 
     // Submit
     await page.click('button[type="submit"]');
@@ -167,7 +185,8 @@ test.describe('Invoice Duplication', () => {
     // Should redirect to invoices list
     await expect(page).toHaveURL('/invoices');
 
-    // Should have one more invoice
-    await expect(page.locator('tbody tr')).toHaveCount(originalCount + 1);
+    // Should have one more invoice (2 total now)
+    await expect(page.locator('tbody tr')).toHaveCount(2);
   });
 });
+

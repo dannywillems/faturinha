@@ -42,7 +42,12 @@ export type CurrencyCode =
 
 export type InvoiceStatus = 'draft' | 'sent' | 'paid' | 'overdue' | 'cancelled';
 
-export type QuoteStatus = 'draft' | 'sent' | 'accepted' | 'declined' | 'expired';
+export type QuoteStatus =
+  | 'draft'
+  | 'sent'
+  | 'accepted'
+  | 'declined'
+  | 'expired';
 
 export type DocumentType = 'invoice' | 'quote';
 
@@ -133,6 +138,8 @@ export interface Settings {
   defaultQuoteValidityDays: number;
   // Locale
   locale: string;
+  // Theme
+  themeColor?: string; // Hex color, e.g., "#2563eb"
 }
 
 // Default settings
@@ -146,4 +153,5 @@ export const DEFAULT_SETTINGS: Omit<Settings, 'id'> = {
   quoteNumberNextValue: 1,
   defaultQuoteValidityDays: 30,
   locale: 'en',
+  themeColor: '#2563eb',
 };

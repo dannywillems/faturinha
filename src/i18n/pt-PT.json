@@ -1,0 +1,191 @@
+{
+  "app": {
+    "name": "Faturinha",
+    "tagline": "Fature em 30 segundos"
+  },
+  "nav": {
+    "dashboard": "Painel",
+    "invoices": "Faturas",
+    "clients": "Clientes",
+    "settings": "Definicoes"
+  },
+  "dashboard": {
+    "title": "Painel",
+    "totalInvoices": "Total de Faturas",
+    "pendingPayments": "Pagamentos Pendentes",
+    "paidThisMonth": "Pagas Este Mes",
+    "overdueInvoices": "Faturas em Atraso"
+  },
+  "documents": {
+    "invoice": "Fatura",
+    "quote": "Orcamento",
+    "all": "Todos os Documentos",
+    "invoicesOnly": "Apenas Faturas",
+    "quotesOnly": "Apenas Orcamentos"
+  },
+  "invoices": {
+    "title": "Faturas",
+    "create": "Nova Fatura",
+    "edit": "Editar Fatura",
+    "duplicate": "Duplicar",
+    "delete": "Eliminar",
+    "send": "Enviar",
+    "markPaid": "Marcar como Paga",
+    "status": {
+      "draft": "Rascunho",
+      "sent": "Enviada",
+      "paid": "Paga",
+      "overdue": "Em Atraso",
+      "cancelled": "Cancelada",
+      "accepted": "Aceite",
+      "declined": "Recusado",
+      "expired": "Expirado"
+    },
+    "fields": {
+      "invoiceNumber": "Numero da Fatura",
+      "client": "Cliente",
+      "issueDate": "Data de Emissao",
+      "dueDate": "Data de Vencimento",
+      "items": "Artigos",
+      "description": "Descricao",
+      "quantity": "Quantidade",
+      "unitPrice": "Preco Unitario",
+      "taxRate": "Taxa de IVA",
+      "subtotal": "Subtotal",
+      "tax": "IVA",
+      "total": "Total",
+      "notes": "Notas",
+      "currency": "Moeda"
+    },
+    "addItem": "Adicionar Artigo",
+    "removeItem": "Remover Artigo",
+    "empty": "Ainda sem faturas",
+    "emptyDescription": "Crie a sua primeira fatura para comecar"
+  },
+  "quotes": {
+    "title": "Orcamentos",
+    "create": "Novo Orcamento",
+    "edit": "Editar Orcamento",
+    "duplicate": "Duplicar Orcamento",
+    "delete": "Eliminar",
+    "send": "Enviar Orcamento",
+    "convertToInvoice": "Converter em Fatura",
+    "markAccepted": "Marcar como Aceite",
+    "markDeclined": "Marcar como Recusado",
+    "status": {
+      "draft": "Rascunho",
+      "sent": "Enviado",
+      "accepted": "Aceite",
+      "declined": "Recusado",
+      "expired": "Expirado"
+    },
+    "fields": {
+      "quoteNumber": "Numero do Orcamento",
+      "validUntil": "Valido Ate"
+    },
+    "empty": "Ainda sem orcamentos",
+    "emptyDescription": "Crie o seu primeiro orcamento para comecar"
+  },
+  "clients": {
+    "title": "Clientes",
+    "create": "Novo Cliente",
+    "edit": "Editar Cliente",
+    "delete": "Eliminar",
+    "fields": {
+      "name": "Nome",
+      "email": "E-mail",
+      "phone": "Telefone",
+      "address": "Morada",
+      "street": "Rua",
+      "city": "Cidade",
+      "state": "Distrito",
+      "postalCode": "Codigo Postal",
+      "country": "Pais",
+      "vatNumber": "NIF",
+      "notes": "Notas"
+    },
+    "empty": "Ainda sem clientes",
+    "emptyDescription": "Adicione o seu primeiro cliente para comecar"
+  },
+  "settings": {
+    "title": "Definicoes",
+    "business": {
+      "title": "Informacoes da Empresa",
+      "name": "Nome da Empresa",
+      "email": "E-mail",
+      "phone": "Telefone",
+      "address": "Morada",
+      "vatNumber": "NIF",
+      "logo": "Logotipo"
+    },
+    "invoice": {
+      "title": "Definicoes de Fatura",
+      "defaultCurrency": "Moeda Predefinida",
+      "defaultTaxRate": "Taxa de IVA Predefinida",
+      "invoicePrefix": "Prefixo do Numero da Fatura",
+      "nextInvoiceNumber": "Proximo Numero de Fatura",
+      "paymentTerms": "Prazo de Pagamento Predefinido (dias)",
+      "defaultNotes": "Notas Predefinidas"
+    },
+    "quote": {
+      "title": "Definicoes de Orcamento",
+      "quotePrefix": "Prefixo do Numero do Orcamento",
+      "nextQuoteNumber": "Proximo Numero de Orcamento",
+      "validityPeriod": "Periodo de Validade Predefinido (dias)"
+    },
+    "data": {
+      "title": "Gestao de Dados",
+      "export": "Exportar Todos os Dados",
+      "import": "Importar Dados",
+      "exportDescription": "Descarregue todos os seus dados em formato JSON",
+      "importDescription": "Importe dados de um ficheiro JSON"
+    },
+    "language": {
+      "title": "Idioma",
+      "select": "Selecionar Idioma"
+    },
+    "theme": {
+      "title": "Tema",
+      "primaryColor": "Cor Principal",
+      "customColor": "Personalizado"
+    }
+  },
+  "share": {
+    "title": "Partilhar Fatura",
+    "whatsapp": "Partilhar via WhatsApp",
+    "telegram": "Partilhar via Telegram",
+    "email": "Enviar por E-mail",
+    "download": "Descarregar PDF",
+    "copy": "Copiar Ligacao"
+  },
+  "common": {
+    "save": "Guardar",
+    "cancel": "Cancelar",
+    "delete": "Eliminar",
+    "edit": "Editar",
+    "create": "Criar",
+    "search": "Pesquisar",
+    "loading": "A carregar...",
+    "error": "Ocorreu um erro",
+    "success": "Sucesso",
+    "confirm": "Confirmar",
+    "confirmDelete": "Tem a certeza que deseja eliminar?",
+    "yes": "Sim",
+    "no": "Nao"
+  },
+  "telegram": {
+    "commands": {
+      "new": "/new @cliente 100 \"Descricao do servico\"",
+      "status": "/status FAT-2024-001",
+      "reminder": "/reminder FAT-2024-001"
+    }
+  },
+  "testMode": {
+    "enter": "Entrar no Modo de Teste",
+    "exit": "Sair do Modo de Teste",
+    "banner": "MODO DE TESTE - As alteracoes nao afetarao os seus dados reais",
+    "reset": "Repor Dados de Teste",
+    "resetConfirm": "Repor todos os dados de teste para o estado inicial de demonstracao?",
+    "resetSuccess": "Os dados de teste foram repostos"
+  }
+}

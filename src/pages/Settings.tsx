@@ -1,16 +1,23 @@
 import type { ChangeEvent, ReactElement } from 'react';
-import { useState, useCallback } from 'react';
+import { useState, useCallback, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useLiveQuery } from 'dexie-react-hooks';
 import { useDb } from '../contexts/TestModeContext';
-import type { Settings as SettingsType, CurrencyCode, Client, Invoice } from '../types';
+import type {
+  Settings as SettingsType,
+  CurrencyCode,
+  Client,
+  Invoice,
+} from '../types';
 import { DEFAULT_SETTINGS } from '../types';
+import { THEME_PRESETS } from '../utils/themePresets';
+import { AVAILABLE_LANGUAGES } from '../i18n';
 
 const MAX_LOGO_SIZE_KB = 500;
 const ALLOWED_IMAGE_TYPES = ['image/png', 'image/jpeg', 'image/svg+xml'];
 
 export function Settings(): ReactElement {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
   const db = useDb();
 
   const existingSettings = useLiveQuery(() => db.settings.toArray(), [db]);
@@ -20,6 +27,14 @@ export function Settings(): ReactElement {
   // Get current settings from DB or defaults
   const currentSettings = existingSettings?.[0];
   const settingsId = currentSettings?.id;
+
+  // Sync language with saved locale
+  useEffect(() => {
+    const savedLocale = currentSettings?.locale ?? DEFAULT_SETTINGS.locale;
+    if (savedLocale && i18n.language !== savedLocale) {
+      i18n.changeLanguage(savedLocale);
+    }
+  }, [currentSettings?.locale, i18n]);
 
   const updateField = useCallback(
     async <K extends keyof Omit<SettingsType, 'id'>>(
@@ -68,7 +83,9 @@ export function Settings(): ReactElement {
     URL.revokeObjectURL(url);
   };
 
-  const handleImport = async (event: ChangeEvent<HTMLInputElement>): Promise<void> => {
+  const handleImport = async (
+    event: ChangeEvent<HTMLInputElement>
+  ): Promise<void> => {
     const file = event.target.files?.[0];
     if (!file) return;
 
@@ -202,7 +219,74 @@ export function Settings(): ReactElement {
             />
           )}
           {logoError && <p className="text-error">{logoError}</p>}
-          <p className="text-muted">Max {MAX_LOGO_SIZE_KB}KB. PNG, JPEG, or SVG.</p>
+          <p className="text-muted">
+            Max {MAX_LOGO_SIZE_KB}KB. PNG, JPEG, or SVG.
+          </p>
+        </div>
+      </section>
+
+      <section className="settings-section">
+        <h2>{t('settings.theme.title')}</h2>
+        <div className="form-group">
+          <label>{t('settings.theme.primaryColor')}</label>
+          <div className="theme-color-picker">
+            <div className="color-presets">
+              {THEME_PRESETS.map((preset) => (
+                <button
+                  key={preset.id}
+                  type="button"
+                  className={`color-swatch ${getValue('themeColor') === preset.color ? 'active' : ''}`}
+                  style={{ backgroundColor: preset.color }}
+                  onClick={() => updateField('themeColor', preset.color)}
+                  title={preset.name}
+                  aria-label={preset.name}
+                />
+              ))}
+            </div>
+            <div className="custom-color-section">
+              <label>{t('settings.theme.customColor')}</label>
+              <div className="color-input-wrapper">
+                <input
+                  type="color"
+                  value={getValue('themeColor') ?? DEFAULT_SETTINGS.themeColor}
+                  onChange={(e) => updateField('themeColor', e.target.value)}
+                />
+                <input
+                  type="text"
+                  value={getValue('themeColor') ?? DEFAULT_SETTINGS.themeColor}
+                  onChange={(e) => {
+                    const value = e.target.value;
+                    if (/^#[0-9A-Fa-f]{6}$/.test(value)) {
+                      updateField('themeColor', value);
+                    }
+                  }}
+                  placeholder="#2563eb"
+                  maxLength={7}
+                />
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section className="settings-section">
+        <h2>{t('settings.language.title')}</h2>
+        <div className="form-group">
+          <label>{t('settings.language.select')}</label>
+          <select
+            value={getValue('locale')}
+            onChange={(e) => {
+              const newLocale = e.target.value;
+              updateField('locale', newLocale);
+              i18n.changeLanguage(newLocale);
+            }}
+          >
+            {AVAILABLE_LANGUAGES.map((lang) => (
+              <option key={lang.code} value={lang.code}>
+                {lang.name}
+              </option>
+            ))}
+          </select>
         </div>
       </section>
 
@@ -243,9 +327,7 @@ export function Settings(): ReactElement {
           <input
             type="text"
             value={getValue('invoiceNumberPrefix')}
-            onChange={(e) =>
-              updateField('invoiceNumberPrefix', e.target.value)
-            }
+            onChange={(e) => updateField('invoiceNumberPrefix', e.target.value)}
           />
         </div>
         <div className="form-group">

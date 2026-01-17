@@ -100,7 +100,9 @@ export function Invoices(): ReactElement {
                   <td>{formatDate(invoice.dueDate)}</td>
                   <td>{formatCurrency(invoice.total, invoice.currency)}</td>
                   <td>
-                    <span className={`status-badge ${getStatusClass(invoice.status)}`}>
+                    <span
+                      className={`status-badge ${getStatusClass(invoice.status)}`}
+                    >
                       {t(`invoices.status.${invoice.status}`)}
                     </span>
                   </td>

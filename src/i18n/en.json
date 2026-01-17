@@ -143,6 +143,11 @@
     "language": {
       "title": "Language",
       "select": "Select Language"
+    },
+    "theme": {
+      "title": "Theme",
+      "primaryColor": "Primary Color",
+      "customColor": "Custom"
     }
   },
   "share": {

@@ -1,0 +1,191 @@
+{
+  "app": {
+    "name": "Faturinha",
+    "tagline": "Fattura in 30 secondi"
+  },
+  "nav": {
+    "dashboard": "Dashboard",
+    "invoices": "Fatture",
+    "clients": "Clienti",
+    "settings": "Impostazioni"
+  },
+  "dashboard": {
+    "title": "Dashboard",
+    "totalInvoices": "Fatture Totali",
+    "pendingPayments": "Pagamenti in Sospeso",
+    "paidThisMonth": "Pagate Questo Mese",
+    "overdueInvoices": "Fatture Scadute"
+  },
+  "documents": {
+    "invoice": "Fattura",
+    "quote": "Preventivo",
+    "all": "Tutti i Documenti",
+    "invoicesOnly": "Solo Fatture",
+    "quotesOnly": "Solo Preventivi"
+  },
+  "invoices": {
+    "title": "Fatture",
+    "create": "Nuova Fattura",
+    "edit": "Modifica Fattura",
+    "duplicate": "Duplica",
+    "delete": "Elimina",
+    "send": "Invia",
+    "markPaid": "Segna come Pagata",
+    "status": {
+      "draft": "Bozza",
+      "sent": "Inviata",
+      "paid": "Pagata",
+      "overdue": "Scaduta",
+      "cancelled": "Annullata",
+      "accepted": "Accettato",
+      "declined": "Rifiutato",
+      "expired": "Scaduto"
+    },
+    "fields": {
+      "invoiceNumber": "Numero Fattura",
+      "client": "Cliente",
+      "issueDate": "Data Emissione",
+      "dueDate": "Data Scadenza",
+      "items": "Articoli",
+      "description": "Descrizione",
+      "quantity": "Quantita",
+      "unitPrice": "Prezzo Unitario",
+      "taxRate": "Aliquota IVA",
+      "subtotal": "Subtotale",
+      "tax": "IVA",
+      "total": "Totale",
+      "notes": "Note",
+      "currency": "Valuta"
+    },
+    "addItem": "Aggiungi Articolo",
+    "removeItem": "Rimuovi Articolo",
+    "empty": "Nessuna fattura",
+    "emptyDescription": "Crea la tua prima fattura per iniziare"
+  },
+  "quotes": {
+    "title": "Preventivi",
+    "create": "Nuovo Preventivo",
+    "edit": "Modifica Preventivo",
+    "duplicate": "Duplica Preventivo",
+    "delete": "Elimina",
+    "send": "Invia Preventivo",
+    "convertToInvoice": "Converti in Fattura",
+    "markAccepted": "Segna come Accettato",
+    "markDeclined": "Segna come Rifiutato",
+    "status": {
+      "draft": "Bozza",
+      "sent": "Inviato",
+      "accepted": "Accettato",
+      "declined": "Rifiutato",
+      "expired": "Scaduto"
+    },
+    "fields": {
+      "quoteNumber": "Numero Preventivo",
+      "validUntil": "Valido Fino a"
+    },
+    "empty": "Nessun preventivo",
+    "emptyDescription": "Crea il tuo primo preventivo per iniziare"
+  },
+  "clients": {
+    "title": "Clienti",
+    "create": "Nuovo Cliente",
+    "edit": "Modifica Cliente",
+    "delete": "Elimina",
+    "fields": {
+      "name": "Nome",
+      "email": "Email",
+      "phone": "Telefono",
+      "address": "Indirizzo",
+      "street": "Via",
+      "city": "Citta",
+      "state": "Provincia",
+      "postalCode": "CAP",
+      "country": "Paese",
+      "vatNumber": "Partita IVA",
+      "notes": "Note"
+    },
+    "empty": "Nessun cliente",
+    "emptyDescription": "Aggiungi il tuo primo cliente per iniziare"
+  },
+  "settings": {
+    "title": "Impostazioni",
+    "business": {
+      "title": "Informazioni Aziendali",
+      "name": "Nome Azienda",
+      "email": "Email",
+      "phone": "Telefono",
+      "address": "Indirizzo",
+      "vatNumber": "Partita IVA",
+      "logo": "Logo"
+    },
+    "invoice": {
+      "title": "Impostazioni Fattura",
+      "defaultCurrency": "Valuta Predefinita",
+      "defaultTaxRate": "Aliquota IVA Predefinita",
+      "invoicePrefix": "Prefisso Numero Fattura",
+      "nextInvoiceNumber": "Prossimo Numero Fattura",
+      "paymentTerms": "Termini di Pagamento (giorni)",
+      "defaultNotes": "Note Predefinite"
+    },
+    "quote": {
+      "title": "Impostazioni Preventivo",
+      "quotePrefix": "Prefisso Numero Preventivo",
+      "nextQuoteNumber": "Prossimo Numero Preventivo",
+      "validityPeriod": "Periodo di Validita (giorni)"
+    },
+    "data": {
+      "title": "Gestione Dati",
+      "export": "Esporta Tutti i Dati",
+      "import": "Importa Dati",
+      "exportDescription": "Scarica tutti i tuoi dati in formato JSON",
+      "importDescription": "Importa dati da un file JSON"
+    },
+    "language": {
+      "title": "Lingua",
+      "select": "Seleziona Lingua"
+    },
+    "theme": {
+      "title": "Tema",
+      "primaryColor": "Colore Primario",
+      "customColor": "Personalizzato"
+    }
+  },
+  "share": {
+    "title": "Condividi Fattura",
+    "whatsapp": "Condividi via WhatsApp",
+    "telegram": "Condividi via Telegram",
+    "email": "Invia via Email",
+    "download": "Scarica PDF",
+    "copy": "Copia Link"
+  },
+  "common": {
+    "save": "Salva",
+    "cancel": "Annulla",
+    "delete": "Elimina",
+    "edit": "Modifica",
+    "create": "Crea",
+    "search": "Cerca",
+    "loading": "Caricamento...",
+    "error": "Si e verificato un errore",
+    "success": "Operazione riuscita",
+    "confirm": "Conferma",
+    "confirmDelete": "Sei sicuro di voler eliminare questo elemento?",
+    "yes": "Si",
+    "no": "No"
+  },
+  "telegram": {
+    "commands": {
+      "new": "/new @cliente 100 \"Descrizione servizio\"",
+      "status": "/status FAT-2024-001",
+      "reminder": "/reminder FAT-2024-001"
+    }
+  },
+  "testMode": {
+    "enter": "Entra in Modalita Test",
+    "exit": "Esci dalla Modalita Test",
+    "banner": "MODALITA TEST - Le modifiche non influenzeranno i tuoi dati reali",
+    "reset": "Ripristina Dati Test",
+    "resetConfirm": "Ripristinare tutti i dati test allo stato demo iniziale?",
+    "resetSuccess": "I dati test sono stati ripristinati"
+  }
+}

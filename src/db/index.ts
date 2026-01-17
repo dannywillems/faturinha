@@ -29,26 +29,34 @@ export function createDatabase(name: string): AppDatabase {
   // Version 2: Add ledgers table for multi-currency/year invoice numbering
   database.version(2).stores({
     clients: '++id, name, email, createdAt',
-    invoices: '++id, invoiceNumber, ledgerId, clientId, status, issueDate, dueDate',
+    invoices:
+      '++id, invoiceNumber, ledgerId, clientId, status, issueDate, dueDate',
     ledgers: '++id, [currency+year], currency, year',
     settings: '++id',
   });
 
   // Version 3: Add quote support with documentType field
-  database.version(3).stores({
-    clients: '++id, name, email, createdAt',
-    invoices:
-      '++id, documentType, invoiceNumber, ledgerId, clientId, status, issueDate, dueDate',
-    ledgers: '++id, [documentType+currency+year], documentType, currency, year',
-    settings: '++id',
-  }).upgrade((trans) => {
-    // Migrate existing invoices to have documentType: 'invoice'
-    return trans.table('invoices').toCollection().modify((invoice) => {
-      if (!invoice.documentType) {
-        invoice.documentType = 'invoice';
-      }
+  database
+    .version(3)
+    .stores({
+      clients: '++id, name, email, createdAt',
+      invoices:
+        '++id, documentType, invoiceNumber, ledgerId, clientId, status, issueDate, dueDate',
+      ledgers:
+        '++id, [documentType+currency+year], documentType, currency, year',
+      settings: '++id',
+    })
+    .upgrade((trans) => {
+      // Migrate existing invoices to have documentType: 'invoice'
+      return trans
+        .table('invoices')
+        .toCollection()
+        .modify((invoice) => {
+          if (!invoice.documentType) {
+            invoice.documentType = 'invoice';
+          }
+        });
     });
-  });
 
   return database;
 }
@@ -91,7 +99,12 @@ export async function generateDocumentNumber(
   currency: CurrencyCode,
   year: number
 ): Promise<{ ledgerId: number; documentNumber: string }> {
-  const ledger = await getOrCreateLedger(database, documentType, currency, year);
+  const ledger = await getOrCreateLedger(
+    database,
+    documentType,
+    currency,
+    year
+  );
   const documentNumber = `${ledger.prefix}${String(ledger.nextValue).padStart(4, '0')}`;
 
   await database.ledgers.update(ledger.id!, {
@@ -110,7 +123,12 @@ export async function generateInvoiceNumber(
   currency: CurrencyCode,
   year: number
 ): Promise<{ ledgerId: number; invoiceNumber: string }> {
-  const result = await generateDocumentNumber(database, 'invoice', currency, year);
+  const result = await generateDocumentNumber(
+    database,
+    'invoice',
+    currency,
+    year
+  );
   return {
     ledgerId: result.ledgerId,
     invoiceNumber: result.documentNumber,
@@ -123,7 +141,12 @@ export async function generateQuoteNumber(
   currency: CurrencyCode,
   year: number
 ): Promise<{ ledgerId: number; quoteNumber: string }> {
-  const result = await generateDocumentNumber(database, 'quote', currency, year);
+  const result = await generateDocumentNumber(
+    database,
+    'quote',
+    currency,
+    year
+  );
   return {
     ledgerId: result.ledgerId,
     quoteNumber: result.documentNumber,

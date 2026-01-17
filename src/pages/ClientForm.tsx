@@ -196,7 +196,9 @@ export function ClientForm(): ReactElement {
 
           <div className="form-row">
             <div className="form-group">
-              <label htmlFor="address.postalCode">{t('clients.fields.postalCode')}</label>
+              <label htmlFor="address.postalCode">
+                {t('clients.fields.postalCode')}
+              </label>
               <input
                 type="text"
                 id="address.postalCode"
@@ -207,7 +209,9 @@ export function ClientForm(): ReactElement {
             </div>
 
             <div className="form-group">
-              <label htmlFor="address.country">{t('clients.fields.country')}</label>
+              <label htmlFor="address.country">
+                {t('clients.fields.country')}
+              </label>
               <input
                 type="text"
                 id="address.country"
@@ -233,11 +237,19 @@ export function ClientForm(): ReactElement {
         </div>
 
         <div className="form-actions">
-          <button type="button" className="btn btn-secondary" onClick={() => navigate('/clients')}>
+          <button
+            type="button"
+            className="btn btn-secondary"
+            onClick={() => navigate('/clients')}
+          >
             {t('common.cancel')}
           </button>
           {isEditing && (
-            <button type="button" className="btn btn-danger" onClick={handleDelete}>
+            <button
+              type="button"
+              className="btn btn-danger"
+              onClick={handleDelete}
+            >
               {t('common.delete')}
             </button>
           )}

@@ -5,10 +5,24 @@ import { useNavigate, useParams, useSearchParams } from 'react-router-dom';
 import { useLiveQuery } from 'dexie-react-hooks';
 import { useDb } from '../contexts/TestModeContext';
 import { generateInvoiceNumber, generateQuoteNumber } from '../db';
-import type { Invoice, InvoiceItem, CurrencyCode, DocumentType } from '../types';
+import type {
+  Invoice,
+  InvoiceItem,
+  CurrencyCode,
+  DocumentType,
+} from '../types';
 
 const CURRENCIES: CurrencyCode[] = [
-  'USD', 'EUR', 'GBP', 'BRL', 'JPY', 'CAD', 'AUD', 'CHF', 'CNY', 'INR',
+  'USD',
+  'EUR',
+  'GBP',
+  'BRL',
+  'JPY',
+  'CAD',
+  'AUD',
+  'CHF',
+  'CNY',
+  'INR',
 ];
 
 // Currency symbols for input prefix display
@@ -167,7 +181,9 @@ export function InvoiceForm(): ReactElement {
       // Set default due date based on payment terms
       if (!formData.dueDate && currentSettings.defaultPaymentTermsDays) {
         const dueDate = new Date();
-        dueDate.setDate(dueDate.getDate() + currentSettings.defaultPaymentTermsDays);
+        dueDate.setDate(
+          dueDate.getDate() + currentSettings.defaultPaymentTermsDays
+        );
 
         setFormData((prev) => ({
           ...prev,
@@ -205,7 +221,9 @@ export function InvoiceForm(): ReactElement {
           const dueDateStr = duplicateFromId
             ? (() => {
                 const d = new Date();
-                d.setDate(d.getDate() + (settings?.[0]?.defaultPaymentTermsDays ?? 30));
+                d.setDate(
+                  d.getDate() + (settings?.[0]?.defaultPaymentTermsDays ?? 30)
+                );
                 return d.toISOString().split('T')[0];
               })()
             : new Date(invoice.dueDate).toISOString().split('T')[0];
@@ -213,7 +231,9 @@ export function InvoiceForm(): ReactElement {
           const validUntilStr = duplicateFromId
             ? (() => {
                 const d = new Date();
-                d.setDate(d.getDate() + (settings?.[0]?.defaultQuoteValidityDays ?? 30));
+                d.setDate(
+                  d.getDate() + (settings?.[0]?.defaultQuoteValidityDays ?? 30)
+                );
                 return d.toISOString().split('T')[0];
               })()
             : invoice.validUntil
@@ -250,7 +270,8 @@ export function InvoiceForm(): ReactElement {
       0
     );
     const taxTotal = formData.items.reduce(
-      (sum, item) => sum + item.quantity * item.unitPrice * ((item.taxRate || 0) / 100),
+      (sum, item) =>
+        sum + item.quantity * item.unitPrice * ((item.taxRate || 0) / 100),
       0
     );
     return { subtotal, taxTotal, total: subtotal + taxTotal };
@@ -281,9 +302,10 @@ export function InvoiceForm(): ReactElement {
         currency: formData.currency,
         issueDate: new Date(formData.issueDate),
         dueDate: new Date(dueDateValue),
-        validUntil: isQuote && formData.validUntil
-          ? new Date(formData.validUntil)
-          : undefined,
+        validUntil:
+          isQuote && formData.validUntil
+            ? new Date(formData.validUntil)
+            : undefined,
         items: formData.items,
         notes: formData.notes || undefined,
         subtotal: totals.subtotal,
@@ -319,9 +341,10 @@ export function InvoiceForm(): ReactElement {
         status: 'draft',
         issueDate: new Date(formData.issueDate),
         dueDate: new Date(dueDateValue),
-        validUntil: isQuote && formData.validUntil
-          ? new Date(formData.validUntil)
-          : undefined,
+        validUntil:
+          isQuote && formData.validUntil
+            ? new Date(formData.validUntil)
+            : undefined,
         notes: formData.notes || undefined,
         subtotal: totals.subtotal,
         taxTotal: totals.taxTotal,
@@ -412,7 +435,10 @@ export function InvoiceForm(): ReactElement {
                   value="invoice"
                   checked={formData.documentType === 'invoice'}
                   onChange={() =>
-                    setFormData((prev) => ({ ...prev, documentType: 'invoice' }))
+                    setFormData((prev) => ({
+                      ...prev,
+                      documentType: 'invoice',
+                    }))
                   }
                 />
                 <span className="toggle-option">{t('documents.invoice')}</span>
@@ -458,7 +484,9 @@ export function InvoiceForm(): ReactElement {
             </div>
 
             <div className="form-group">
-              <label htmlFor="currency">{t('invoices.fields.currency')} *</label>
+              <label htmlFor="currency">
+                {t('invoices.fields.currency')} *
+              </label>
               <select
                 id="currency"
                 value={formData.currency}
@@ -481,13 +509,18 @@ export function InvoiceForm(): ReactElement {
 
           <div className="form-row">
             <div className="form-group">
-              <label htmlFor="issueDate">{t('invoices.fields.issueDate')} *</label>
+              <label htmlFor="issueDate">
+                {t('invoices.fields.issueDate')} *
+              </label>
               <input
                 type="date"
                 id="issueDate"
                 value={formData.issueDate}
                 onChange={(e) =>
-                  setFormData((prev) => ({ ...prev, issueDate: e.target.value }))
+                  setFormData((prev) => ({
+                    ...prev,
+                    issueDate: e.target.value,
+                  }))
                 }
                 required
               />
@@ -495,26 +528,36 @@ export function InvoiceForm(): ReactElement {
 
             {isQuote ? (
               <div className="form-group">
-                <label htmlFor="validUntil">{t('quotes.fields.validUntil')} *</label>
+                <label htmlFor="validUntil">
+                  {t('quotes.fields.validUntil')} *
+                </label>
                 <input
                   type="date"
                   id="validUntil"
                   value={formData.validUntil}
                   onChange={(e) =>
-                    setFormData((prev) => ({ ...prev, validUntil: e.target.value }))
+                    setFormData((prev) => ({
+                      ...prev,
+                      validUntil: e.target.value,
+                    }))
                   }
                   required
                 />
               </div>
             ) : (
               <div className="form-group">
-                <label htmlFor="dueDate">{t('invoices.fields.dueDate')} *</label>
+                <label htmlFor="dueDate">
+                  {t('invoices.fields.dueDate')} *
+                </label>
                 <input
                   type="date"
                   id="dueDate"
                   value={formData.dueDate}
                   onChange={(e) =>
-                    setFormData((prev) => ({ ...prev, dueDate: e.target.value }))
+                    setFormData((prev) => ({
+                      ...prev,
+                      dueDate: e.target.value,
+                    }))
                   }
                   required
                 />
@@ -549,7 +592,11 @@ export function InvoiceForm(): ReactElement {
                           type="text"
                           value={item.description}
                           onChange={(e) =>
-                            handleItemChange(index, 'description', e.target.value)
+                            handleItemChange(
+                              index,
+                              'description',
+                              e.target.value
+                            )
                           }
                           placeholder={t('invoices.fields.description')}
                           required
@@ -561,7 +608,11 @@ export function InvoiceForm(): ReactElement {
                           type="number"
                           value={item.quantity}
                           onChange={(e) =>
-                            handleItemChange(index, 'quantity', Number(e.target.value))
+                            handleItemChange(
+                              index,
+                              'quantity',
+                              Number(e.target.value)
+                            )
                           }
                           min="1"
                           step="1"
@@ -578,7 +629,11 @@ export function InvoiceForm(): ReactElement {
                             type="number"
                             value={item.unitPrice}
                             onChange={(e) =>
-                              handleItemChange(index, 'unitPrice', Number(e.target.value))
+                              handleItemChange(
+                                index,
+                                'unitPrice',
+                                Number(e.target.value)
+                              )
                             }
                             min="0"
                             step="0.01"
@@ -593,17 +648,26 @@ export function InvoiceForm(): ReactElement {
                             type="number"
                             value={item.taxRate || 0}
                             onChange={(e) =>
-                              handleItemChange(index, 'taxRate', Number(e.target.value))
+                              handleItemChange(
+                                index,
+                                'taxRate',
+                                Number(e.target.value)
+                              )
                             }
                             min="0"
                             max="100"
                             step="0.1"
                             aria-label={`${t('invoices.fields.taxRate')} ${index + 1}`}
                           />
-                          <span className="input-addon input-addon-suffix">%</span>
+                          <span className="input-addon input-addon-suffix">
+                            %
+                          </span>
                         </div>
                       </td>
-                      <td data-label={t('invoices.fields.total')} className="item-total">
+                      <td
+                        data-label={t('invoices.fields.total')}
+                        className="item-total"
+                      >
                         {formatCurrency(calculateItemTotal(item))}
                       </td>
                       <td>
@@ -673,7 +737,11 @@ export function InvoiceForm(): ReactElement {
             {t('common.cancel')}
           </button>
           {isEditing && (
-            <button type="button" className="btn btn-danger" onClick={handleDelete}>
+            <button
+              type="button"
+              className="btn btn-danger"
+              onClick={handleDelete}
+            >
               {t('common.delete')}
             </button>
           )}

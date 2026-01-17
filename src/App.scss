@@ -135,7 +135,7 @@ body {
     h1 {
       font-size: $font-size-2xl;
       font-weight: $font-weight-semibold;
-      color: $color-primary;
+      color: var(--color-primary);
     }
   }
 }
@@ -181,7 +181,7 @@ body {
     }
 
     &.active {
-      background-color: $color-primary;
+      background-color: var(--color-primary);
       color: $color-text-inverse;
     }
   }
@@ -233,13 +233,13 @@ body {
 }
 
 .btn-primary {
-  background-color: $color-primary;
-  border-color: $color-primary;
+  background-color: var(--color-primary);
+  border-color: var(--color-primary);
   color: $color-primary-text;
 
   &:hover {
-    background-color: $color-primary-hover;
-    border-color: $color-primary-hover;
+    background-color: var(--color-primary-hover);
+    border-color: var(--color-primary-hover);
   }
 }
 
@@ -316,7 +316,7 @@ tr:last-child td {
 }
 
 td a {
-  color: $color-primary;
+  color: var(--color-primary);
   text-decoration: none;
 
   &:hover {
@@ -385,12 +385,14 @@ td a {
     border-radius: $radius-base;
     background-color: $color-surface;
     color: $color-text;
-    transition: border-color $transition-fast, box-shadow $transition-fast;
+    transition:
+      border-color $transition-fast,
+      box-shadow $transition-fast;
 
     &:focus {
       outline: none;
-      border-color: $color-border-focus;
-      box-shadow: 0 0 0 2px $color-primary-light;
+      border-color: var(--color-primary);
+      box-shadow: 0 0 0 2px var(--color-primary-light);
     }
 
     &::placeholder {
@@ -481,12 +483,14 @@ td a {
       border: 1px solid $color-border;
       border-radius: $radius-sm;
       background-color: $color-surface;
-      transition: border-color 0.15s ease, box-shadow 0.15s ease;
+      transition:
+        border-color 0.15s ease,
+        box-shadow 0.15s ease;
 
       &:focus {
         outline: none;
-        border-color: $color-primary;
-        box-shadow: 0 0 0 2px $color-primary-light;
+        border-color: var(--color-primary);
+        box-shadow: 0 0 0 2px var(--color-primary-light);
       }
     }
 
@@ -663,7 +667,7 @@ td a {
     }
 
     input[type='radio']:checked + .toggle-option {
-      background-color: $color-primary;
+      background-color: var(--color-primary);
       color: white;
     }
   }
@@ -685,6 +689,83 @@ td a {
     margin-bottom: $spacing-4;
     padding-bottom: $spacing-2;
     border-bottom: 1px solid $color-border;
+  }
+}
+
+// =============================================================================
+// Theme Color Picker
+// =============================================================================
+.theme-color-picker {
+  .color-presets {
+    display: flex;
+    flex-wrap: wrap;
+    gap: $spacing-2;
+    margin-bottom: $spacing-4;
+  }
+
+  .color-swatch {
+    width: 40px;
+    height: 40px;
+    border-radius: $radius-md;
+    border: 2px solid transparent;
+    cursor: pointer;
+    transition: all $transition-fast;
+    padding: 0;
+
+    &:hover {
+      transform: scale(1.1);
+    }
+
+    &.active {
+      border-color: $color-text;
+      box-shadow:
+        0 0 0 2px $color-surface,
+        0 0 0 4px $color-text;
+    }
+  }
+
+  .custom-color-section {
+    display: flex;
+    align-items: center;
+    gap: $spacing-3;
+    margin-top: $spacing-4;
+    padding-top: $spacing-4;
+    border-top: 1px solid $color-border;
+
+    label {
+      margin-bottom: 0;
+      white-space: nowrap;
+    }
+
+    .color-input-wrapper {
+      display: flex;
+      align-items: center;
+      gap: $spacing-2;
+    }
+
+    input[type='color'] {
+      width: 40px;
+      height: 40px;
+      padding: 0;
+      border: 1px solid $color-border;
+      border-radius: $radius-base;
+      cursor: pointer;
+
+      &::-webkit-color-swatch-wrapper {
+        padding: 2px;
+      }
+
+      &::-webkit-color-swatch {
+        border: none;
+        border-radius: $radius-sm;
+      }
+    }
+
+    input[type='text'] {
+      width: 100px;
+      font-family: $font-family-mono;
+      text-transform: uppercase;
+    }
   }
 }
 
@@ -737,7 +818,7 @@ td a {
       font-size: $font-size-sm;
 
       &:hover {
-        color: $color-primary;
+        color: var(--color-primary);
       }
     }
   }
@@ -786,7 +867,7 @@ td a {
       justify-content: space-between;
       margin-bottom: 8mm;
       padding-bottom: 5mm;
-      border-bottom: 2px solid $color-primary;
+      border-bottom: 2px solid var(--color-primary);
     }
 
     .invoice-preview-details {
@@ -873,7 +954,7 @@ td a {
   align-items: flex-start;
   margin-bottom: $spacing-8;
   padding-bottom: $spacing-6;
-  border-bottom: 2px solid $color-primary;
+  border-bottom: 2px solid var(--color-primary);
 
   .business-info {
     display: flex;
@@ -907,7 +988,7 @@ td a {
     h1 {
       font-size: $font-size-3xl;
       font-weight: $font-weight-bold;
-      color: $color-primary;
+      color: var(--color-primary);
       margin: 0;
     }
 

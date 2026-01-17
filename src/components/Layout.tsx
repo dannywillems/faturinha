@@ -1,12 +1,43 @@
 import type { ReactElement } from 'react';
+import { useEffect } from 'react';
 import { NavLink, Outlet } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
-import { useTestMode } from '../contexts/TestModeContext';
+import { useLiveQuery } from 'dexie-react-hooks';
+import { useTestMode, useDb } from '../contexts/TestModeContext';
+import { DEFAULT_SETTINGS } from '../types';
+import { generateHoverColor, generateLightColor } from '../utils/themePresets';
 
 export function Layout(): ReactElement {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
+  const db = useDb();
   const { isTestMode, enterTestMode, exitTestMode, resetTestData } =
     useTestMode();
+
+  const settings = useLiveQuery(() => db.settings.toArray(), [db]);
+  const themeColor =
+    settings?.[0]?.themeColor ?? DEFAULT_SETTINGS.themeColor ?? '#2563eb';
+  const savedLocale = settings?.[0]?.locale ?? DEFAULT_SETTINGS.locale;
+
+  // Apply theme color
+  useEffect(() => {
+    const root = document.documentElement;
+    root.style.setProperty('--color-primary', themeColor);
+    root.style.setProperty(
+      '--color-primary-hover',
+      generateHoverColor(themeColor)
+    );
+    root.style.setProperty(
+      '--color-primary-light',
+      generateLightColor(themeColor)
+    );
+  }, [themeColor]);
+
+  // Apply saved language
+  useEffect(() => {
+    if (savedLocale && i18n.language !== savedLocale) {
+      i18n.changeLanguage(savedLocale);
+    }
+  }, [savedLocale, i18n]);
 
   const handleEnterTestMode = async (): Promise<void> => {
     await enterTestMode();

@@ -1,0 +1,191 @@
+{
+  "app": {
+    "name": "Faturinha",
+    "tagline": "Factureer in 30 seconden"
+  },
+  "nav": {
+    "dashboard": "Dashboard",
+    "invoices": "Facturen",
+    "clients": "Klanten",
+    "settings": "Instellingen"
+  },
+  "dashboard": {
+    "title": "Dashboard",
+    "totalInvoices": "Totaal Facturen",
+    "pendingPayments": "Openstaande Betalingen",
+    "paidThisMonth": "Betaald Deze Maand",
+    "overdueInvoices": "Achterstallige Facturen"
+  },
+  "documents": {
+    "invoice": "Factuur",
+    "quote": "Offerte",
+    "all": "Alle Documenten",
+    "invoicesOnly": "Alleen Facturen",
+    "quotesOnly": "Alleen Offertes"
+  },
+  "invoices": {
+    "title": "Facturen",
+    "create": "Nieuwe Factuur",
+    "edit": "Factuur Bewerken",
+    "duplicate": "Dupliceren",
+    "delete": "Verwijderen",
+    "send": "Versturen",
+    "markPaid": "Markeer als Betaald",
+    "status": {
+      "draft": "Concept",
+      "sent": "Verzonden",
+      "paid": "Betaald",
+      "overdue": "Achterstallig",
+      "cancelled": "Geannuleerd",
+      "accepted": "Geaccepteerd",
+      "declined": "Afgewezen",
+      "expired": "Verlopen"
+    },
+    "fields": {
+      "invoiceNumber": "Factuurnummer",
+      "client": "Klant",
+      "issueDate": "Factuurdatum",
+      "dueDate": "Vervaldatum",
+      "items": "Artikelen",
+      "description": "Omschrijving",
+      "quantity": "Aantal",
+      "unitPrice": "Prijs per Eenheid",
+      "taxRate": "BTW Tarief",
+      "subtotal": "Subtotaal",
+      "tax": "BTW",
+      "total": "Totaal",
+      "notes": "Opmerkingen",
+      "currency": "Valuta"
+    },
+    "addItem": "Artikel Toevoegen",
+    "removeItem": "Artikel Verwijderen",
+    "empty": "Nog geen facturen",
+    "emptyDescription": "Maak je eerste factuur om te beginnen"
+  },
+  "quotes": {
+    "title": "Offertes",
+    "create": "Nieuwe Offerte",
+    "edit": "Offerte Bewerken",
+    "duplicate": "Offerte Dupliceren",
+    "delete": "Verwijderen",
+    "send": "Offerte Versturen",
+    "convertToInvoice": "Omzetten naar Factuur",
+    "markAccepted": "Markeer als Geaccepteerd",
+    "markDeclined": "Markeer als Afgewezen",
+    "status": {
+      "draft": "Concept",
+      "sent": "Verzonden",
+      "accepted": "Geaccepteerd",
+      "declined": "Afgewezen",
+      "expired": "Verlopen"
+    },
+    "fields": {
+      "quoteNumber": "Offertenummer",
+      "validUntil": "Geldig Tot"
+    },
+    "empty": "Nog geen offertes",
+    "emptyDescription": "Maak je eerste offerte om te beginnen"
+  },
+  "clients": {
+    "title": "Klanten",
+    "create": "Nieuwe Klant",
+    "edit": "Klant Bewerken",
+    "delete": "Verwijderen",
+    "fields": {
+      "name": "Naam",
+      "email": "E-mail",
+      "phone": "Telefoon",
+      "address": "Adres",
+      "street": "Straat",
+      "city": "Stad",
+      "state": "Provincie",
+      "postalCode": "Postcode",
+      "country": "Land",
+      "vatNumber": "BTW-nummer",
+      "notes": "Opmerkingen"
+    },
+    "empty": "Nog geen klanten",
+    "emptyDescription": "Voeg je eerste klant toe om te beginnen"
+  },
+  "settings": {
+    "title": "Instellingen",
+    "business": {
+      "title": "Bedrijfsinformatie",
+      "name": "Bedrijfsnaam",
+      "email": "E-mail",
+      "phone": "Telefoon",
+      "address": "Adres",
+      "vatNumber": "BTW-nummer",
+      "logo": "Logo"
+    },
+    "invoice": {
+      "title": "Factuurinstellingen",
+      "defaultCurrency": "Standaard Valuta",
+      "defaultTaxRate": "Standaard BTW Tarief",
+      "invoicePrefix": "Factuurnummer Voorvoegsel",
+      "nextInvoiceNumber": "Volgend Factuurnummer",
+      "paymentTerms": "Standaard Betalingstermijn (dagen)",
+      "defaultNotes": "Standaard Opmerkingen"
+    },
+    "quote": {
+      "title": "Offerte-instellingen",
+      "quotePrefix": "Offertenummer Voorvoegsel",
+      "nextQuoteNumber": "Volgend Offertenummer",
+      "validityPeriod": "Standaard Geldigheidsduur (dagen)"
+    },
+    "data": {
+      "title": "Gegevensbeheer",
+      "export": "Alle Gegevens Exporteren",
+      "import": "Gegevens Importeren",
+      "exportDescription": "Download al je gegevens als JSON",
+      "importDescription": "Importeer gegevens uit een JSON-bestand"
+    },
+    "language": {
+      "title": "Taal",
+      "select": "Selecteer Taal"
+    },
+    "theme": {
+      "title": "Thema",
+      "primaryColor": "Primaire Kleur",
+      "customColor": "Aangepast"
+    }
+  },
+  "share": {
+    "title": "Factuur Delen",
+    "whatsapp": "Delen via WhatsApp",
+    "telegram": "Delen via Telegram",
+    "email": "Versturen via E-mail",
+    "download": "PDF Downloaden",
+    "copy": "Link Kopieren"
+  },
+  "common": {
+    "save": "Opslaan",
+    "cancel": "Annuleren",
+    "delete": "Verwijderen",
+    "edit": "Bewerken",
+    "create": "Aanmaken",
+    "search": "Zoeken",
+    "loading": "Laden...",
+    "error": "Er is een fout opgetreden",
+    "success": "Gelukt",
+    "confirm": "Bevestigen",
+    "confirmDelete": "Weet je zeker dat je dit wilt verwijderen?",
+    "yes": "Ja",
+    "no": "Nee"
+  },
+  "telegram": {
+    "commands": {
+      "new": "/new @klant 100 \"Beschrijving dienst\"",
+      "status": "/status FAC-2024-001",
+      "reminder": "/reminder FAC-2024-001"
+    }
+  },
+  "testMode": {
+    "enter": "Testmodus Starten",
+    "exit": "Testmodus Verlaten",
+    "banner": "TESTMODUS - Wijzigingen hebben geen invloed op je echte gegevens",
+    "reset": "Testgegevens Resetten",
+    "resetConfirm": "Alle testgegevens terugzetten naar de initiiele demo-status?",
+    "resetSuccess": "Testgegevens zijn gereset"
+  }
+}

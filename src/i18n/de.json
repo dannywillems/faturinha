@@ -1,0 +1,191 @@
+{
+  "app": {
+    "name": "Faturinha",
+    "tagline": "Rechnung in 30 Sekunden"
+  },
+  "nav": {
+    "dashboard": "Dashboard",
+    "invoices": "Rechnungen",
+    "clients": "Kunden",
+    "settings": "Einstellungen"
+  },
+  "dashboard": {
+    "title": "Dashboard",
+    "totalInvoices": "Gesamte Rechnungen",
+    "pendingPayments": "Ausstehende Zahlungen",
+    "paidThisMonth": "Diesen Monat Bezahlt",
+    "overdueInvoices": "Uberfallige Rechnungen"
+  },
+  "documents": {
+    "invoice": "Rechnung",
+    "quote": "Angebot",
+    "all": "Alle Dokumente",
+    "invoicesOnly": "Nur Rechnungen",
+    "quotesOnly": "Nur Angebote"
+  },
+  "invoices": {
+    "title": "Rechnungen",
+    "create": "Neue Rechnung",
+    "edit": "Rechnung Bearbeiten",
+    "duplicate": "Duplizieren",
+    "delete": "Loschen",
+    "send": "Senden",
+    "markPaid": "Als Bezahlt Markieren",
+    "status": {
+      "draft": "Entwurf",
+      "sent": "Gesendet",
+      "paid": "Bezahlt",
+      "overdue": "Uberfallig",
+      "cancelled": "Storniert",
+      "accepted": "Angenommen",
+      "declined": "Abgelehnt",
+      "expired": "Abgelaufen"
+    },
+    "fields": {
+      "invoiceNumber": "Rechnungsnummer",
+      "client": "Kunde",
+      "issueDate": "Rechnungsdatum",
+      "dueDate": "Falligkeitsdatum",
+      "items": "Positionen",
+      "description": "Beschreibung",
+      "quantity": "Menge",
+      "unitPrice": "Einzelpreis",
+      "taxRate": "MwSt-Satz",
+      "subtotal": "Zwischensumme",
+      "tax": "MwSt",
+      "total": "Gesamt",
+      "notes": "Anmerkungen",
+      "currency": "Wahrung"
+    },
+    "addItem": "Position Hinzufugen",
+    "removeItem": "Position Entfernen",
+    "empty": "Noch keine Rechnungen",
+    "emptyDescription": "Erstellen Sie Ihre erste Rechnung um zu beginnen"
+  },
+  "quotes": {
+    "title": "Angebote",
+    "create": "Neues Angebot",
+    "edit": "Angebot Bearbeiten",
+    "duplicate": "Angebot Duplizieren",
+    "delete": "Loschen",
+    "send": "Angebot Senden",
+    "convertToInvoice": "In Rechnung Umwandeln",
+    "markAccepted": "Als Angenommen Markieren",
+    "markDeclined": "Als Abgelehnt Markieren",
+    "status": {
+      "draft": "Entwurf",
+      "sent": "Gesendet",
+      "accepted": "Angenommen",
+      "declined": "Abgelehnt",
+      "expired": "Abgelaufen"
+    },
+    "fields": {
+      "quoteNumber": "Angebotsnummer",
+      "validUntil": "Gultig Bis"
+    },
+    "empty": "Noch keine Angebote",
+    "emptyDescription": "Erstellen Sie Ihr erstes Angebot um zu beginnen"
+  },
+  "clients": {
+    "title": "Kunden",
+    "create": "Neuer Kunde",
+    "edit": "Kunde Bearbeiten",
+    "delete": "Loschen",
+    "fields": {
+      "name": "Name",
+      "email": "E-Mail",
+      "phone": "Telefon",
+      "address": "Adresse",
+      "street": "Strasse",
+      "city": "Stadt",
+      "state": "Bundesland",
+      "postalCode": "Postleitzahl",
+      "country": "Land",
+      "vatNumber": "USt-IdNr",
+      "notes": "Anmerkungen"
+    },
+    "empty": "Noch keine Kunden",
+    "emptyDescription": "Fugen Sie Ihren ersten Kunden hinzu um zu beginnen"
+  },
+  "settings": {
+    "title": "Einstellungen",
+    "business": {
+      "title": "Unternehmensinformationen",
+      "name": "Unternehmensname",
+      "email": "E-Mail",
+      "phone": "Telefon",
+      "address": "Adresse",
+      "vatNumber": "USt-IdNr",
+      "logo": "Logo"
+    },
+    "invoice": {
+      "title": "Rechnungseinstellungen",
+      "defaultCurrency": "Standardwahrung",
+      "defaultTaxRate": "Standard-MwSt-Satz",
+      "invoicePrefix": "Rechnungsnummer Prafix",
+      "nextInvoiceNumber": "Nachste Rechnungsnummer",
+      "paymentTerms": "Standard-Zahlungsziel (Tage)",
+      "defaultNotes": "Standardanmerkungen"
+    },
+    "quote": {
+      "title": "Angebotseinstellungen",
+      "quotePrefix": "Angebotsnummer Prafix",
+      "nextQuoteNumber": "Nachste Angebotsnummer",
+      "validityPeriod": "Standard-Gultigkeitsdauer (Tage)"
+    },
+    "data": {
+      "title": "Datenverwaltung",
+      "export": "Alle Daten Exportieren",
+      "import": "Daten Importieren",
+      "exportDescription": "Laden Sie alle Ihre Daten als JSON herunter",
+      "importDescription": "Importieren Sie Daten aus einer JSON-Datei"
+    },
+    "language": {
+      "title": "Sprache",
+      "select": "Sprache Auswahlen"
+    },
+    "theme": {
+      "title": "Design",
+      "primaryColor": "Primarfarbe",
+      "customColor": "Benutzerdefiniert"
+    }
+  },
+  "share": {
+    "title": "Rechnung Teilen",
+    "whatsapp": "Uber WhatsApp Teilen",
+    "telegram": "Uber Telegram Teilen",
+    "email": "Per E-Mail Senden",
+    "download": "PDF Herunterladen",
+    "copy": "Link Kopieren"
+  },
+  "common": {
+    "save": "Speichern",
+    "cancel": "Abbrechen",
+    "delete": "Loschen",
+    "edit": "Bearbeiten",
+    "create": "Erstellen",
+    "search": "Suchen",
+    "loading": "Laden...",
+    "error": "Ein Fehler ist aufgetreten",
+    "success": "Erfolgreich",
+    "confirm": "Bestatigen",
+    "confirmDelete": "Sind Sie sicher, dass Sie dies loschen mochten?",
+    "yes": "Ja",
+    "no": "Nein"
+  },
+  "telegram": {
+    "commands": {
+      "new": "/new @kunde 100 \"Dienstleistungsbeschreibung\"",
+      "status": "/status RG-2024-001",
+      "reminder": "/reminder RG-2024-001"
+    }
+  },
+  "testMode": {
+    "enter": "Testmodus Starten",
+    "exit": "Testmodus Beenden",
+    "banner": "TESTMODUS - Anderungen betreffen nicht Ihre echten Daten",
+    "reset": "Testdaten Zurucksetzen",
+    "resetConfirm": "Alle Testdaten auf den ursprunglichen Demo-Zustand zurucksetzen?",
+    "resetSuccess": "Testdaten wurden zuruckgesetzt"
+  }
+}

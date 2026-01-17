@@ -1,5 +1,6 @@
 import { jsPDF } from 'jspdf';
 import type { Invoice, Client, Settings, Address } from '../types';
+import { hexToRgb } from './themePresets';
 
 // A4 dimensions in mm
 const PAGE_WIDTH = 210;
@@ -7,13 +8,20 @@ const PAGE_HEIGHT = 297;
 const MARGIN = 15;
 const CONTENT_WIDTH = PAGE_WIDTH - 2 * MARGIN;
 
-// Colors
-const COLOR_PRIMARY = [37, 99, 235]; // #2563eb
+// Colors (static)
+const DEFAULT_PRIMARY: [number, number, number] = [37, 99, 235]; // #2563eb
 const COLOR_TEXT = [17, 24, 39]; // #111827
 const COLOR_TEXT_SECONDARY = [107, 114, 128]; // #6b7280
 const COLOR_BORDER = [229, 231, 235]; // #e5e7eb
 const COLOR_SUCCESS = [34, 197, 94]; // #22c55e
 const COLOR_ERROR = [239, 68, 68]; // #ef4444
+
+function getPrimaryColor(settings: Settings | null): [number, number, number] {
+  if (settings?.themeColor) {
+    return hexToRgb(settings.themeColor);
+  }
+  return DEFAULT_PRIMARY;
+}
 
 // Font sizes
 const FONT_SIZE_TITLE = 24;
@@ -79,19 +87,24 @@ function checkPageBreak(ctx: PDFContext, neededHeight: number): void {
   }
 }
 
-function drawLine(ctx: PDFContext, x1: number, x2: number, color: number[] = COLOR_BORDER): void {
+function drawLine(
+  ctx: PDFContext,
+  x1: number,
+  x2: number,
+  color: number[] = COLOR_BORDER
+): void {
   setDrawColor(ctx.pdf, color);
   ctx.pdf.setLineWidth(0.3);
   ctx.pdf.line(x1, ctx.y, x2, ctx.y);
 }
 
-function getStatusColor(status: string): number[] {
+function getStatusColor(status: string, primaryColor: number[]): number[] {
   switch (status) {
     case 'paid':
     case 'accepted':
       return COLOR_SUCCESS;
     case 'sent':
-      return COLOR_PRIMARY;
+      return primaryColor;
     case 'overdue':
     case 'declined':
     case 'expired':
@@ -131,7 +144,9 @@ function wrapText(pdf: jsPDF, text: string, maxWidth: number): string[] {
 
     for (const word of words) {
       const testLine = currentLine ? `${currentLine} ${word}` : word;
-      const testWidth = pdf.getStringUnitWidth(testLine) * pdf.getFontSize() / pdf.internal.scaleFactor;
+      const testWidth =
+        (pdf.getStringUnitWidth(testLine) * pdf.getFontSize()) /
+        pdf.internal.scaleFactor;
 
       if (testWidth > maxWidth && currentLine) {
         lines.push(currentLine);
@@ -153,7 +168,8 @@ function drawHeader(
   ctx: PDFContext,
   invoice: Invoice,
   settings: Settings | null,
-  isQuote: boolean
+  isQuote: boolean,
+  primaryColor: number[]
 ): void {
   const startY = ctx.y;
 
@@ -197,8 +213,10 @@ function drawHeader(
 
   ctx.pdf.setFont('helvetica', 'bold');
   ctx.pdf.setFontSize(FONT_SIZE_TITLE);
-  setColor(ctx.pdf, COLOR_PRIMARY);
-  ctx.pdf.text(isQuote ? 'Quote' : 'Invoice', rightX, startY, { align: 'right' });
+  setColor(ctx.pdf, primaryColor);
+  ctx.pdf.text(isQuote ? 'Quote' : 'Invoice', rightX, startY, {
+    align: 'right',
+  });
 
   ctx.pdf.setFont('helvetica', 'normal');
   ctx.pdf.setFontSize(FONT_SIZE_NORMAL);
@@ -213,7 +231,8 @@ function drawClientAndMeta(
   ctx: PDFContext,
   invoice: Invoice,
   client: Client,
-  isQuote: boolean
+  isQuote: boolean,
+  primaryColor: number[]
 ): void {
   const startY = ctx.y;
   const midX = PAGE_WIDTH / 2;
@@ -265,24 +284,29 @@ function drawClientAndMeta(
   setColor(ctx.pdf, COLOR_TEXT_SECONDARY);
   ctx.pdf.text('Issue Date:', labelX, ctx.y);
   setColor(ctx.pdf, COLOR_TEXT);
-  ctx.pdf.text(formatDate(invoice.issueDate), valueX, ctx.y, { align: 'right' });
+  ctx.pdf.text(formatDate(invoice.issueDate), valueX, ctx.y, {
+    align: 'right',
+  });
   ctx.y += LINE_HEIGHT + 2;
 
   // Due Date / Valid Until
   setColor(ctx.pdf, COLOR_TEXT_SECONDARY);
   ctx.pdf.text(isQuote ? 'Valid Until:' : 'Due Date:', labelX, ctx.y);
   setColor(ctx.pdf, COLOR_TEXT);
-  const dateValue = isQuote && invoice.validUntil ? invoice.validUntil : invoice.dueDate;
+  const dateValue =
+    isQuote && invoice.validUntil ? invoice.validUntil : invoice.dueDate;
   ctx.pdf.text(formatDate(dateValue), valueX, ctx.y, { align: 'right' });
   ctx.y += LINE_HEIGHT + 2;
 
   // Status
   setColor(ctx.pdf, COLOR_TEXT_SECONDARY);
   ctx.pdf.text('Status:', labelX, ctx.y);
-  const statusColor = getStatusColor(invoice.status);
+  const statusColor = getStatusColor(invoice.status, primaryColor);
   setColor(ctx.pdf, statusColor);
   ctx.pdf.setFont('helvetica', 'bold');
-  ctx.pdf.text(getStatusText(invoice.status), valueX, ctx.y, { align: 'right' });
+  ctx.pdf.text(getStatusText(invoice.status), valueX, ctx.y, {
+    align: 'right',
+  });
 
   ctx.y = Math.max(leftEndY, ctx.y + LINE_HEIGHT);
   ctx.y += SECTION_GAP;
@@ -301,8 +325,14 @@ function drawItemsTable(ctx: PDFContext, invoice: Invoice): void {
     description: MARGIN,
     quantity: MARGIN + colWidths.description,
     unitPrice: MARGIN + colWidths.description + colWidths.quantity,
-    taxRate: MARGIN + colWidths.description + colWidths.quantity + colWidths.unitPrice,
-    total: MARGIN + colWidths.description + colWidths.quantity + colWidths.unitPrice + colWidths.taxRate,
+    taxRate:
+      MARGIN + colWidths.description + colWidths.quantity + colWidths.unitPrice,
+    total:
+      MARGIN +
+      colWidths.description +
+      colWidths.quantity +
+      colWidths.unitPrice +
+      colWidths.taxRate,
   };
 
   // Table header
@@ -316,10 +346,21 @@ function drawItemsTable(ctx: PDFContext, invoice: Invoice): void {
 
   const headerY = ctx.y + 5.5;
   ctx.pdf.text('Description', colX.description + 2, headerY);
-  ctx.pdf.text('Qty', colX.quantity + colWidths.quantity / 2, headerY, { align: 'center' });
-  ctx.pdf.text('Unit Price', colX.unitPrice + colWidths.unitPrice - 2, headerY, { align: 'right' });
-  ctx.pdf.text('Tax', colX.taxRate + colWidths.taxRate / 2, headerY, { align: 'center' });
-  ctx.pdf.text('Total', colX.total + colWidths.total - 2, headerY, { align: 'right' });
+  ctx.pdf.text('Qty', colX.quantity + colWidths.quantity / 2, headerY, {
+    align: 'center',
+  });
+  ctx.pdf.text(
+    'Unit Price',
+    colX.unitPrice + colWidths.unitPrice - 2,
+    headerY,
+    { align: 'right' }
+  );
+  ctx.pdf.text('Tax', colX.taxRate + colWidths.taxRate / 2, headerY, {
+    align: 'center',
+  });
+  ctx.pdf.text('Total', colX.total + colWidths.total - 2, headerY, {
+    align: 'right',
+  });
 
   ctx.y += headerHeight;
 
@@ -335,7 +376,11 @@ function drawItemsTable(ctx: PDFContext, invoice: Invoice): void {
     const item = invoice.items[i];
 
     // Wrap description text
-    const wrappedDesc = wrapText(ctx.pdf, item.description, colWidths.description - 4);
+    const wrappedDesc = wrapText(
+      ctx.pdf,
+      item.description,
+      colWidths.description - 4
+    );
     const rowHeight = Math.max(wrappedDesc.length * LINE_HEIGHT + 3, 8);
 
     // Check for page break
@@ -352,7 +397,11 @@ function drawItemsTable(ctx: PDFContext, invoice: Invoice): void {
     // Description (with text wrapping)
     setColor(ctx.pdf, COLOR_TEXT);
     for (let j = 0; j < wrappedDesc.length; j++) {
-      ctx.pdf.text(wrappedDesc[j], colX.description + 2, textY + j * LINE_HEIGHT);
+      ctx.pdf.text(
+        wrappedDesc[j],
+        colX.description + 2,
+        textY + j * LINE_HEIGHT
+      );
     }
 
     // Quantity
@@ -412,14 +461,24 @@ function drawTotals(ctx: PDFContext, invoice: Invoice): void {
   setColor(ctx.pdf, COLOR_TEXT_SECONDARY);
   ctx.pdf.text('Subtotal:', labelX, ctx.y);
   setColor(ctx.pdf, COLOR_TEXT);
-  ctx.pdf.text(formatCurrency(invoice.subtotal, invoice.currency), valueX, ctx.y, { align: 'right' });
+  ctx.pdf.text(
+    formatCurrency(invoice.subtotal, invoice.currency),
+    valueX,
+    ctx.y,
+    { align: 'right' }
+  );
   ctx.y += LINE_HEIGHT + 2;
 
   // Tax
   setColor(ctx.pdf, COLOR_TEXT_SECONDARY);
   ctx.pdf.text('Tax:', labelX, ctx.y);
   setColor(ctx.pdf, COLOR_TEXT);
-  ctx.pdf.text(formatCurrency(invoice.taxTotal, invoice.currency), valueX, ctx.y, { align: 'right' });
+  ctx.pdf.text(
+    formatCurrency(invoice.taxTotal, invoice.currency),
+    valueX,
+    ctx.y,
+    { align: 'right' }
+  );
   ctx.y += LINE_HEIGHT + 3;
 
   // Total (with top border line, matching web preview style)
@@ -432,7 +491,9 @@ function drawTotals(ctx: PDFContext, invoice: Invoice): void {
   ctx.pdf.setFontSize(FONT_SIZE_HEADING);
   setColor(ctx.pdf, COLOR_TEXT);
   ctx.pdf.text('Total:', labelX, ctx.y);
-  ctx.pdf.text(formatCurrency(invoice.total, invoice.currency), valueX, ctx.y, { align: 'right' });
+  ctx.pdf.text(formatCurrency(invoice.total, invoice.currency), valueX, ctx.y, {
+    align: 'right',
+  });
 
   ctx.y += LINE_HEIGHT + SECTION_GAP;
 }
@@ -469,7 +530,8 @@ function drawFooter(ctx: PDFContext, invoice: Invoice, isQuote: boolean): void {
   setColor(ctx.pdf, COLOR_TEXT_SECONDARY);
 
   const dateLabel = isQuote ? 'Valid Until' : 'Due Date';
-  const dateValue = isQuote && invoice.validUntil ? invoice.validUntil : invoice.dueDate;
+  const dateValue =
+    isQuote && invoice.validUntil ? invoice.validUntil : invoice.dueDate;
   ctx.pdf.text(
     `${dateLabel}: ${formatDate(dateValue)}`,
     PAGE_WIDTH / 2,
@@ -490,6 +552,7 @@ export function generateInvoicePDF(
   });
 
   const isQuote = invoice.documentType === 'quote';
+  const primaryColor = getPrimaryColor(settings);
 
   const ctx: PDFContext = {
     pdf,
@@ -498,8 +561,8 @@ export function generateInvoicePDF(
   };
 
   // Draw content
-  drawHeader(ctx, invoice, settings, isQuote);
-  drawClientAndMeta(ctx, invoice, client, isQuote);
+  drawHeader(ctx, invoice, settings, isQuote, primaryColor);
+  drawClientAndMeta(ctx, invoice, client, isQuote, primaryColor);
   drawItemsTable(ctx, invoice);
   drawTotals(ctx, invoice);
 

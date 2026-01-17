@@ -106,7 +106,8 @@ export function InvoiceView(): ReactElement {
       status: 'draft',
       issueDate: now,
       dueDate: new Date(
-        now.getTime() + (currentSettings?.defaultPaymentTermsDays ?? 30) * 24 * 60 * 60 * 1000
+        now.getTime() +
+          (currentSettings?.defaultPaymentTermsDays ?? 30) * 24 * 60 * 60 * 1000
       ),
       notes: invoice.notes,
       subtotal: invoice.subtotal,
@@ -143,10 +144,7 @@ export function InvoiceView(): ReactElement {
           <h1>{invoice.invoiceNumber}</h1>
         </div>
         <div className="header-actions">
-          <Link
-            to={`/invoices/${id}/edit`}
-            className="btn btn-secondary"
-          >
+          <Link to={`/invoices/${id}/edit`} className="btn btn-secondary">
             {t('common.edit')}
           </Link>
           <Link
@@ -166,15 +164,16 @@ export function InvoiceView(): ReactElement {
               {t('invoices.send')}
             </button>
           )}
-          {!isQuote && (invoice.status === 'sent' || invoice.status === 'overdue') && (
-            <button
-              type="button"
-              className="btn btn-success"
-              onClick={handleMarkAsPaid}
-            >
-              {t('invoices.markPaid')}
-            </button>
-          )}
+          {!isQuote &&
+            (invoice.status === 'sent' || invoice.status === 'overdue') && (
+              <button
+                type="button"
+                className="btn btn-success"
+                onClick={handleMarkAsPaid}
+              >
+                {t('invoices.markPaid')}
+              </button>
+            )}
 
           {/* Quote-specific actions */}
           {isQuote && invoice.status === 'draft' && (
@@ -204,15 +203,17 @@ export function InvoiceView(): ReactElement {
               </button>
             </>
           )}
-          {isQuote && invoice.status === 'accepted' && !invoice.convertedToInvoiceId && (
-            <button
-              type="button"
-              className="btn btn-primary"
-              onClick={handleConvertToInvoice}
-            >
-              {t('quotes.convertToInvoice')}
-            </button>
-          )}
+          {isQuote &&
+            invoice.status === 'accepted' &&
+            !invoice.convertedToInvoiceId && (
+              <button
+                type="button"
+                className="btn btn-primary"
+                onClick={handleConvertToInvoice}
+              >
+                {t('quotes.convertToInvoice')}
+              </button>
+            )}
           {isQuote && invoice.convertedToInvoiceId && (
             <Link
               to={`/invoices/${invoice.convertedToInvoiceId}/view`}

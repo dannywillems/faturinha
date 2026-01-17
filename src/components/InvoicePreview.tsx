@@ -52,7 +52,9 @@ export function InvoicePreview({
   const businessAddressLines = formatAddress(settings?.businessAddress);
   const clientAddressLines = formatAddress(client.address);
   const isQuote = invoice.documentType === 'quote';
-  const className = forPrint ? 'invoice-preview invoice-preview-print' : 'invoice-preview';
+  const className = forPrint
+    ? 'invoice-preview invoice-preview-print'
+    : 'invoice-preview';
 
   const calculateItemTotal = (
     quantity: number,
@@ -124,15 +126,24 @@ export function InvoicePreview({
         </div>
         <div className="invoice-meta">
           <div className="meta-row">
-            <span className="meta-label">{t('invoices.fields.issueDate')}:</span>
+            <span className="meta-label">
+              {t('invoices.fields.issueDate')}:
+            </span>
             <span className="meta-value">{formatDate(invoice.issueDate)}</span>
           </div>
           <div className="meta-row">
             <span className="meta-label">
-              {isQuote ? t('quotes.fields.validUntil') : t('invoices.fields.dueDate')}:
+              {isQuote
+                ? t('quotes.fields.validUntil')
+                : t('invoices.fields.dueDate')}
+              :
             </span>
             <span className="meta-value">
-              {formatDate(isQuote && invoice.validUntil ? invoice.validUntil : invoice.dueDate)}
+              {formatDate(
+                isQuote && invoice.validUntil
+                  ? invoice.validUntil
+                  : invoice.dueDate
+              )}
             </span>
           </div>
           <div className="meta-row status-row">
@@ -148,7 +159,9 @@ export function InvoicePreview({
       <table className="invoice-preview-items">
         <thead>
           <tr>
-            <th className="col-description">{t('invoices.fields.description')}</th>
+            <th className="col-description">
+              {t('invoices.fields.description')}
+            </th>
             <th className="col-quantity">{t('invoices.fields.quantity')}</th>
             <th className="col-price">{t('invoices.fields.unitPrice')}</th>
             <th className="col-tax">{t('invoices.fields.taxRate')}</th>
@@ -166,7 +179,11 @@ export function InvoicePreview({
               <td className="col-tax">{item.taxRate ?? 0}%</td>
               <td className="col-total">
                 {formatCurrency(
-                  calculateItemTotal(item.quantity, item.unitPrice, item.taxRate),
+                  calculateItemTotal(
+                    item.quantity,
+                    item.unitPrice,
+                    item.taxRate
+                  ),
                   invoice.currency
                 )}
               </td>
@@ -208,8 +225,13 @@ export function InvoicePreview({
       {/* Footer */}
       <div className="invoice-preview-footer">
         <p>
-          {isQuote ? t('quotes.fields.validUntil') : t('invoices.fields.dueDate')}:{' '}
-          {formatDate(isQuote && invoice.validUntil ? invoice.validUntil : invoice.dueDate)}
+          {isQuote
+            ? t('quotes.fields.validUntil')
+            : t('invoices.fields.dueDate')}
+          :{' '}
+          {formatDate(
+            isQuote && invoice.validUntil ? invoice.validUntil : invoice.dueDate
+          )}
         </p>
       </div>
     </div>

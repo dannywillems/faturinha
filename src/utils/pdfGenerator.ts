@@ -399,7 +399,7 @@ function drawItemsTable(ctx: PDFContext, invoice: Invoice): void {
 }
 
 function drawTotals(ctx: PDFContext, invoice: Invoice): void {
-  const totalsWidth = 80;
+  const totalsWidth = 100;
   const labelX = PAGE_WIDTH - MARGIN - totalsWidth;
   const valueX = PAGE_WIDTH - MARGIN;
 
@@ -420,20 +420,21 @@ function drawTotals(ctx: PDFContext, invoice: Invoice): void {
   ctx.pdf.text('Tax:', labelX, ctx.y);
   setColor(ctx.pdf, COLOR_TEXT);
   ctx.pdf.text(formatCurrency(invoice.taxTotal, invoice.currency), valueX, ctx.y, { align: 'right' });
-  ctx.y += LINE_HEIGHT + 2;
+  ctx.y += LINE_HEIGHT + 3;
 
-  // Total (with background)
-  const totalHeight = 10;
-  setFillColor(ctx.pdf, COLOR_PRIMARY);
-  ctx.pdf.rect(labelX - 5, ctx.y - 2, totalsWidth + 5, totalHeight, 'F');
+  // Total (with top border line, matching web preview style)
+  setDrawColor(ctx.pdf, COLOR_TEXT);
+  ctx.pdf.setLineWidth(0.5);
+  ctx.pdf.line(labelX, ctx.y - 1, valueX, ctx.y - 1);
 
+  ctx.y += 3;
   ctx.pdf.setFont('helvetica', 'bold');
   ctx.pdf.setFontSize(FONT_SIZE_HEADING);
-  setColor(ctx.pdf, [255, 255, 255]); // White text
-  ctx.pdf.text('Total:', labelX, ctx.y + 5);
-  ctx.pdf.text(formatCurrency(invoice.total, invoice.currency), valueX, ctx.y + 5, { align: 'right' });
+  setColor(ctx.pdf, COLOR_TEXT);
+  ctx.pdf.text('Total:', labelX, ctx.y);
+  ctx.pdf.text(formatCurrency(invoice.total, invoice.currency), valueX, ctx.y, { align: 'right' });
 
-  ctx.y += totalHeight + SECTION_GAP;
+  ctx.y += LINE_HEIGHT + SECTION_GAP;
 }
 
 function drawNotes(ctx: PDFContext, notes: string): void {

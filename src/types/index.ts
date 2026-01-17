@@ -73,6 +73,7 @@ export interface InvoiceItem {
 export interface Invoice {
   id?: number;
   invoiceNumber: string;
+  ledgerId: number; // Reference to InvoiceLedger
   clientId: number;
   items: InvoiceItem[];
   currency: CurrencyCode;
@@ -87,6 +88,17 @@ export interface Invoice {
   total: number;
   createdAt: Date;
   updatedAt: Date;
+}
+
+// Invoice ledger for separate numbering sequences per currency/year
+// Required for Belgian tax compliance and similar regulations
+export interface InvoiceLedger {
+  id?: number;
+  currency: CurrencyCode;
+  year: number;
+  prefix: string; // e.g., "EUR-2024-" or "USD-2024-"
+  nextValue: number;
+  createdAt: Date;
 }
 
 export interface Settings {

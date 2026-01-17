@@ -1,15 +1,20 @@
-import { useState } from 'react';
+import type { ChangeEvent, ReactElement } from 'react';
+import { useState, useCallback } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useLiveQuery } from 'dexie-react-hooks';
 import { db } from '../db';
-import type { Settings as SettingsType, CurrencyCode } from '../types';
+import type { Settings as SettingsType, CurrencyCode, Client, Invoice } from '../types';
 import { DEFAULT_SETTINGS } from '../types';
 
-export function Settings() {
+const MAX_LOGO_SIZE_KB = 500;
+const ALLOWED_IMAGE_TYPES = ['image/png', 'image/jpeg', 'image/svg+xml'];
+
+export function Settings(): ReactElement {
   const { t } = useTranslation();
 
   const existingSettings = useLiveQuery(() => db.settings.toArray());
-  const [saved, setSaved] = useState(false);
+  const [saved, setSaved] = useState<boolean>(false);
+  const [logoError, setLogoError] = useState<string | null>(null);
 
   // Get current settings from DB or defaults
   const currentSettings = existingSettings?.[0];
@@ -59,26 +64,30 @@ export function Settings() {
     URL.revokeObjectURL(url);
   };
 
-  const handleImport = async (event: React.ChangeEvent<HTMLInputElement>) => {
+  const handleImport = async (event: ChangeEvent<HTMLInputElement>): Promise<void> => {
     const file = event.target.files?.[0];
     if (!file) return;
 
     const reader = new FileReader();
-    reader.onload = async (e) => {
+    reader.onload = async (e): Promise<void> => {
       try {
-        const data = JSON.parse(e.target?.result as string);
+        const data = JSON.parse(e.target?.result as string) as {
+          clients?: unknown[];
+          invoices?: unknown[];
+          settings?: unknown[];
+        };
 
         if (data.clients) {
           await db.clients.clear();
-          await db.clients.bulkAdd(data.clients);
+          await db.clients.bulkAdd(data.clients as Client[]);
         }
         if (data.invoices) {
           await db.invoices.clear();
-          await db.invoices.bulkAdd(data.invoices);
+          await db.invoices.bulkAdd(data.invoices as Invoice[]);
         }
         if (data.settings && data.settings.length > 0) {
           await db.settings.clear();
-          await db.settings.bulkAdd(data.settings);
+          await db.settings.bulkAdd(data.settings as SettingsType[]);
         }
 
         alert(t('common.success'));
@@ -88,6 +97,39 @@ export function Settings() {
     };
     reader.readAsText(file);
   };
+
+  const handleLogoUpload = useCallback(
+    async (event: ChangeEvent<HTMLInputElement>): Promise<void> => {
+      const file = event.target.files?.[0];
+      if (!file) return;
+
+      setLogoError(null);
+
+      // Validate file type
+      if (!ALLOWED_IMAGE_TYPES.includes(file.type)) {
+        setLogoError('Invalid file type. Please upload PNG, JPEG, or SVG.');
+        return;
+      }
+
+      // Validate file size
+      if (file.size > MAX_LOGO_SIZE_KB * 1024) {
+        setLogoError(`File too large. Maximum size is ${MAX_LOGO_SIZE_KB}KB.`);
+        return;
+      }
+
+      const reader = new FileReader();
+      reader.onload = async (e): Promise<void> => {
+        const base64 = e.target?.result as string;
+        await updateField('businessLogo', base64);
+      };
+      reader.readAsDataURL(file);
+    },
+    [updateField]
+  );
+
+  const handleRemoveLogo = useCallback(async (): Promise<void> => {
+    await updateField('businessLogo', undefined);
+  }, [updateField]);
 
   if (existingSettings === undefined) {
     return <div>{t('common.loading')}</div>;
@@ -130,6 +172,33 @@ export function Settings() {
             value={getValue('businessVatNumber') ?? ''}
             onChange={(e) => updateField('businessVatNumber', e.target.value)}
           />
+        </div>
+        <div className="form-group">
+          <label>{t('settings.business.logo')}</label>
+          {getValue('businessLogo') ? (
+            <div className="logo-preview">
+              <img
+                src={getValue('businessLogo')}
+                alt="Business logo"
+                className="logo-image"
+              />
+              <button
+                type="button"
+                className="btn btn-sm btn-danger"
+                onClick={handleRemoveLogo}
+              >
+                {t('common.delete')}
+              </button>
+            </div>
+          ) : (
+            <input
+              type="file"
+              accept="image/png,image/jpeg,image/svg+xml"
+              onChange={handleLogoUpload}
+            />
+          )}
+          {logoError && <p className="text-error">{logoError}</p>}
+          <p className="text-muted">Max {MAX_LOGO_SIZE_KB}KB. PNG, JPEG, or SVG.</p>
         </div>
       </section>
 

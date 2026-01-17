@@ -21,31 +21,33 @@ setup: ## Setup development environment
 
 .PHONY: dev
 dev: ## Start development server
-	npm run dev
+	npx vite
 
 .PHONY: build
-build: ## Build the project in debug mode
-	npm run build
+build: typecheck ## Build the project
+	npx vite build
 
 .PHONY: build-release
-build-release: ## Build the project in release mode
-	npm run build
+build-release: build ## Build the project in release mode
+
+.PHONY: typecheck
+typecheck: ## Run TypeScript type checker
+	npx tsc --noEmit
 
 .PHONY: check
-check: ## Check code for compilation errors
-	npm run check
+check: typecheck lint ## Check code for compilation and lint errors
 
 .PHONY: check-format
 check-format: ## Check code formatting
-	npm run lint
+	npx eslint .
 
 .PHONY: format
 format: ## Format code
-	npm run format
+	npx prettier --write "src/**/*.{ts,tsx,scss}"
 
 .PHONY: lint
 lint: ## Run linter
-	npm run lint
+	npx eslint .
 
 .PHONY: lint-shell
 lint-shell: ## Lint shell scripts with shellcheck
@@ -66,23 +68,27 @@ deploy-preview: ## Deploy preview to Cloudflare Pages
 
 .PHONY: test
 test: ## Run unit tests
-	npm run test
+	npx vitest run
+
+.PHONY: test-watch
+test-watch: ## Run unit tests in watch mode
+	npx vitest
 
 .PHONY: test-e2e
 test-e2e: ## Run Playwright E2E tests
-	npm run test:e2e
+	npx playwright test
 
 .PHONY: test-e2e-ui
 test-e2e-ui: ## Run Playwright tests with interactive UI
-	npm run test:e2e:ui
+	npx playwright test --ui
 
 .PHONY: test-e2e-headed
 test-e2e-headed: ## Run Playwright tests in headed browser mode
-	npm run test:e2e:headed
+	npx playwright test --headed
 
 .PHONY: test-e2e-report
 test-e2e-report: ## Show Playwright HTML test report
-	npm run test:e2e:report
+	npx playwright show-report
 
 .PHONY: test-all
 test-all: test test-e2e ## Run all tests (unit + E2E)

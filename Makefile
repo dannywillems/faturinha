@@ -47,6 +47,23 @@ format: ## Format code
 lint: ## Run linter
 	npm run lint
 
+.PHONY: lint-shell
+lint-shell: ## Lint shell scripts with shellcheck
+	@echo "Linting shell scripts..."
+	@find . -name "*.sh" \
+		-not -path "./node_modules/*" \
+		-not -path "./.git/*" \
+		-print0 | xargs -0 shellcheck
+	@echo "Shell scripts OK"
+
+.PHONY: deploy
+deploy: ## Deploy to Cloudflare Pages
+	./deploy/deploy.sh
+
+.PHONY: deploy-preview
+deploy-preview: ## Deploy preview to Cloudflare Pages
+	./deploy/deploy.sh preview
+
 .PHONY: test
 test: ## Run tests
 	npm run test

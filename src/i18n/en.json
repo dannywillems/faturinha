@@ -1,0 +1,138 @@
+{
+  "app": {
+    "name": "Faturinha",
+    "tagline": "Invoice in 30 seconds"
+  },
+  "nav": {
+    "dashboard": "Dashboard",
+    "invoices": "Invoices",
+    "clients": "Clients",
+    "settings": "Settings"
+  },
+  "dashboard": {
+    "title": "Dashboard",
+    "totalInvoices": "Total Invoices",
+    "pendingPayments": "Pending Payments",
+    "paidThisMonth": "Paid This Month",
+    "overdueInvoices": "Overdue Invoices"
+  },
+  "invoices": {
+    "title": "Invoices",
+    "create": "New Invoice",
+    "edit": "Edit Invoice",
+    "duplicate": "Duplicate",
+    "delete": "Delete",
+    "send": "Send",
+    "markPaid": "Mark as Paid",
+    "status": {
+      "draft": "Draft",
+      "sent": "Sent",
+      "paid": "Paid",
+      "overdue": "Overdue",
+      "cancelled": "Cancelled"
+    },
+    "fields": {
+      "invoiceNumber": "Invoice Number",
+      "client": "Client",
+      "issueDate": "Issue Date",
+      "dueDate": "Due Date",
+      "items": "Items",
+      "description": "Description",
+      "quantity": "Quantity",
+      "unitPrice": "Unit Price",
+      "taxRate": "Tax Rate",
+      "subtotal": "Subtotal",
+      "tax": "Tax",
+      "total": "Total",
+      "notes": "Notes",
+      "currency": "Currency"
+    },
+    "addItem": "Add Item",
+    "removeItem": "Remove Item",
+    "empty": "No invoices yet",
+    "emptyDescription": "Create your first invoice to get started"
+  },
+  "clients": {
+    "title": "Clients",
+    "create": "New Client",
+    "edit": "Edit Client",
+    "delete": "Delete",
+    "fields": {
+      "name": "Name",
+      "email": "Email",
+      "phone": "Phone",
+      "address": "Address",
+      "street": "Street",
+      "city": "City",
+      "state": "State/Province",
+      "postalCode": "Postal Code",
+      "country": "Country",
+      "vatNumber": "VAT Number",
+      "notes": "Notes"
+    },
+    "empty": "No clients yet",
+    "emptyDescription": "Add your first client to get started"
+  },
+  "settings": {
+    "title": "Settings",
+    "business": {
+      "title": "Business Information",
+      "name": "Business Name",
+      "email": "Email",
+      "phone": "Phone",
+      "address": "Address",
+      "vatNumber": "VAT Number",
+      "logo": "Logo"
+    },
+    "invoice": {
+      "title": "Invoice Settings",
+      "defaultCurrency": "Default Currency",
+      "defaultTaxRate": "Default Tax Rate",
+      "invoicePrefix": "Invoice Number Prefix",
+      "nextInvoiceNumber": "Next Invoice Number",
+      "paymentTerms": "Default Payment Terms (days)",
+      "defaultNotes": "Default Notes"
+    },
+    "data": {
+      "title": "Data Management",
+      "export": "Export All Data",
+      "import": "Import Data",
+      "exportDescription": "Download all your data as JSON",
+      "importDescription": "Import data from a JSON file"
+    },
+    "language": {
+      "title": "Language",
+      "select": "Select Language"
+    }
+  },
+  "share": {
+    "title": "Share Invoice",
+    "whatsapp": "Share via WhatsApp",
+    "telegram": "Share via Telegram",
+    "email": "Send via Email",
+    "download": "Download PDF",
+    "copy": "Copy Link"
+  },
+  "common": {
+    "save": "Save",
+    "cancel": "Cancel",
+    "delete": "Delete",
+    "edit": "Edit",
+    "create": "Create",
+    "search": "Search",
+    "loading": "Loading...",
+    "error": "An error occurred",
+    "success": "Success",
+    "confirm": "Confirm",
+    "confirmDelete": "Are you sure you want to delete this?",
+    "yes": "Yes",
+    "no": "No"
+  },
+  "telegram": {
+    "commands": {
+      "new": "/new @client 100 \"Service description\"",
+      "status": "/status INV-2024-001",
+      "reminder": "/reminder INV-2024-001"
+    }
+  }
+}

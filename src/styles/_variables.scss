@@ -1,0 +1,205 @@
+// =============================================================================
+// Theme Variables
+// =============================================================================
+// All customizable variables for theming. Override these to create new themes.
+
+// -----------------------------------------------------------------------------
+// Colors - Primary Palette
+// -----------------------------------------------------------------------------
+$color-primary: #2563eb !default;
+$color-primary-hover: #1d4ed8 !default;
+$color-primary-light: rgba(37, 99, 235, 0.1) !default;
+$color-primary-text: #ffffff !default;
+
+// -----------------------------------------------------------------------------
+// Colors - Secondary Palette
+// -----------------------------------------------------------------------------
+$color-secondary: #64748b !default;
+$color-secondary-hover: #475569 !default;
+$color-secondary-light: rgba(100, 116, 139, 0.1) !default;
+
+// -----------------------------------------------------------------------------
+// Colors - Semantic
+// -----------------------------------------------------------------------------
+$color-success: #10b981 !default;
+$color-success-bg: #d1fae5 !default;
+$color-success-text: #059669 !default;
+
+$color-warning: #f59e0b !default;
+$color-warning-bg: #fef3c7 !default;
+$color-warning-text: #b45309 !default;
+
+$color-error: #ef4444 !default;
+$color-error-bg: #fee2e2 !default;
+$color-error-text: #dc2626 !default;
+
+$color-info: #3b82f6 !default;
+$color-info-bg: #dbeafe !default;
+$color-info-text: #1d4ed8 !default;
+
+// -----------------------------------------------------------------------------
+// Colors - Neutral / Grays
+// -----------------------------------------------------------------------------
+$color-gray-50: #f9fafb !default;
+$color-gray-100: #f3f4f6 !default;
+$color-gray-200: #e5e7eb !default;
+$color-gray-300: #d1d5db !default;
+$color-gray-400: #9ca3af !default;
+$color-gray-500: #6b7280 !default;
+$color-gray-600: #4b5563 !default;
+$color-gray-700: #374151 !default;
+$color-gray-800: #1f2937 !default;
+$color-gray-900: #111827 !default;
+
+// -----------------------------------------------------------------------------
+// Colors - Background & Surface
+// -----------------------------------------------------------------------------
+$color-bg: $color-gray-50 !default;
+$color-bg-secondary: $color-gray-100 !default;
+$color-surface: #ffffff !default;
+$color-surface-elevated: #ffffff !default;
+
+// -----------------------------------------------------------------------------
+// Colors - Text
+// -----------------------------------------------------------------------------
+$color-text: $color-gray-800 !default;
+$color-text-secondary: $color-gray-600 !default;
+$color-text-muted: $color-gray-500 !default;
+$color-text-disabled: $color-gray-400 !default;
+$color-text-inverse: #ffffff !default;
+
+// -----------------------------------------------------------------------------
+// Colors - Border
+// -----------------------------------------------------------------------------
+$color-border: $color-gray-200 !default;
+$color-border-light: $color-gray-100 !default;
+$color-border-dark: $color-gray-300 !default;
+$color-border-focus: $color-primary !default;
+
+// -----------------------------------------------------------------------------
+// Typography
+// -----------------------------------------------------------------------------
+$font-family-base: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen,
+  Ubuntu, Cantarell, sans-serif !default;
+$font-family-mono: ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas,
+  monospace !default;
+
+$font-size-xs: 0.75rem !default;   // 12px
+$font-size-sm: 0.875rem !default;  // 14px
+$font-size-base: 1rem !default;    // 16px
+$font-size-lg: 1.125rem !default;  // 18px
+$font-size-xl: 1.25rem !default;   // 20px
+$font-size-2xl: 1.5rem !default;   // 24px
+$font-size-3xl: 1.75rem !default;  // 28px
+$font-size-4xl: 2rem !default;     // 32px
+
+$font-weight-normal: 400 !default;
+$font-weight-medium: 500 !default;
+$font-weight-semibold: 600 !default;
+$font-weight-bold: 700 !default;
+
+$line-height-tight: 1.25 !default;
+$line-height-base: 1.5 !default;
+$line-height-relaxed: 1.75 !default;
+
+// -----------------------------------------------------------------------------
+// Spacing
+// -----------------------------------------------------------------------------
+$spacing-0: 0 !default;
+$spacing-1: 0.25rem !default;  // 4px
+$spacing-2: 0.5rem !default;   // 8px
+$spacing-3: 0.75rem !default;  // 12px
+$spacing-4: 1rem !default;     // 16px
+$spacing-5: 1.25rem !default;  // 20px
+$spacing-6: 1.5rem !default;   // 24px
+$spacing-8: 2rem !default;     // 32px
+$spacing-10: 2.5rem !default;  // 40px
+$spacing-12: 3rem !default;    // 48px
+$spacing-16: 4rem !default;    // 64px
+
+// -----------------------------------------------------------------------------
+// Border Radius
+// -----------------------------------------------------------------------------
+$radius-none: 0 !default;
+$radius-sm: 0.25rem !default;   // 4px
+$radius-base: 0.375rem !default; // 6px
+$radius-md: 0.5rem !default;    // 8px
+$radius-lg: 0.75rem !default;   // 12px
+$radius-xl: 1rem !default;      // 16px
+$radius-full: 9999px !default;
+
+// -----------------------------------------------------------------------------
+// Shadows
+// -----------------------------------------------------------------------------
+$shadow-none: none !default;
+$shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05) !default;
+$shadow-base: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px -1px rgba(0, 0, 0, 0.1) !default;
+$shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -2px rgba(0, 0, 0, 0.1) !default;
+$shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -4px rgba(0, 0, 0, 0.1) !default;
+$shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.1) !default;
+
+// -----------------------------------------------------------------------------
+// Transitions
+// -----------------------------------------------------------------------------
+$transition-fast: 0.15s ease !default;
+$transition-base: 0.2s ease !default;
+$transition-slow: 0.3s ease !default;
+
+// -----------------------------------------------------------------------------
+// Z-Index Scale
+// -----------------------------------------------------------------------------
+$z-index-dropdown: 1000 !default;
+$z-index-sticky: 1020 !default;
+$z-index-fixed: 1030 !default;
+$z-index-modal-backdrop: 1040 !default;
+$z-index-modal: 1050 !default;
+$z-index-popover: 1060 !default;
+$z-index-tooltip: 1070 !default;
+
+// -----------------------------------------------------------------------------
+// Layout
+// -----------------------------------------------------------------------------
+$sidebar-width: 240px !default;
+$sidebar-width-collapsed: 64px !default;
+$header-height: 64px !default;
+$content-max-width: 1200px !default;
+
+// -----------------------------------------------------------------------------
+// Breakpoints
+// -----------------------------------------------------------------------------
+$breakpoint-sm: 640px !default;
+$breakpoint-md: 768px !default;
+$breakpoint-lg: 1024px !default;
+$breakpoint-xl: 1280px !default;
+$breakpoint-2xl: 1536px !default;
+
+// -----------------------------------------------------------------------------
+// Invoice Template Variables (for paid templates)
+// -----------------------------------------------------------------------------
+$invoice-accent-color: $color-primary !default;
+$invoice-header-bg: $color-surface !default;
+$invoice-header-text: $color-text !default;
+$invoice-body-bg: $color-surface !default;
+$invoice-footer-bg: $color-gray-50 !default;
+$invoice-table-header-bg: $color-gray-100 !default;
+$invoice-table-stripe-bg: $color-gray-50 !default;
+$invoice-border-style: solid !default;
+$invoice-border-width: 1px !default;
+
+// -----------------------------------------------------------------------------
+// Status Colors (for invoice statuses)
+// -----------------------------------------------------------------------------
+$status-draft-bg: $color-gray-100 !default;
+$status-draft-text: $color-gray-500 !default;
+
+$status-sent-bg: $color-info-bg !default;
+$status-sent-text: $color-info-text !default;
+
+$status-paid-bg: $color-success-bg !default;
+$status-paid-text: $color-success-text !default;
+
+$status-overdue-bg: $color-error-bg !default;
+$status-overdue-text: $color-error-text !default;
+
+$status-cancelled-bg: $color-gray-100 !default;
+$status-cancelled-text: $color-gray-400 !default;

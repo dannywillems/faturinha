@@ -68,7 +68,7 @@ fix-trailing-whitespace: ## Remove trailing whitespaces from all files
 		-o -name "*.js" -o -name "*.jsx" -o -name "*.sh" \
 		-o -name "*.py" -o -name "*.go" -o -name "*.c" -o -name "*.h" \
 		-o -name "*.cpp" -o -name "*.hpp" -o -name "*.json" \
-		-o -name "*.css" \) \
+		-o -name "*.scss" \) \
 		-not -path "./node_modules/*" \
 		-not -path "./.git/*" \
 		-not -path "./dist/*" \
@@ -87,7 +87,7 @@ check-trailing-whitespace: ## Check for trailing whitespaces in source files
 		-o -name "*.js" -o -name "*.jsx" -o -name "*.sh" \
 		-o -name "*.py" -o -name "*.go" -o -name "*.c" -o -name "*.h" \
 		-o -name "*.cpp" -o -name "*.hpp" -o -name "*.json" \
-		-o -name "*.css" \) \
+		-o -name "*.scss" \) \
 		-not -path "./node_modules/*" \
 		-not -path "./.git/*" \
 		-not -path "./dist/*" \

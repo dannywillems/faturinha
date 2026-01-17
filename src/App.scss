@@ -1,0 +1,397 @@
+@use 'styles/variables' as *;
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+:root {
+  // Expose CSS custom properties for runtime theming
+  --color-primary: #{$color-primary};
+  --color-primary-hover: #{$color-primary-hover};
+  --color-primary-light: #{$color-primary-light};
+  --color-text: #{$color-text};
+  --color-text-secondary: #{$color-text-secondary};
+  --color-text-muted: #{$color-text-muted};
+  --color-bg: #{$color-bg};
+  --color-surface: #{$color-surface};
+  --color-border: #{$color-border};
+  --color-success: #{$color-success};
+  --color-warning: #{$color-warning};
+  --color-error: #{$color-error};
+  --sidebar-width: #{$sidebar-width};
+}
+
+body {
+  font-family: $font-family-base;
+  font-size: $font-size-base;
+  color: $color-text;
+  background-color: $color-bg;
+  line-height: $line-height-base;
+}
+
+// =============================================================================
+// Layout
+// =============================================================================
+.app-layout {
+  display: flex;
+  min-height: 100vh;
+}
+
+// =============================================================================
+// Sidebar
+// =============================================================================
+.sidebar {
+  width: $sidebar-width;
+  background-color: $color-surface;
+  border-right: 1px solid $color-border;
+  padding: $spacing-6;
+  position: fixed;
+  height: 100vh;
+  overflow-y: auto;
+
+  .logo h1 {
+    font-size: $font-size-2xl;
+    font-weight: $font-weight-semibold;
+    color: $color-primary;
+    margin-bottom: $spacing-8;
+  }
+}
+
+.nav-links {
+  list-style: none;
+
+  li {
+    margin-bottom: $spacing-2;
+  }
+
+  a {
+    display: block;
+    padding: $spacing-3 $spacing-4;
+    text-decoration: none;
+    color: $color-text;
+    border-radius: $radius-md;
+    font-size: $font-size-sm;
+    font-weight: $font-weight-medium;
+    transition: background-color $transition-base;
+
+    &:hover {
+      background-color: $color-bg;
+    }
+
+    &.active {
+      background-color: $color-primary;
+      color: $color-text-inverse;
+    }
+  }
+}
+
+// =============================================================================
+// Main Content
+// =============================================================================
+.main-content {
+  flex: 1;
+  margin-left: $sidebar-width;
+  padding: $spacing-8;
+}
+
+// =============================================================================
+// Page Header
+// =============================================================================
+.page-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: $spacing-8;
+
+  h1 {
+    font-size: $font-size-3xl;
+    font-weight: $font-weight-semibold;
+  }
+}
+
+// =============================================================================
+// Buttons
+// =============================================================================
+.btn {
+  display: inline-block;
+  padding: $spacing-2 $spacing-4;
+  font-size: $font-size-sm;
+  font-weight: $font-weight-medium;
+  text-decoration: none;
+  border-radius: $radius-base;
+  border: 1px solid $color-border;
+  background-color: $color-surface;
+  color: $color-text;
+  cursor: pointer;
+  transition: all $transition-base;
+
+  &:hover {
+    background-color: $color-bg;
+  }
+}
+
+.btn-primary {
+  background-color: $color-primary;
+  border-color: $color-primary;
+  color: $color-primary-text;
+
+  &:hover {
+    background-color: $color-primary-hover;
+    border-color: $color-primary-hover;
+  }
+}
+
+.btn-sm {
+  padding: $spacing-1 $spacing-2;
+  font-size: $font-size-xs;
+}
+
+// =============================================================================
+// Cards & Stats
+// =============================================================================
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: $spacing-6;
+  margin-bottom: $spacing-8;
+}
+
+.stat-card {
+  background-color: $color-surface;
+  border: 1px solid $color-border;
+  border-radius: $radius-md;
+  padding: $spacing-6;
+  box-shadow: $shadow-sm;
+
+  h3 {
+    font-size: $font-size-sm;
+    color: $color-text-muted;
+    font-weight: $font-weight-medium;
+    margin-bottom: $spacing-2;
+  }
+}
+
+.stat-value {
+  font-size: $font-size-4xl;
+  font-weight: $font-weight-semibold;
+  color: $color-text;
+}
+
+// =============================================================================
+// Tables
+// =============================================================================
+table {
+  width: 100%;
+  border-collapse: collapse;
+  background-color: $color-surface;
+  border: 1px solid $color-border;
+  border-radius: $radius-md;
+  overflow: hidden;
+}
+
+th,
+td {
+  padding: $spacing-3 $spacing-4;
+  text-align: left;
+  border-bottom: 1px solid $color-border;
+}
+
+th {
+  background-color: $color-bg;
+  font-weight: $font-weight-semibold;
+  font-size: $font-size-sm;
+  color: $color-text-muted;
+}
+
+tr:last-child td {
+  border-bottom: none;
+}
+
+// =============================================================================
+// Status Badges
+// =============================================================================
+.status-badge {
+  display: inline-block;
+  padding: $spacing-1 $spacing-2;
+  font-size: $font-size-xs;
+  font-weight: $font-weight-medium;
+  border-radius: $radius-full;
+}
+
+.status-draft {
+  background-color: $status-draft-bg;
+  color: $status-draft-text;
+}
+
+.status-sent {
+  background-color: $status-sent-bg;
+  color: $status-sent-text;
+}
+
+.status-paid {
+  background-color: $status-paid-bg;
+  color: $status-paid-text;
+}
+
+.status-overdue {
+  background-color: $status-overdue-bg;
+  color: $status-overdue-text;
+}
+
+.status-cancelled {
+  background-color: $status-cancelled-bg;
+  color: $status-cancelled-text;
+}
+
+// =============================================================================
+// Forms
+// =============================================================================
+.form-group {
+  margin-bottom: $spacing-4;
+
+  label {
+    display: block;
+    font-size: $font-size-sm;
+    font-weight: $font-weight-medium;
+    margin-bottom: $spacing-1;
+    color: $color-text;
+  }
+
+  input,
+  select,
+  textarea {
+    width: 100%;
+    padding: $spacing-2 $spacing-3;
+    font-size: $font-size-sm;
+    font-family: $font-family-base;
+    border: 1px solid $color-border;
+    border-radius: $radius-base;
+    background-color: $color-surface;
+    color: $color-text;
+    transition: border-color $transition-fast, box-shadow $transition-fast;
+
+    &:focus {
+      outline: none;
+      border-color: $color-border-focus;
+      box-shadow: 0 0 0 2px $color-primary-light;
+    }
+
+    &::placeholder {
+      color: $color-text-muted;
+    }
+  }
+}
+
+.form-actions {
+  display: flex;
+  align-items: center;
+  gap: $spacing-4;
+  margin-top: $spacing-8;
+}
+
+// =============================================================================
+// Settings
+// =============================================================================
+.settings-section {
+  background-color: $color-surface;
+  border: 1px solid $color-border;
+  border-radius: $radius-md;
+  padding: $spacing-6;
+  margin-bottom: $spacing-6;
+
+  h2 {
+    font-size: $font-size-lg;
+    font-weight: $font-weight-semibold;
+    margin-bottom: $spacing-4;
+    padding-bottom: $spacing-2;
+    border-bottom: 1px solid $color-border;
+  }
+}
+
+// =============================================================================
+// Empty State
+// =============================================================================
+.empty-state {
+  text-align: center;
+  padding: $spacing-12;
+  background-color: $color-surface;
+  border: 1px solid $color-border;
+  border-radius: $radius-md;
+
+  p {
+    font-size: $font-size-base;
+    margin-bottom: $spacing-2;
+  }
+}
+
+// =============================================================================
+// Utility Classes
+// =============================================================================
+.text-muted {
+  color: $color-text-muted;
+}
+
+.save-success {
+  color: $color-success;
+  font-size: $font-size-sm;
+}
+
+// =============================================================================
+// Responsive
+// =============================================================================
+@media (max-width: $breakpoint-md) {
+  .sidebar {
+    width: 100%;
+    height: auto;
+    position: relative;
+    border-right: none;
+    border-bottom: 1px solid $color-border;
+
+    .logo {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: $spacing-4;
+
+      h1 {
+        margin-bottom: 0;
+      }
+    }
+  }
+
+  .nav-links {
+    display: flex;
+    gap: $spacing-2;
+    flex-wrap: wrap;
+
+    li {
+      margin-bottom: 0;
+    }
+  }
+
+  .app-layout {
+    flex-direction: column;
+  }
+
+  .main-content {
+    margin-left: 0;
+    padding: $spacing-4;
+  }
+
+  .page-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: $spacing-4;
+  }
+
+  .stats-grid {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  table {
+    display: block;
+    overflow-x: auto;
+  }
+}

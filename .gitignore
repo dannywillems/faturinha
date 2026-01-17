@@ -2,9 +2,8 @@
 node_modules/
 
 # Build outputs
-.svelte-kit/
-build/
 dist/
+build/
 
 # Environment
 .env

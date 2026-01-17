@@ -29,7 +29,7 @@ businesses. No server hosting required - users own their data completely.
 
 ```
 +----------------------------------------------------------+
-|                    PWA (SvelteKit)                       |
+|                    PWA (React)                           |
 |  +---------------------------------------------------+   |
 |  |              IndexedDB (local)                    |   |
 |  +---------------------------------------------------+   |
@@ -52,7 +52,7 @@ businesses. No server hosting required - users own their data completely.
 
 | Component | Choice | Rationale |
 |-----------|--------|-----------|
-| Framework | SvelteKit | Fast, small bundle, good PWA support |
+| Framework | React + Vite | Popular ecosystem, good PWA support |
 | Storage | Dexie.js (IndexedDB) | Offline-first, reactive |
 | PDF | jsPDF + html2canvas | Client-side generation |
 | Sync | Dropbox/GDrive SDK | User-controlled, free tier |

@@ -53,7 +53,7 @@ test: ## Run tests
 
 .PHONY: clean
 clean: ## Clean build artifacts
-	rm -rf .svelte-kit build dist node_modules
+	rm -rf dist build node_modules
 
 .PHONY: check-outdated
 check-outdated: ## Check for outdated dependencies
@@ -68,12 +68,11 @@ fix-trailing-whitespace: ## Remove trailing whitespaces from all files
 		-o -name "*.js" -o -name "*.jsx" -o -name "*.sh" \
 		-o -name "*.py" -o -name "*.go" -o -name "*.c" -o -name "*.h" \
 		-o -name "*.cpp" -o -name "*.hpp" -o -name "*.json" \
-		-o -name "*.svelte" \) \
+		-o -name "*.css" \) \
 		-not -path "./node_modules/*" \
 		-not -path "./.git/*" \
-		-not -path "./.svelte-kit/*" \
-		-not -path "./build/*" \
 		-not -path "./dist/*" \
+		-not -path "./build/*" \
 		-exec sh -c \
 			'echo "Processing: $$1"; $(SED) -i -e "s/[[:space:]]*$$//" "$$1"' \
 			_ {} \; && \
@@ -88,12 +87,11 @@ check-trailing-whitespace: ## Check for trailing whitespaces in source files
 		-o -name "*.js" -o -name "*.jsx" -o -name "*.sh" \
 		-o -name "*.py" -o -name "*.go" -o -name "*.c" -o -name "*.h" \
 		-o -name "*.cpp" -o -name "*.hpp" -o -name "*.json" \
-		-o -name "*.svelte" \) \
+		-o -name "*.css" \) \
 		-not -path "./node_modules/*" \
 		-not -path "./.git/*" \
-		-not -path "./.svelte-kit/*" \
-		-not -path "./build/*" \
 		-not -path "./dist/*" \
+		-not -path "./build/*" \
 		-exec grep -l '[[:space:]]$$' {} + 2>/dev/null || true); \
 	if [ -n "$$files_with_trailing_ws" ]; then \
 		echo "Files with trailing whitespaces found:"; \

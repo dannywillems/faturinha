@@ -17,7 +17,7 @@ import './App.scss';
 function App(): ReactElement {
   return (
     <TestModeProvider>
-      <BrowserRouter>
+      <BrowserRouter basename={import.meta.env.BASE_URL}>
         <Routes>
           <Route path="/" element={<Layout />}>
             <Route index element={<Dashboard />} />

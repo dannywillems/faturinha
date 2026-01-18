@@ -84,7 +84,7 @@ test.describe('Invoice Form', () => {
     await expect(page).toHaveURL('/invoices');
 
     // Invoice should appear in the list
-    await expect(page.getByText('Test Client for Invoices')).toBeVisible();
+    await expect(page.getByRole('cell', { name: 'Test Client for Invoices' })).toBeVisible();
   });
 
   test('should create invoice with multiple products', async ({ page }) => {

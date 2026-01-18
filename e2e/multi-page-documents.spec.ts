@@ -195,7 +195,7 @@ test.describe('Multi-Page Documents', () => {
     await expect(page).toHaveURL('/invoices');
 
     // Invoice should appear in the list
-    await expect(page.getByText('Enterprise Solutions Corp')).toBeVisible();
+    await expect(page.getByRole('cell', { name: 'Enterprise Solutions Corp' })).toBeVisible();
 
     // Navigate to view the invoice
     await page.click('a:has-text("View")');
@@ -270,7 +270,7 @@ test.describe('Multi-Page Documents', () => {
     await expect(page).toHaveURL('/invoices');
 
     // Quote should appear in the list
-    await expect(page.getByText('Enterprise Solutions Corp')).toBeVisible();
+    await expect(page.getByRole('cell', { name: 'Enterprise Solutions Corp' })).toBeVisible();
 
     // Navigate to view the quote
     await page.click('a:has-text("View")');

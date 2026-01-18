@@ -102,7 +102,7 @@ export function TestModeProvider({
       // Skip if companies already exist or in test mode
       if (companies.length > 0 || isTestMode) return;
 
-      // Create default company for all users (existing or new)
+      // Create default company for users without existing companies
       const defaultCompany: Company = {
         id: DEFAULT_COMPANY_ID,
         name: 'My Business',
@@ -115,7 +115,7 @@ export function TestModeProvider({
       saveActiveCompanyId(DEFAULT_COMPANY_ID);
     };
 
-    ensureDefaultCompany();
+    void ensureDefaultCompany();
   }, [companies.length, isTestMode]);
 
   // Find active company object

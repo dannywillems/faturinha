@@ -199,7 +199,6 @@ function drawClientAndMeta(
   invoice: Invoice,
   client: Client,
   isQuote: boolean,
-  primaryColor: number[]
 ): void {
   const startY = ctx.y;
   const midX = PAGE_WIDTH / 2;

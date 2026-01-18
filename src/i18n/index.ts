@@ -32,12 +32,18 @@ export const AVAILABLE_LANGUAGES = [
  * Detects the user's browser language and returns the best matching supported language.
  * Falls back to 'en' if no match is found.
  */
-function detectBrowserLanguage(): string {
+export function detectBrowserLanguage(): string {
+  // In SSR or non-browser environments, default to English
+  if (typeof navigator === 'undefined' || !navigator.language) {
+    return 'en';
+  }
+
   // navigator.language is the standard property, userLanguage is legacy IE
   const browserLang =
     navigator.language ||
     (navigator as { userLanguage?: string }).userLanguage ||
     'en';
+  
   const supportedCodes = AVAILABLE_LANGUAGES.map((lang) => lang.code);
 
   // First, try exact match

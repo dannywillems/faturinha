@@ -49,7 +49,8 @@ export function detectBrowserLanguage(): string {
   // Try to match the base language (e.g., 'pt' from 'pt-BR')
   const baseLang = browserLang.split('-')[0];
 
-  // Check for language variants (e.g., if browser is 'pt', prefer 'pt-BR' or 'pt-PT')
+  // Check for language variants (e.g., if browser is 'pt', match to 'pt-BR' or 'pt-PT')
+  // Note: Returns the first variant found in AVAILABLE_LANGUAGES order
   const variantMatch = supportedCodes.find((code) =>
     code.startsWith(baseLang + '-')
   );

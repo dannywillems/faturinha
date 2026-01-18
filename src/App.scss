@@ -582,6 +582,7 @@ td a {
       border: 1px solid var(--color-border);
       border-radius: $radius-sm;
       background-color: var(--color-surface);
+      color: var(--color-text);
       transition:
         border-color 0.15s ease,
         box-shadow 0.15s ease;
@@ -590,6 +591,10 @@ td a {
         outline: none;
         border-color: var(--color-primary);
         box-shadow: 0 0 0 2px var(--color-primary-light);
+      }
+
+      &::placeholder {
+        color: var(--color-text-muted);
       }
     }
 
@@ -1288,6 +1293,10 @@ td a {
     text-transform: uppercase;
     letter-spacing: 0.05em;
     color: var(--color-text-muted);
+  }
+
+  td {
+    color: var(--color-text);
   }
 
   .col-description {

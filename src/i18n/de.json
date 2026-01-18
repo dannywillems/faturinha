@@ -197,5 +197,29 @@
     "reset": "Testdaten Zurucksetzen",
     "resetConfirm": "Alle Testdaten auf den ursprunglichen Demo-Zustand zurucksetzen?",
     "resetSuccess": "Testdaten wurden zuruckgesetzt"
+  },
+  "filters": {
+    "show": "Filter anzeigen",
+    "hide": "Filter ausblenden",
+    "clear": "Filter loschen",
+    "noResults": "Keine Ergebnisse gefunden",
+    "documentType": "Typ",
+    "status": {
+      "label": "Status"
+    },
+    "client": {
+      "label": "Kunde",
+      "all": "Alle Kunden"
+    },
+    "dateRange": {
+      "label": "Datumsbereich",
+      "from": "Von",
+      "to": "Bis"
+    }
+  },
+  "sorting": {
+    "label": "Sortieren nach",
+    "ascending": "Aufsteigend",
+    "descending": "Absteigend"
   }
 }

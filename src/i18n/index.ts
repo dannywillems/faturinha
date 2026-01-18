@@ -28,9 +28,46 @@ export const AVAILABLE_LANGUAGES = [
   { code: 'de', name: 'Deutsch' },
 ];
 
+/**
+ * Detects the user's browser language and returns the best matching supported language.
+ * Falls back to 'en' if no match is found.
+ */
+function detectBrowserLanguage(): string {
+  // navigator.language is the standard property, userLanguage is legacy IE
+  const browserLang =
+    navigator.language ||
+    (navigator as { userLanguage?: string }).userLanguage ||
+    'en';
+  const supportedCodes = AVAILABLE_LANGUAGES.map((lang) => lang.code);
+
+  // First, try exact match
+  if (supportedCodes.includes(browserLang)) {
+    return browserLang;
+  }
+
+  // Try to match the base language (e.g., 'pt' from 'pt-BR')
+  const baseLang = browserLang.split('-')[0];
+
+  // Check for language variants (e.g., if browser is 'pt', prefer 'pt-BR' or 'pt-PT')
+  const variantMatch = supportedCodes.find((code) =>
+    code.startsWith(baseLang + '-')
+  );
+  if (variantMatch) {
+    return variantMatch;
+  }
+
+  // Check if base language is supported
+  if (supportedCodes.includes(baseLang)) {
+    return baseLang;
+  }
+
+  // Default to English
+  return 'en';
+}
+
 i18n.use(initReactI18next).init({
   resources,
-  lng: 'en',
+  lng: detectBrowserLanguage(),
   fallbackLng: 'en',
   interpolation: {
     escapeValue: false,

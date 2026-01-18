@@ -430,9 +430,6 @@ function drawTotals(ctx: PDFContext, invoice: Invoice): void {
   const labelX = PAGE_WIDTH - MARGIN - totalsWidth;
   const valueX = PAGE_WIDTH - MARGIN;
 
-  // Add extra top margin before totals section for visual separation
-  ctx.y += SECTION_GAP * 2;
-
   checkPageBreak(ctx, 30);
 
   ctx.pdf.setFont('helvetica', 'normal');
@@ -467,7 +464,8 @@ function drawTotals(ctx: PDFContext, invoice: Invoice): void {
   ctx.pdf.setLineWidth(0.5);
   ctx.pdf.line(labelX, ctx.y - 1, valueX, ctx.y - 1);
 
-  ctx.y += 3;
+  ctx.y += SECTION_GAP;
+
   ctx.pdf.setFont('helvetica', 'bold');
   ctx.pdf.setFontSize(FONT_SIZE_HEADING);
   setColor(ctx.pdf, COLOR_TEXT);

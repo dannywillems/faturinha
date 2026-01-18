@@ -7,6 +7,7 @@ import { useTestMode, useDb, useCompany } from '../contexts/TestModeContext';
 import { DEFAULT_SETTINGS } from '../types';
 import type { DarkMode } from '../types';
 import { generateHoverColor, generateLightColor } from '../utils/themePresets';
+import { Footer } from './Footer';
 
 export function Layout(): ReactElement {
   const { t, i18n } = useTranslation();
@@ -166,6 +167,7 @@ export function Layout(): ReactElement {
       <main className="main-content">
         <Outlet />
       </main>
+      <Footer />
     </div>
   );
 }

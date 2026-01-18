@@ -225,5 +225,12 @@
     "label": "Sort By",
     "ascending": "Ascending",
     "descending": "Descending"
+  },
+  "footer": {
+    "commitHash": "Commit hash",
+    "whatsNew": "What's New"
+  },
+  "whatsNew": {
+    "title": "What's New"
   }
 }

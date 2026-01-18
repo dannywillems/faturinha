@@ -225,5 +225,12 @@
     "label": "Trier par",
     "ascending": "Croissant",
     "descending": "Decroissant"
+  },
+  "footer": {
+    "commitHash": "Hash du commit",
+    "whatsNew": "Nouveautés"
+  },
+  "whatsNew": {
+    "title": "Nouveautés"
   }
 }

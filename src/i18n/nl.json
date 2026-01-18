@@ -225,5 +225,12 @@
     "label": "Sorteren op",
     "ascending": "Oplopend",
     "descending": "Aflopend"
+  },
+  "footer": {
+    "commitHash": "Commit hash",
+    "whatsNew": "Wat is nieuw"
+  },
+  "whatsNew": {
+    "title": "Wat is nieuw"
   }
 }

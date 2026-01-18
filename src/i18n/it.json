@@ -225,5 +225,12 @@
     "label": "Ordina per",
     "ascending": "Crescente",
     "descending": "Decrescente"
+  },
+  "footer": {
+    "commitHash": "Hash del commit",
+    "whatsNew": "Novità"
+  },
+  "whatsNew": {
+    "title": "Novità"
   }
 }

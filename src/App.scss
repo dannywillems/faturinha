@@ -2039,3 +2039,175 @@ td a {
   background-color: var(--color-warning-bg);
   color: var(--color-warning-text);
 }
+
+// =============================================================================
+// Footer
+// =============================================================================
+.app-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: $spacing-3 $spacing-6;
+  background-color: var(--color-surface);
+  border-top: 1px solid var(--color-border);
+  font-size: $font-size-xs;
+  color: var(--color-text-muted);
+  grid-column: 1 / -1;
+
+  .footer-left {
+    display: flex;
+    align-items: center;
+    gap: $spacing-4;
+  }
+
+  .footer-right {
+    display: flex;
+    align-items: center;
+    gap: $spacing-4;
+  }
+
+  .version-info {
+    font-family: $font-family-mono;
+  }
+
+  .commit-hash {
+    margin-left: $spacing-1;
+    opacity: 0.7;
+  }
+
+  .whats-new-link {
+    background: none;
+    border: none;
+    color: var(--color-primary);
+    cursor: pointer;
+    font-size: $font-size-xs;
+    padding: 0;
+    text-decoration: underline;
+
+    &:hover {
+      color: var(--color-primary-hover);
+    }
+  }
+}
+
+// =============================================================================
+// Modal
+// =============================================================================
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  padding: $spacing-4;
+}
+
+.modal {
+  background-color: var(--color-surface);
+  border-radius: $radius-lg;
+  box-shadow: $shadow-xl;
+  max-width: 600px;
+  width: 100%;
+  max-height: 80vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: $spacing-4 $spacing-6;
+  border-bottom: 1px solid var(--color-border);
+
+  h2 {
+    margin: 0;
+    font-size: $font-size-lg;
+    font-weight: $font-weight-semibold;
+    color: var(--color-text);
+  }
+
+  .modal-close {
+    background: none;
+    border: none;
+    font-size: $font-size-2xl;
+    color: var(--color-text-muted);
+    cursor: pointer;
+    padding: 0;
+    line-height: 1;
+
+    &:hover {
+      color: var(--color-text);
+    }
+  }
+}
+
+.modal-body {
+  padding: $spacing-6;
+  overflow-y: auto;
+}
+
+// =============================================================================
+// What's New Modal
+// =============================================================================
+.whats-new-modal {
+  .releases-list {
+    display: flex;
+    flex-direction: column;
+    gap: $spacing-6;
+  }
+
+  .release-item {
+    &:not(:last-child) {
+      padding-bottom: $spacing-6;
+      border-bottom: 1px solid var(--color-border);
+    }
+  }
+
+  .release-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    margin-bottom: $spacing-3;
+    flex-wrap: wrap;
+    gap: $spacing-2;
+  }
+
+  .release-title {
+    margin: 0;
+    font-size: $font-size-base;
+    font-weight: $font-weight-semibold;
+    color: var(--color-text);
+  }
+
+  .release-version {
+    margin-left: $spacing-2;
+    font-size: $font-size-sm;
+    font-weight: $font-weight-normal;
+    color: var(--color-primary);
+  }
+
+  .release-date {
+    font-size: $font-size-sm;
+    color: var(--color-text-muted);
+  }
+
+  .release-changes {
+    margin: 0;
+    padding-left: $spacing-5;
+    color: var(--color-text-secondary);
+
+    li {
+      margin-bottom: $spacing-2;
+
+      &:last-child {
+        margin-bottom: 0;
+      }
+    }
+  }
+}

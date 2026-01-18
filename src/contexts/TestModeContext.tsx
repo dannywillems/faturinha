@@ -9,7 +9,14 @@ import {
   type ReactElement,
 } from 'react';
 import { createDatabase, type AppDatabase } from '../db';
-import { seedTestData } from '../db/seedTestData';
+import {
+  seedTestData,
+  seedSecondCompanyTestData,
+  seedTestCompanies,
+  testCompanies,
+  TEST_COMPANY_1_ID,
+  TEST_COMPANY_2_ID,
+} from '../db/seedTestData';
 import type { Company } from '../types';
 
 interface TestModeContextType {
@@ -141,19 +148,31 @@ export function TestModeProvider({
 
   const enterTestMode = useCallback(async (): Promise<void> => {
     localStorage.setItem(TEST_MODE_KEY, 'true');
+
+    // Seed test companies in localStorage
+    seedTestCompanies();
+    setCompanies(testCompanies);
+    setActiveCompanyId(TEST_COMPANY_1_ID);
+
     setIsTestMode(true);
 
-    // Seed test data if entering test mode for the first time
-    const testDbName =
-      !activeCompanyId || activeCompanyId === DEFAULT_COMPANY_ID
-        ? 'FaturinhaTestDB'
-        : `FaturinhaTestDB-${activeCompanyId}`;
-    const testDb = createDatabase(testDbName);
-    const settingsCount = await testDb.settings.count();
-    if (settingsCount === 0) {
-      await seedTestData(testDb);
+    // Seed first company's test database
+    const testDb1 = createDatabase(`FaturinhaTestDB-${TEST_COMPANY_1_ID}`);
+    const settings1Count = await testDb1.settings.count();
+    if (settings1Count === 0) {
+      await seedTestData(testDb1);
     }
-  }, [activeCompanyId]);
+
+    // Seed second company's test database
+    const testDb2 = createDatabase(`FaturinhaTestDB-${TEST_COMPANY_2_ID}`);
+    const settings2Count = await testDb2.settings.count();
+    if (settings2Count === 0) {
+      await seedSecondCompanyTestData(testDb2);
+    }
+
+    // Force db recreation
+    setDbVersion((v) => v + 1);
+  }, []);
 
   const exitTestMode = useCallback((): void => {
     localStorage.removeItem(TEST_MODE_KEY);
@@ -163,23 +182,30 @@ export function TestModeProvider({
   const resetTestData = useCallback(async (): Promise<void> => {
     if (!isTestMode) return;
 
-    // Clear all test data
-    const testDbName =
-      !activeCompanyId || activeCompanyId === DEFAULT_COMPANY_ID
-        ? 'FaturinhaTestDB'
-        : `FaturinhaTestDB-${activeCompanyId}`;
-    const testDb = createDatabase(testDbName);
-    await testDb.invoices.clear();
-    await testDb.clients.clear();
-    await testDb.ledgers.clear();
-    await testDb.settings.clear();
+    // Reset test companies in localStorage
+    seedTestCompanies();
+    setCompanies(testCompanies);
+    setActiveCompanyId(TEST_COMPANY_1_ID);
 
-    // Re-seed with fresh test data
-    await seedTestData(testDb);
+    // Clear and re-seed first company's test data
+    const testDb1 = createDatabase(`FaturinhaTestDB-${TEST_COMPANY_1_ID}`);
+    await testDb1.invoices.clear();
+    await testDb1.clients.clear();
+    await testDb1.ledgers.clear();
+    await testDb1.settings.clear();
+    await seedTestData(testDb1);
+
+    // Clear and re-seed second company's test data
+    const testDb2 = createDatabase(`FaturinhaTestDB-${TEST_COMPANY_2_ID}`);
+    await testDb2.invoices.clear();
+    await testDb2.clients.clear();
+    await testDb2.ledgers.clear();
+    await testDb2.settings.clear();
+    await seedSecondCompanyTestData(testDb2);
 
     // Force re-render by incrementing db version
     setDbVersion((v) => v + 1);
-  }, [isTestMode, activeCompanyId]);
+  }, [isTestMode]);
 
   // Company management functions
   const createCompany = useCallback(

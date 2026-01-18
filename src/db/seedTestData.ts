@@ -1,5 +1,29 @@
 import type { AppDatabase } from './index';
-import type { Client, Invoice, Settings } from '../types';
+import type { Client, Invoice, Settings, Company } from '../types';
+
+// Test company IDs
+export const TEST_COMPANY_1_ID = 'test-company-1';
+export const TEST_COMPANY_2_ID = 'test-company-2';
+
+// Test companies for multi-company testing
+export const testCompanies: Company[] = [
+  {
+    id: TEST_COMPANY_1_ID,
+    name: 'Demo Freelancer',
+    createdAt: new Date('2024-01-01'),
+  },
+  {
+    id: TEST_COMPANY_2_ID,
+    name: 'Second Business',
+    createdAt: new Date('2024-01-15'),
+  },
+];
+
+// Seed test companies into localStorage
+export function seedTestCompanies(): void {
+  localStorage.setItem('faturinha-companies', JSON.stringify(testCompanies));
+  localStorage.setItem('faturinha-active-company', TEST_COMPANY_1_ID);
+}
 
 // Sample clients for demo mode
 const sampleClients: Omit<Client, 'id'>[] = [
@@ -418,6 +442,150 @@ export async function seedTestData(db: AppDatabase): Promise<void> {
       notes: 'Design project proposal - awaiting client feedback',
       createdAt: now,
       updatedAt: now,
+    },
+  ];
+
+  // Add all invoices
+  for (const invoice of sampleInvoices) {
+    await db.invoices.add(invoice as Invoice);
+  }
+}
+
+// Second company's sample data (different from first company)
+const secondCompanyClients: Omit<Client, 'id'>[] = [
+  {
+    name: 'Alpha Industries',
+    email: 'contact@alpha.example.com',
+    phone: '+1 555-1000',
+    address: {
+      street: '999 Alpha Street',
+      city: 'New York',
+      state: 'NY',
+      postalCode: '10001',
+      country: 'USA',
+    },
+    vatNumber: 'US999888777',
+    notes: 'Second company client',
+    createdAt: new Date('2024-02-01'),
+    updatedAt: new Date('2024-02-01'),
+  },
+  {
+    name: 'Beta Services',
+    email: 'hello@beta.example.com',
+    phone: '+1 555-2000',
+    address: {
+      street: '888 Beta Ave',
+      city: 'Los Angeles',
+      state: 'CA',
+      postalCode: '90001',
+      country: 'USA',
+    },
+    createdAt: new Date('2024-02-15'),
+    updatedAt: new Date('2024-02-15'),
+  },
+];
+
+const secondCompanySettings: Omit<Settings, 'id'> = {
+  businessName: 'Second Business LLC',
+  businessEmail: 'info@secondbusiness.example.com',
+  businessPhone: '+1 555-SECOND',
+  businessAddress: {
+    street: '200 Second Street',
+    city: 'Second City',
+    state: 'SC',
+    postalCode: '22222',
+    country: 'USA',
+  },
+  businessVatNumber: 'SECOND123',
+  defaultCurrency: 'USD',
+  defaultTaxRate: 10,
+  invoiceNumberPrefix: 'SB-',
+  invoiceNumberNextValue: 1,
+  defaultPaymentTermsDays: 15,
+  defaultNotes: 'Thank you from Second Business!',
+  quoteNumberPrefix: 'SB-QUO-',
+  quoteNumberNextValue: 1,
+  defaultQuoteValidityDays: 14,
+  locale: 'en',
+};
+
+// Seed data for the second test company
+export async function seedSecondCompanyTestData(
+  db: AppDatabase
+): Promise<void> {
+  const now = new Date();
+  const currentYear = now.getFullYear();
+
+  // Add settings
+  await db.settings.add(secondCompanySettings as Settings);
+
+  // Add clients and store their IDs
+  const clientIds: number[] = [];
+  for (const client of secondCompanyClients) {
+    const id = (await db.clients.add(client as Client)) as number;
+    clientIds.push(id);
+  }
+
+  // Create invoice ledger for second company
+  const usdInvLedgerId = (await db.ledgers.add({
+    documentType: 'invoice',
+    currency: 'USD',
+    year: currentYear,
+    prefix: `SB-USD-${currentYear}-`,
+    nextValue: 3,
+    createdAt: now,
+  })) as number;
+
+  // Sample invoices for second company
+  const sampleInvoices: Omit<Invoice, 'id'>[] = [
+    {
+      documentType: 'invoice',
+      invoiceNumber: `SB-USD-${currentYear}-0001`,
+      ledgerId: usdInvLedgerId,
+      clientId: clientIds[0],
+      items: [
+        {
+          id: 'item1',
+          description: 'Alpha Project Work',
+          quantity: 10,
+          unitPrice: 100,
+          taxRate: 10,
+        },
+      ],
+      currency: 'USD',
+      status: 'paid',
+      issueDate: new Date(currentYear, 0, 20),
+      dueDate: new Date(currentYear, 1, 4),
+      paidDate: new Date(currentYear, 1, 1),
+      subtotal: 1000,
+      taxTotal: 100,
+      total: 1100,
+      createdAt: new Date(currentYear, 0, 20),
+      updatedAt: new Date(currentYear, 1, 1),
+    },
+    {
+      documentType: 'invoice',
+      invoiceNumber: `SB-USD-${currentYear}-0002`,
+      ledgerId: usdInvLedgerId,
+      clientId: clientIds[1],
+      items: [
+        {
+          id: 'item1',
+          description: 'Beta Consulting',
+          quantity: 5,
+          unitPrice: 200,
+          taxRate: 10,
+        },
+      ],
+      currency: 'USD',
+      status: 'sent',
+      issueDate: new Date(currentYear, 1, 15),
+      dueDate: new Date(currentYear, 2, 1),
+      subtotal: 1000,
+      taxTotal: 100,
+      total: 1100,
+      createdAt: new Date(currentYear, 1, 15),
+      updatedAt: new Date(currentYear, 1, 15),
     },
   ];
 

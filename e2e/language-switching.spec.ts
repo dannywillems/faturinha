@@ -144,18 +144,29 @@ test.describe('Language Switching', () => {
   });
 
   test('should be able to switch back to English', async ({ page }) => {
-    // Get all selects on settings page - language is one of them
-    const languageSelect = page.locator('.settings-section select').nth(1);
+    // Get the language selector from the Language section
+    const languageSelect = page
+      .locator('.settings-section')
+      .filter({ hasText: 'Language' })
+      .locator('select');
 
     // Switch to German first
     await languageSelect.selectOption('de');
     await page.waitForTimeout(100);
 
-    // Verify it switched to German
-    await expect(page.locator('.main-content h1')).toContainText('Einstellungen');
+    // Verify it switched to German - need to re-locate the select after language change
+    await expect(
+      page.locator('.main-content h1')
+    ).toContainText('Einstellungen');
+
+    // Re-locate the language select (section title changed to "Sprache")
+    const languageSelectGerman = page
+      .locator('.settings-section')
+      .filter({ hasText: 'Sprache' })
+      .locator('select');
 
     // Then switch back to English
-    await languageSelect.selectOption('en');
+    await languageSelectGerman.selectOption('en');
     await page.waitForTimeout(100);
 
     // Check that the page is in English

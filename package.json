@@ -1,7 +1,7 @@
 {
   "name": "faturinha",
   "private": true,
-  "version": "0.1.0",
+  "version": "0.1.1",
   "type": "module",
   "description": "Simple browser-only invoicing system for small businesses",
   "scripts": {

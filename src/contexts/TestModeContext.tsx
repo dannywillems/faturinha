@@ -98,19 +98,11 @@ export function TestModeProvider({
   // Migration: check if user has existing data and create default company
   // Also create default company for new users
   useEffect(() => {
-    const migrateExistingData = async (): Promise<void> => {
+    const ensureDefaultCompany = async (): Promise<void> => {
       // Skip if companies already exist or in test mode
       if (companies.length > 0 || isTestMode) return;
 
-      // Check if old database exists with data
-      const oldDb = createDatabase('FaturinhaDB');
-      const [clientsCount, invoicesCount, settingsCount] = await Promise.all([
-        oldDb.clients.count(),
-        oldDb.invoices.count(),
-        oldDb.settings.count(),
-      ]);
-
-      // Create default company for existing data OR for new users
+      // Create default company for all users (existing or new)
       const defaultCompany: Company = {
         id: DEFAULT_COMPANY_ID,
         name: 'My Business',
@@ -123,7 +115,7 @@ export function TestModeProvider({
       saveActiveCompanyId(DEFAULT_COMPANY_ID);
     };
 
-    migrateExistingData();
+    ensureDefaultCompany();
   }, [companies.length, isTestMode]);
 
   // Find active company object

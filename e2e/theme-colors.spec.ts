@@ -131,3 +131,129 @@ test.describe('Theme Color Customization', () => {
     expect(b).toBeLessThanOrEqual(14);
   });
 });
+
+test.describe('Dark Mode', () => {
+  test.beforeEach(async ({ page }) => {
+    await page.goto('/settings');
+  });
+
+  test('should display dark mode toggle with three options', async ({ page }) => {
+    const darkModeToggle = page.locator('.dark-mode-toggle');
+    await expect(darkModeToggle).toBeVisible();
+
+    // Check all three options exist (labels are visible)
+    await expect(darkModeToggle.getByText('Light')).toBeVisible();
+    await expect(darkModeToggle.getByText('Dark')).toBeVisible();
+    await expect(darkModeToggle.getByText('System')).toBeVisible();
+  });
+
+  test('should have system as default selection', async ({ page }) => {
+    const systemOption = page.locator('.dark-mode-toggle input[value="system"]');
+    await expect(systemOption).toBeChecked();
+  });
+
+  test('should switch to dark mode when dark option is selected', async ({ page }) => {
+    // Click on the Dark label text
+    await page.locator('.dark-mode-toggle').getByText('Dark').click();
+    await page.waitForTimeout(100);
+
+    // Check that data-theme attribute is set to dark
+    const theme = await page.evaluate(() => {
+      return document.documentElement.getAttribute('data-theme');
+    });
+    expect(theme).toBe('dark');
+  });
+
+  test('should switch to light mode when light option is selected', async ({ page }) => {
+    // First switch to dark mode
+    await page.locator('.dark-mode-toggle').getByText('Dark').click();
+    await page.waitForTimeout(100);
+
+    // Then switch to light mode
+    await page.locator('.dark-mode-toggle').getByText('Light').click();
+    await page.waitForTimeout(100);
+
+    // Check that data-theme attribute is set to light
+    const theme = await page.evaluate(() => {
+      return document.documentElement.getAttribute('data-theme');
+    });
+    expect(theme).toBe('light');
+  });
+
+  test('should apply dark background color in dark mode', async ({ page }) => {
+    await page.locator('.dark-mode-toggle').getByText('Dark').click();
+    await page.waitForTimeout(100);
+
+    // Check the background color CSS variable
+    const bgColor = await page.evaluate(() => {
+      return getComputedStyle(document.documentElement)
+        .getPropertyValue('--color-bg')
+        .trim();
+    });
+
+    // Dark mode background should be a dark color (#111827)
+    expect(bgColor).toBe('#111827');
+  });
+
+  test('should apply light text color in dark mode', async ({ page }) => {
+    await page.locator('.dark-mode-toggle').getByText('Dark').click();
+    await page.waitForTimeout(100);
+
+    // Check the text color CSS variable
+    const textColor = await page.evaluate(() => {
+      return getComputedStyle(document.documentElement)
+        .getPropertyValue('--color-text')
+        .trim();
+    });
+
+    // Dark mode text should be a light color (#f3f4f6)
+    expect(textColor).toBe('#f3f4f6');
+  });
+
+  test('should persist dark mode preference after navigation', async ({ page }) => {
+    // Switch to dark mode
+    await page.locator('.dark-mode-toggle').getByText('Dark').click();
+    await page.waitForTimeout(100);
+
+    // Navigate to dashboard
+    await page.goto('/');
+    await page.waitForTimeout(100);
+
+    // Check that dark mode is still applied
+    const theme = await page.evaluate(() => {
+      return document.documentElement.getAttribute('data-theme');
+    });
+    expect(theme).toBe('dark');
+  });
+
+  test('should persist dark mode preference after page reload', async ({ page }) => {
+    // Switch to dark mode
+    await page.locator('.dark-mode-toggle').getByText('Dark').click();
+    await page.waitForTimeout(100);
+
+    // Reload the page
+    await page.reload();
+    await page.waitForTimeout(200);
+
+    // Check that dark mode is still applied
+    const theme = await page.evaluate(() => {
+      return document.documentElement.getAttribute('data-theme');
+    });
+    expect(theme).toBe('dark');
+  });
+
+  test('should apply dark surface color in dark mode', async ({ page }) => {
+    await page.locator('.dark-mode-toggle').getByText('Dark').click();
+    await page.waitForTimeout(100);
+
+    // Check the surface color CSS variable
+    const surfaceColor = await page.evaluate(() => {
+      return getComputedStyle(document.documentElement)
+        .getPropertyValue('--color-surface')
+        .trim();
+    });
+
+    // Dark mode surface should be a dark color (#1f2937)
+    expect(surfaceColor).toBe('#1f2937');
+  });
+});

@@ -157,7 +157,11 @@
     "theme": {
       "title": "Thema",
       "primaryColor": "Primaire Kleur",
-      "customColor": "Aangepast"
+      "customColor": "Aangepast",
+      "darkMode": "Weergave",
+      "light": "Licht",
+      "dark": "Donker",
+      "system": "Systeem"
     }
   },
   "share": {

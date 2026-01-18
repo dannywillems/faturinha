@@ -157,7 +157,11 @@
     "theme": {
       "title": "Design",
       "primaryColor": "Primarfarbe",
-      "customColor": "Benutzerdefiniert"
+      "customColor": "Benutzerdefiniert",
+      "darkMode": "Erscheinungsbild",
+      "light": "Hell",
+      "dark": "Dunkel",
+      "system": "System"
     }
   },
   "share": {

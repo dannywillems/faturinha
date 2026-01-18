@@ -12,24 +12,70 @@
   --color-primary: #{$color-primary};
   --color-primary-hover: #{$color-primary-hover};
   --color-primary-light: #{$color-primary-light};
-  --color-text: #{$color-text};
-  --color-text-secondary: #{$color-text-secondary};
-  --color-text-muted: #{$color-text-muted};
-  --color-bg: #{$color-bg};
-  --color-surface: #{$color-surface};
-  --color-border: #{$color-border};
+  --color-text: #1f2937;
+  --color-text-secondary: #4b5563;
+  --color-text-muted: #6b7280;
+  --color-text-inverse: #ffffff;
+  --color-bg: #f9fafb;
+  --color-bg-secondary: #f3f4f6;
+  --color-surface: #ffffff;
+  --color-surface-elevated: #ffffff;
+  --color-border: #e5e7eb;
+  --color-border-light: #f3f4f6;
   --color-success: #{$color-success};
+  --color-success-bg: #d1fae5;
+  --color-success-text: #059669;
   --color-warning: #{$color-warning};
+  --color-warning-bg: #fef3c7;
+  --color-warning-text: #b45309;
   --color-error: #{$color-error};
+  --color-error-bg: #fee2e2;
+  --color-error-text: #dc2626;
+  --color-info-bg: #dbeafe;
+  --color-info-text: #1d4ed8;
+  --color-gray-100: #f3f4f6;
+  --color-gray-200: #e5e7eb;
+  --color-gray-400: #9ca3af;
+  --color-gray-500: #6b7280;
   --sidebar-width: #{$sidebar-width};
+
+  // Theme transition
+  --theme-transition: background-color 0.2s ease, color 0.2s ease, border-color 0.2s ease;
+}
+
+// Dark mode theme
+[data-theme="dark"] {
+  --color-text: #f3f4f6;
+  --color-text-secondary: #d1d5db;
+  --color-text-muted: #9ca3af;
+  --color-text-inverse: #111827;
+  --color-bg: #111827;
+  --color-bg-secondary: #1f2937;
+  --color-surface: #1f2937;
+  --color-surface-elevated: #374151;
+  --color-border: #374151;
+  --color-border-light: #4b5563;
+  --color-success-bg: rgba(16, 185, 129, 0.2);
+  --color-success-text: #34d399;
+  --color-warning-bg: rgba(245, 158, 11, 0.2);
+  --color-warning-text: #fbbf24;
+  --color-error-bg: rgba(239, 68, 68, 0.2);
+  --color-error-text: #f87171;
+  --color-info-bg: rgba(59, 130, 246, 0.2);
+  --color-info-text: #60a5fa;
+  --color-gray-100: #374151;
+  --color-gray-200: #4b5563;
+  --color-gray-400: #9ca3af;
+  --color-gray-500: #6b7280;
 }
 
 body {
   font-family: $font-family-base;
   font-size: $font-size-base;
-  color: $color-text;
-  background-color: $color-bg;
+  color: var(--color-text);
+  background-color: var(--color-bg);
   line-height: $line-height-base;
+  transition: var(--theme-transition);
 }
 
 // =============================================================================
@@ -113,8 +159,8 @@ body {
 // =============================================================================
 .sidebar {
   width: $sidebar-width;
-  background-color: $color-surface;
-  border-right: 1px solid $color-border;
+  background-color: var(--color-surface);
+  border-right: 1px solid var(--color-border);
   padding: $spacing-6;
   position: fixed;
   height: 100vh;
@@ -143,7 +189,7 @@ body {
 .sidebar-footer {
   margin-top: auto;
   padding-top: $spacing-4;
-  border-top: 1px solid $color-border;
+  border-top: 1px solid var(--color-border);
 }
 
 // =============================================================================
@@ -152,17 +198,17 @@ body {
 .company-switcher {
   margin-bottom: $spacing-4;
   padding-bottom: $spacing-4;
-  border-bottom: 1px solid $color-border;
+  border-bottom: 1px solid var(--color-border);
 
   .company-select {
     width: 100%;
     padding: $spacing-2 $spacing-3;
     font-size: $font-size-sm;
     font-weight: $font-weight-medium;
-    border: 1px solid $color-border;
+    border: 1px solid var(--color-border);
     border-radius: $radius-base;
-    background-color: $color-surface;
-    color: $color-text;
+    background-color: var(--color-surface);
+    color: var(--color-text);
     cursor: pointer;
     transition:
       border-color $transition-fast,
@@ -183,13 +229,13 @@ body {
 .btn-test-mode {
   width: 100%;
   background-color: transparent;
-  border: 1px dashed $color-border;
-  color: $color-text-muted;
+  border: 1px dashed var(--color-border);
+  color: var(--color-text-muted);
 
   &:hover {
-    background-color: $color-bg;
+    background-color: var(--color-bg);
     border-style: solid;
-    color: $color-text;
+    color: var(--color-text);
   }
 }
 
@@ -204,19 +250,19 @@ body {
     display: block;
     padding: $spacing-3 $spacing-4;
     text-decoration: none;
-    color: $color-text;
+    color: var(--color-text);
     border-radius: $radius-md;
     font-size: $font-size-sm;
     font-weight: $font-weight-medium;
     transition: background-color $transition-base;
 
     &:hover {
-      background-color: $color-bg;
+      background-color: var(--color-bg);
     }
 
     &.active {
       background-color: var(--color-primary);
-      color: $color-text-inverse;
+      color: var(--color-text-inverse);
     }
   }
 }
@@ -255,14 +301,14 @@ body {
   font-weight: $font-weight-medium;
   text-decoration: none;
   border-radius: $radius-base;
-  border: 1px solid $color-border;
-  background-color: $color-surface;
-  color: $color-text;
+  border: 1px solid var(--color-border);
+  background-color: var(--color-surface);
+  color: var(--color-text);
   cursor: pointer;
   transition: all $transition-base;
 
   &:hover {
-    background-color: $color-bg;
+    background-color: var(--color-bg);
   }
 }
 
@@ -293,15 +339,15 @@ body {
 }
 
 .stat-card {
-  background-color: $color-surface;
-  border: 1px solid $color-border;
+  background-color: var(--color-surface);
+  border: 1px solid var(--color-border);
   border-radius: $radius-md;
   padding: $spacing-6;
   box-shadow: $shadow-sm;
 
   h3 {
     font-size: $font-size-sm;
-    color: $color-text-muted;
+    color: var(--color-text-muted);
     font-weight: $font-weight-medium;
     margin-bottom: $spacing-2;
   }
@@ -310,7 +356,7 @@ body {
 .stat-value {
   font-size: $font-size-4xl;
   font-weight: $font-weight-semibold;
-  color: $color-text;
+  color: var(--color-text);
 }
 
 // =============================================================================
@@ -319,8 +365,8 @@ body {
 table {
   width: 100%;
   border-collapse: collapse;
-  background-color: $color-surface;
-  border: 1px solid $color-border;
+  background-color: var(--color-surface);
+  border: 1px solid var(--color-border);
   border-radius: $radius-md;
   overflow: hidden;
 }
@@ -329,14 +375,14 @@ th,
 td {
   padding: $spacing-3 $spacing-4;
   text-align: left;
-  border-bottom: 1px solid $color-border;
+  border-bottom: 1px solid var(--color-border);
 }
 
 th {
-  background-color: $color-bg;
+  background-color: var(--color-bg);
   font-weight: $font-weight-semibold;
   font-size: $font-size-sm;
-  color: $color-text-muted;
+  color: var(--color-text-muted);
 }
 
 tr:last-child td {
@@ -405,7 +451,7 @@ td a {
     font-size: $font-size-sm;
     font-weight: $font-weight-medium;
     margin-bottom: $spacing-1;
-    color: $color-text;
+    color: var(--color-text);
   }
 
   input,
@@ -415,10 +461,10 @@ td a {
     padding: $spacing-2 $spacing-3;
     font-size: $font-size-sm;
     font-family: $font-family-base;
-    border: 1px solid $color-border;
+    border: 1px solid var(--color-border);
     border-radius: $radius-base;
-    background-color: $color-surface;
-    color: $color-text;
+    background-color: var(--color-surface);
+    color: var(--color-text);
     transition:
       border-color $transition-fast,
       box-shadow $transition-fast;
@@ -430,7 +476,7 @@ td a {
     }
 
     &::placeholder {
-      color: $color-text-muted;
+      color: var(--color-text-muted);
     }
   }
 }
@@ -469,12 +515,12 @@ td a {
 
   .items-table {
     margin-bottom: $spacing-4;
-    border: 1px solid $color-border;
+    border: 1px solid var(--color-border);
     border-radius: $radius-md;
     overflow: hidden;
 
     th {
-      background-color: color.adjust($color-bg, $lightness: -2%);
+      background-color: var(--color-bg-secondary);
       font-size: $font-size-xs;
       font-weight: $font-weight-semibold;
       text-transform: uppercase;
@@ -492,11 +538,11 @@ td a {
       transition: background-color 0.15s ease;
 
       &:nth-child(even) {
-        background-color: color.adjust($color-bg, $lightness: -1%);
+        background-color: var(--color-bg-secondary);
       }
 
       &:hover {
-        background-color: color.adjust($color-primary-light, $alpha: -0.9);
+        background-color: var(--color-primary-light);
       }
     }
 
@@ -533,9 +579,9 @@ td a {
       width: 100%;
       padding: $spacing-2;
       font-size: $font-size-sm;
-      border: 1px solid $color-border;
+      border: 1px solid var(--color-border);
       border-radius: $radius-sm;
-      background-color: $color-surface;
+      background-color: var(--color-surface);
       transition:
         border-color 0.15s ease,
         box-shadow 0.15s ease;
@@ -554,7 +600,7 @@ td a {
 
   .item-total {
     font-weight: $font-weight-semibold;
-    color: $color-text;
+    color: var(--color-text);
     white-space: nowrap;
   }
 
@@ -565,10 +611,10 @@ td a {
 
     .input-addon {
       padding: $spacing-2;
-      background-color: $color-bg;
-      border: 1px solid $color-border;
+      background-color: var(--color-bg);
+      border: 1px solid var(--color-border);
       font-size: $font-size-sm;
-      color: $color-text-muted;
+      color: var(--color-text-muted);
       white-space: nowrap;
     }
 
@@ -610,7 +656,7 @@ td a {
     background-color: transparent;
     border: 1px solid transparent;
     border-radius: $radius-sm;
-    color: $color-text-muted;
+    color: var(--color-text-muted);
     cursor: pointer;
     transition: all 0.15s ease;
 
@@ -645,8 +691,8 @@ td a {
 }
 
 .invoice-totals {
-  background-color: $color-surface;
-  border: 1px solid $color-border;
+  background-color: var(--color-surface);
+  border: 1px solid var(--color-border);
   border-radius: $radius-md;
   padding: $spacing-4;
   max-width: 300px;
@@ -657,26 +703,26 @@ td a {
     justify-content: space-between;
     padding: $spacing-2 0;
     font-size: $font-size-sm;
-    color: $color-text-secondary;
+    color: var(--color-text-secondary);
 
     & + .total-row {
-      border-top: 1px solid $color-border;
+      border-top: 1px solid var(--color-border);
     }
   }
 
   .total-final {
     margin-top: $spacing-2;
     padding-top: $spacing-3;
-    border-top: 2px solid $color-text;
+    border-top: 2px solid var(--color-text);
     font-size: $font-size-lg;
     font-weight: $font-weight-bold;
-    color: $color-text;
+    color: var(--color-text);
   }
 }
 
 .form-section {
-  background-color: $color-surface;
-  border: 1px solid $color-border;
+  background-color: var(--color-surface);
+  border: 1px solid var(--color-border);
   border-radius: $radius-md;
   padding: $spacing-6;
   margin-bottom: $spacing-6;
@@ -685,7 +731,7 @@ td a {
     font-size: $font-size-base;
     font-weight: $font-weight-semibold;
     margin-bottom: $spacing-4;
-    color: $color-text;
+    color: var(--color-text);
   }
 }
 
@@ -695,10 +741,11 @@ td a {
   gap: $spacing-4;
 }
 
-.document-type-toggle {
+.document-type-toggle,
+.dark-mode-toggle {
   display: flex;
   gap: $spacing-2;
-  background-color: color.adjust($color-bg, $lightness: -2%);
+  background-color: var(--color-bg-secondary);
   padding: $spacing-1;
   border-radius: $radius-md;
   width: fit-content;
@@ -716,7 +763,7 @@ td a {
       border-radius: $radius-sm;
       font-weight: $font-weight-medium;
       transition: all 0.2s ease;
-      color: $color-text-secondary;
+      color: var(--color-text-secondary);
     }
 
     input[type='radio']:checked + .toggle-option {
@@ -730,8 +777,8 @@ td a {
 // Settings
 // =============================================================================
 .settings-section {
-  background-color: $color-surface;
-  border: 1px solid $color-border;
+  background-color: var(--color-surface);
+  border: 1px solid var(--color-border);
   border-radius: $radius-md;
   padding: $spacing-6;
   margin-bottom: $spacing-6;
@@ -741,7 +788,7 @@ td a {
     font-weight: $font-weight-semibold;
     margin-bottom: $spacing-4;
     padding-bottom: $spacing-2;
-    border-bottom: 1px solid $color-border;
+    border-bottom: 1px solid var(--color-border);
   }
 }
 
@@ -761,8 +808,8 @@ td a {
   justify-content: space-between;
   align-items: center;
   padding: $spacing-3 $spacing-4;
-  background-color: $color-bg;
-  border: 1px solid $color-border;
+  background-color: var(--color-bg);
+  border: 1px solid var(--color-border);
   border-radius: $radius-base;
   transition: all $transition-fast;
 
@@ -782,7 +829,7 @@ td a {
     font-size: $font-size-xs;
     font-weight: $font-weight-semibold;
     color: var(--color-primary);
-    background-color: $color-surface;
+    background-color: var(--color-surface);
     padding: $spacing-1 $spacing-2;
     border-radius: $radius-full;
   }
@@ -802,7 +849,7 @@ td a {
       flex: 1;
       padding: $spacing-2;
       font-size: $font-size-sm;
-      border: 1px solid $color-border;
+      border: 1px solid var(--color-border);
       border-radius: $radius-base;
 
       &:focus {
@@ -816,7 +863,7 @@ td a {
 .company-create {
   margin-top: $spacing-4;
   padding-top: $spacing-4;
-  border-top: 1px solid $color-border;
+  border-top: 1px solid var(--color-border);
 }
 
 .company-create-form {
@@ -857,10 +904,10 @@ td a {
     }
 
     &.active {
-      border-color: $color-text;
+      border-color: var(--color-text);
       box-shadow:
-        0 0 0 2px $color-surface,
-        0 0 0 4px $color-text;
+        0 0 0 2px var(--color-surface),
+        0 0 0 4px var(--color-text);
     }
   }
 
@@ -870,7 +917,7 @@ td a {
     gap: $spacing-3;
     margin-top: $spacing-4;
     padding-top: $spacing-4;
-    border-top: 1px solid $color-border;
+    border-top: 1px solid var(--color-border);
 
     label {
       margin-bottom: 0;
@@ -887,7 +934,7 @@ td a {
       width: 40px;
       height: 40px;
       padding: 0;
-      border: 1px solid $color-border;
+      border: 1px solid var(--color-border);
       border-radius: $radius-base;
       cursor: pointer;
 
@@ -915,8 +962,8 @@ td a {
 .empty-state {
   text-align: center;
   padding: $spacing-12;
-  background-color: $color-surface;
-  border: 1px solid $color-border;
+  background-color: var(--color-surface);
+  border: 1px solid var(--color-border);
   border-radius: $radius-md;
 
   p {
@@ -929,7 +976,7 @@ td a {
 // Utility Classes
 // =============================================================================
 .text-muted {
-  color: $color-text-muted;
+  color: var(--color-text-muted);
 }
 
 .save-success {
@@ -953,7 +1000,7 @@ td a {
     gap: $spacing-2;
 
     .back-link {
-      color: $color-text-muted;
+      color: var(--color-text-muted);
       text-decoration: none;
       font-size: $font-size-sm;
 
@@ -1038,12 +1085,12 @@ td a {
 }
 
 .btn-secondary {
-  background-color: $color-surface;
-  border-color: $color-border;
-  color: $color-text;
+  background-color: var(--color-surface);
+  border-color: var(--color-border);
+  color: var(--color-text);
 
   &:hover {
-    background-color: $color-bg;
+    background-color: var(--color-bg);
   }
 }
 
@@ -1075,16 +1122,55 @@ td a {
 .invoice-preview {
   width: 210mm;
   min-height: 297mm;
-  background-color: white;
+  background-color: var(--color-surface);
   padding: $spacing-8;
   box-shadow: $shadow-md;
   font-size: $font-size-sm;
-  color: $color-text;
+  color: var(--color-text);
+  transition: var(--theme-transition);
 
   @media print {
     box-shadow: none;
     padding: 0;
     width: 100%;
+    background-color: white;
+    color: #1f2937;
+  }
+}
+
+// Force light mode for PDF/print preview
+.invoice-print-container .invoice-preview,
+.invoice-print-container .invoice-preview-print {
+  background-color: white !important;
+  color: #1f2937 !important;
+
+  .business-name,
+  .client-name,
+  .invoice-preview-notes h3,
+  .totals-label,
+  .totals-value,
+  .meta-value {
+    color: #1f2937 !important;
+  }
+
+  .business-details p,
+  .bill-to p,
+  .invoice-number,
+  .meta-label,
+  .invoice-preview-footer p {
+    color: #6b7280 !important;
+  }
+
+  .invoice-preview-items {
+    th {
+      background-color: #f9fafb !important;
+      color: #6b7280 !important;
+    }
+
+    td {
+      color: #1f2937 !important;
+      border-bottom-color: #e5e7eb !important;
+    }
   }
 }
 
@@ -1111,14 +1197,14 @@ td a {
     p {
       margin: 0;
       line-height: 1.5;
-      color: $color-text-secondary;
+      color: var(--color-text-secondary);
     }
   }
 
   .business-name {
     font-size: $font-size-lg;
     font-weight: $font-weight-semibold;
-    color: $color-text;
+    color: var(--color-text);
     margin-bottom: $spacing-1;
   }
 
@@ -1134,7 +1220,7 @@ td a {
 
     .invoice-number {
       font-size: $font-size-lg;
-      color: $color-text-secondary;
+      color: var(--color-text-secondary);
       margin-top: $spacing-1;
     }
   }
@@ -1149,7 +1235,7 @@ td a {
     h3 {
       font-size: $font-size-xs;
       font-weight: $font-weight-semibold;
-      color: $color-text-muted;
+      color: var(--color-text-muted);
       text-transform: uppercase;
       letter-spacing: 0.05em;
       margin-bottom: $spacing-2;
@@ -1164,7 +1250,7 @@ td a {
     p {
       margin: 0;
       line-height: 1.5;
-      color: $color-text-secondary;
+      color: var(--color-text-secondary);
     }
   }
 
@@ -1179,7 +1265,7 @@ td a {
     }
 
     .meta-label {
-      color: $color-text-muted;
+      color: var(--color-text-muted);
     }
 
     .meta-value {
@@ -1192,16 +1278,16 @@ td a {
 .invoice-preview-items {
   width: 100%;
   margin-bottom: $spacing-6;
-  border: 1px solid $color-border;
+  border: 1px solid var(--color-border);
   border-radius: $radius-base;
 
   th {
-    background-color: $color-bg;
+    background-color: var(--color-bg);
     font-size: $font-size-xs;
     font-weight: $font-weight-semibold;
     text-transform: uppercase;
     letter-spacing: 0.05em;
-    color: $color-text-muted;
+    color: var(--color-text-muted);
   }
 
   .col-description {
@@ -1244,7 +1330,7 @@ td a {
     min-width: 250px;
 
     .totals-label {
-      color: $color-text-muted;
+      color: var(--color-text-muted);
       text-align: left;
     }
 
@@ -1256,7 +1342,7 @@ td a {
   }
 
   .totals-final {
-    border-top: 2px solid $color-text;
+    border-top: 2px solid var(--color-text);
     padding-top: $spacing-2;
     margin-top: $spacing-2;
 
@@ -1264,7 +1350,7 @@ td a {
     .totals-value {
       font-size: $font-size-lg;
       font-weight: $font-weight-bold;
-      color: $color-text;
+      color: var(--color-text);
     }
   }
 }
@@ -1272,13 +1358,13 @@ td a {
 .invoice-preview-notes {
   margin-bottom: $spacing-8;
   padding: $spacing-4;
-  background-color: $color-bg;
+  background-color: var(--color-bg);
   border-radius: $radius-base;
 
   h3 {
     font-size: $font-size-xs;
     font-weight: $font-weight-semibold;
-    color: $color-text-muted;
+    color: var(--color-text-muted);
     text-transform: uppercase;
     letter-spacing: 0.05em;
     margin-bottom: $spacing-2;
@@ -1287,15 +1373,15 @@ td a {
   p {
     margin: 0;
     white-space: pre-wrap;
-    color: $color-text-secondary;
+    color: var(--color-text-secondary);
   }
 }
 
 .invoice-preview-footer {
   text-align: center;
   padding-top: $spacing-6;
-  border-top: 1px solid $color-border;
-  color: $color-text-muted;
+  border-top: 1px solid var(--color-border);
+  color: var(--color-text-muted);
   font-size: $font-size-sm;
 }
 
@@ -1330,7 +1416,7 @@ td a {
     height: auto;
     position: relative;
     border-right: none;
-    border-bottom: 1px solid $color-border;
+    border-bottom: 1px solid var(--color-border);
 
     .logo {
       display: flex;
@@ -1398,14 +1484,14 @@ td a {
       tr {
         display: flex;
         flex-direction: column;
-        background-color: $color-surface;
-        border: 1px solid $color-border;
+        background-color: var(--color-surface);
+        border: 1px solid var(--color-border);
         border-radius: $radius-md;
         padding: $spacing-4;
         position: relative;
 
         &:hover {
-          background-color: $color-surface;
+          background-color: var(--color-surface);
         }
       }
 
@@ -1419,7 +1505,7 @@ td a {
           content: attr(data-label);
           font-size: $font-size-xs;
           font-weight: $font-weight-semibold;
-          color: $color-text-muted;
+          color: var(--color-text-muted);
           text-transform: uppercase;
           min-width: 80px;
           margin-right: $spacing-3;
@@ -1449,7 +1535,7 @@ td a {
         font-size: $font-size-lg;
         padding-top: $spacing-3;
         margin-top: $spacing-2;
-        border-top: 1px solid $color-border;
+        border-top: 1px solid var(--color-border);
 
         &::before {
           font-size: $font-size-sm;
@@ -1638,8 +1724,8 @@ td a {
 // Filter Bar
 // =============================================================================
 .filter-bar {
-  background-color: $color-surface;
-  border: 1px solid $color-border;
+  background-color: var(--color-surface);
+  border: 1px solid var(--color-border);
   border-radius: $radius-md;
   margin-bottom: $spacing-6;
   overflow: hidden;
@@ -1650,8 +1736,8 @@ td a {
   align-items: center;
   justify-content: space-between;
   padding: $spacing-3 $spacing-4;
-  background-color: $color-bg;
-  border-bottom: 1px solid $color-border;
+  background-color: var(--color-bg);
+  border-bottom: 1px solid var(--color-border);
 }
 
 .filter-toggle {
@@ -1663,12 +1749,12 @@ td a {
   border: none;
   font-size: $font-size-sm;
   font-weight: $font-weight-medium;
-  color: $color-text;
+  color: var(--color-text);
   cursor: pointer;
 
   .filter-chevron {
     transition: transform $transition-base;
-    color: $color-text-muted;
+    color: var(--color-text-muted);
 
     &.expanded {
       transform: rotate(180deg);
@@ -1705,7 +1791,7 @@ td a {
   align-items: center;
   gap: $spacing-4;
   padding-bottom: $spacing-4;
-  border-bottom: 1px solid $color-border;
+  border-bottom: 1px solid var(--color-border);
 
   &:last-child {
     padding-bottom: 0;
@@ -1744,7 +1830,7 @@ td a {
 .filter-label {
   font-size: $font-size-xs;
   font-weight: $font-weight-semibold;
-  color: $color-text-muted;
+  color: var(--color-text-muted);
   text-transform: uppercase;
   letter-spacing: 0.05em;
 }
@@ -1752,10 +1838,10 @@ td a {
 .filter-select {
   padding: $spacing-2 $spacing-3;
   font-size: $font-size-sm;
-  border: 1px solid $color-border;
+  border: 1px solid var(--color-border);
   border-radius: $radius-base;
-  background-color: $color-surface;
-  color: $color-text;
+  background-color: var(--color-surface);
+  color: var(--color-text);
   cursor: pointer;
   transition:
     border-color $transition-fast,
@@ -1775,10 +1861,10 @@ td a {
 .filter-input {
   padding: $spacing-2 $spacing-3;
   font-size: $font-size-sm;
-  border: 1px solid $color-border;
+  border: 1px solid var(--color-border);
   border-radius: $radius-base;
-  background-color: $color-surface;
-  color: $color-text;
+  background-color: var(--color-surface);
+  color: var(--color-text);
   transition:
     border-color $transition-fast,
     box-shadow $transition-fast;
@@ -1868,14 +1954,14 @@ td a {
 
 .btn-clear-filters {
   background-color: transparent;
-  border-color: $color-text-muted;
-  color: $color-text-muted;
+  border-color: var(--color-text-muted);
+  color: var(--color-text-muted);
   font-size: $font-size-xs;
 
   &:hover {
     border-color: $color-error;
     color: $color-error;
-    background-color: $color-error-bg;
+    background-color: var(--color-error-bg);
   }
 }
 
@@ -1918,7 +2004,7 @@ td a {
   transition: background-color $transition-fast;
 
   &:hover {
-    background-color: $color-border-light;
+    background-color: var(--color-border-light);
   }
 }
 
@@ -1931,16 +2017,16 @@ td a {
 // Additional Quote Status Colors
 // =============================================================================
 .status-accepted {
-  background-color: $color-success-bg;
-  color: $color-success-text;
+  background-color: var(--color-success-bg);
+  color: var(--color-success-text);
 }
 
 .status-declined {
-  background-color: $color-error-bg;
-  color: $color-error-text;
+  background-color: var(--color-error-bg);
+  color: var(--color-error-text);
 }
 
 .status-expired {
-  background-color: $color-warning-bg;
-  color: $color-warning-text;
+  background-color: var(--color-warning-bg);
+  color: var(--color-warning-text);
 }

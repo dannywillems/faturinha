@@ -37,12 +37,29 @@ interface PDFContext {
   pageNumber: number;
 }
 
+// Currency symbols that render correctly in jsPDF's default Helvetica font
+const PDF_SAFE_CURRENCY_SYMBOLS: Record<string, string> = {
+  USD: '$',
+  GBP: '£',
+  JPY: '¥',
+  CNY: '¥',
+};
+
 function formatCurrency(amount: number, currency: string): string {
-  return new Intl.NumberFormat('en-US', {
-    style: 'currency',
-    currency,
+  // Format the number without currency symbol
+  const formattedNumber = new Intl.NumberFormat('en-US', {
     minimumFractionDigits: 2,
+    maximumFractionDigits: 2,
   }).format(amount);
+
+  // Use safe symbol if available, otherwise use currency code
+  const symbol = PDF_SAFE_CURRENCY_SYMBOLS[currency];
+  if (symbol) {
+    return `${symbol}${formattedNumber}`;
+  }
+
+  // For currencies like EUR that don't render well, use the code
+  return `${formattedNumber} ${currency}`;
 }
 
 function formatDate(date: Date): string {
@@ -191,6 +208,12 @@ function drawHeader(
   ctx.pdf.text(invoice.invoiceNumber, rightX, startY + 8, { align: 'right' });
 
   ctx.y = Math.max(ctx.y, startY + 25);
+
+  // Draw header bottom border with primary color (matches web preview)
+  setDrawColor(ctx.pdf, primaryColor);
+  ctx.pdf.setLineWidth(0.5);
+  ctx.pdf.line(MARGIN, ctx.y, PAGE_WIDTH - MARGIN, ctx.y);
+
   ctx.y += SECTION_GAP;
 }
 
@@ -406,6 +429,9 @@ function drawTotals(ctx: PDFContext, invoice: Invoice): void {
   const totalsWidth = 100;
   const labelX = PAGE_WIDTH - MARGIN - totalsWidth;
   const valueX = PAGE_WIDTH - MARGIN;
+
+  // Add top margin before totals section
+  ctx.y += SECTION_GAP;
 
   checkPageBreak(ctx, 30);
 

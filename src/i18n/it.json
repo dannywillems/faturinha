@@ -157,7 +157,11 @@
     "theme": {
       "title": "Tema",
       "primaryColor": "Colore Primario",
-      "customColor": "Personalizzato"
+      "customColor": "Personalizzato",
+      "darkMode": "Aspetto",
+      "light": "Chiaro",
+      "dark": "Scuro",
+      "system": "Sistema"
     }
   },
   "share": {

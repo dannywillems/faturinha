@@ -644,7 +644,6 @@ export function Settings(): ReactElement {
             rel="noopener noreferrer"
             className="support-link"
           >
-            <span className="support-icon">🐛</span>
             <div className="support-link-content">
               <span className="support-link-title">
                 {t('settings.support.reportBug')}
@@ -660,7 +659,6 @@ export function Settings(): ReactElement {
             rel="noopener noreferrer"
             className="support-link"
           >
-            <span className="support-icon">💬</span>
             <div className="support-link-content">
               <span className="support-link-title">
                 {t('settings.support.discussions')}
@@ -676,7 +674,6 @@ export function Settings(): ReactElement {
             rel="noopener noreferrer"
             className="support-link sponsor-link"
           >
-            <span className="support-icon">❤️</span>
             <div className="support-link-content">
               <span className="support-link-title">
                 {t('settings.support.sponsor')}

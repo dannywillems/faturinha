@@ -197,5 +197,29 @@
     "reset": "Reset Test Data",
     "resetConfirm": "Reset all test data to initial demo state?",
     "resetSuccess": "Test data has been reset"
+  },
+  "filters": {
+    "show": "Show Filters",
+    "hide": "Hide Filters",
+    "clear": "Clear Filters",
+    "noResults": "No matching results",
+    "documentType": "Type",
+    "status": {
+      "label": "Status"
+    },
+    "client": {
+      "label": "Client",
+      "all": "All Clients"
+    },
+    "dateRange": {
+      "label": "Date Range",
+      "from": "From",
+      "to": "To"
+    }
+  },
+  "sorting": {
+    "label": "Sort By",
+    "ascending": "Ascending",
+    "descending": "Descending"
   }
 }

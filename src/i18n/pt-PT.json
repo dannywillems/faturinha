@@ -197,5 +197,29 @@
     "reset": "Repor Dados de Teste",
     "resetConfirm": "Repor todos os dados de teste para o estado inicial de demonstracao?",
     "resetSuccess": "Os dados de teste foram repostos"
+  },
+  "filters": {
+    "show": "Mostrar filtros",
+    "hide": "Ocultar filtros",
+    "clear": "Limpar filtros",
+    "noResults": "Nenhum resultado encontrado",
+    "documentType": "Tipo",
+    "status": {
+      "label": "Estado"
+    },
+    "client": {
+      "label": "Cliente",
+      "all": "Todos os clientes"
+    },
+    "dateRange": {
+      "label": "Periodo",
+      "from": "De",
+      "to": "Ate"
+    }
+  },
+  "sorting": {
+    "label": "Ordenar por",
+    "ascending": "Crescente",
+    "descending": "Decrescente"
   }
 }

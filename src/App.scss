@@ -1633,3 +1633,314 @@ td a {
     }
   }
 }
+
+// =============================================================================
+// Filter Bar
+// =============================================================================
+.filter-bar {
+  background-color: $color-surface;
+  border: 1px solid $color-border;
+  border-radius: $radius-md;
+  margin-bottom: $spacing-6;
+  overflow: hidden;
+}
+
+.filter-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: $spacing-3 $spacing-4;
+  background-color: $color-bg;
+  border-bottom: 1px solid $color-border;
+}
+
+.filter-toggle {
+  display: flex;
+  align-items: center;
+  gap: $spacing-2;
+  padding: 0;
+  background-color: transparent;
+  border: none;
+  font-size: $font-size-sm;
+  font-weight: $font-weight-medium;
+  color: $color-text;
+  cursor: pointer;
+
+  .filter-chevron {
+    transition: transform $transition-base;
+    color: $color-text-muted;
+
+    &.expanded {
+      transform: rotate(180deg);
+    }
+  }
+}
+
+.active-filters-badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 18px;
+  height: 18px;
+  padding: 0 $spacing-1;
+  background-color: var(--color-primary);
+  color: $color-primary-text;
+  font-size: 11px;
+  font-weight: $font-weight-semibold;
+  border-radius: $radius-full;
+}
+
+.filter-panel {
+  display: none;
+  padding: $spacing-4;
+
+  &.expanded {
+    display: block;
+  }
+}
+
+.filter-row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: $spacing-4;
+  padding-bottom: $spacing-4;
+  border-bottom: 1px solid $color-border;
+
+  &:last-child {
+    padding-bottom: 0;
+    border-bottom: none;
+  }
+}
+
+.filter-row-controls {
+  padding-top: $spacing-4;
+}
+
+.filter-group {
+  display: flex;
+  flex-direction: column;
+  gap: $spacing-2;
+  min-width: 150px;
+}
+
+.filter-group-type {
+  flex-shrink: 0;
+}
+
+.filter-group-status {
+  flex: 1;
+}
+
+.filter-group-date {
+  flex: 1;
+  min-width: 280px;
+}
+
+.filter-doc-toggle {
+  margin: 0;
+}
+
+.filter-label {
+  font-size: $font-size-xs;
+  font-weight: $font-weight-semibold;
+  color: $color-text-muted;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.filter-select {
+  padding: $spacing-2 $spacing-3;
+  font-size: $font-size-sm;
+  border: 1px solid $color-border;
+  border-radius: $radius-base;
+  background-color: $color-surface;
+  color: $color-text;
+  cursor: pointer;
+  transition:
+    border-color $transition-fast,
+    box-shadow $transition-fast;
+
+  &:hover {
+    border-color: var(--color-primary);
+  }
+
+  &:focus {
+    outline: none;
+    border-color: var(--color-primary);
+    box-shadow: 0 0 0 2px var(--color-primary-light);
+  }
+}
+
+.filter-input {
+  padding: $spacing-2 $spacing-3;
+  font-size: $font-size-sm;
+  border: 1px solid $color-border;
+  border-radius: $radius-base;
+  background-color: $color-surface;
+  color: $color-text;
+  transition:
+    border-color $transition-fast,
+    box-shadow $transition-fast;
+
+  &:hover {
+    border-color: var(--color-primary);
+  }
+
+  &:focus {
+    outline: none;
+    border-color: var(--color-primary);
+    box-shadow: 0 0 0 2px var(--color-primary-light);
+  }
+}
+
+.status-checkboxes {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: $spacing-1;
+}
+
+.checkbox-label {
+  cursor: pointer;
+
+  input[type='checkbox'] {
+    display: none;
+  }
+
+  .status-chip {
+    display: inline-block;
+    padding: 4px $spacing-2;
+    font-size: $font-size-xs;
+    font-weight: $font-weight-medium;
+    border-radius: $radius-full;
+    border: 1px solid transparent;
+    transition: all $transition-fast;
+    opacity: 0.5;
+
+    &:hover {
+      opacity: 0.8;
+    }
+  }
+
+  input[type='checkbox']:checked + .status-chip {
+    opacity: 1;
+    border-color: currentColor;
+  }
+}
+
+.date-range-inputs {
+  display: flex;
+  align-items: center;
+  gap: $spacing-2;
+
+  .filter-select {
+    width: auto;
+    min-width: 100px;
+  }
+
+  .filter-input {
+    width: 130px;
+  }
+}
+
+.sort-controls {
+  display: flex;
+  gap: $spacing-2;
+
+  .filter-select {
+    min-width: 120px;
+  }
+}
+
+.btn-sort {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: $spacing-2;
+  min-width: 36px;
+
+  svg {
+    width: 16px;
+    height: 16px;
+  }
+}
+
+.btn-clear-filters {
+  background-color: transparent;
+  border-color: $color-text-muted;
+  color: $color-text-muted;
+  font-size: $font-size-xs;
+
+  &:hover {
+    border-color: $color-error;
+    color: $color-error;
+    background-color: $color-error-bg;
+  }
+}
+
+// Mobile responsive
+@media (max-width: $breakpoint-md) {
+  .filter-row {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .filter-group {
+    min-width: 100%;
+  }
+
+  .filter-group-date {
+    min-width: 100%;
+  }
+
+  .date-range-inputs {
+    flex-direction: column;
+    align-items: stretch;
+
+    .filter-select,
+    .filter-input {
+      width: 100%;
+    }
+  }
+
+  .status-checkboxes {
+    gap: $spacing-2;
+  }
+}
+
+// =============================================================================
+// Sortable Table Headers
+// =============================================================================
+.sortable-header {
+  cursor: pointer;
+  user-select: none;
+  transition: background-color $transition-fast;
+
+  &:hover {
+    background-color: $color-border-light;
+  }
+}
+
+.sort-indicator {
+  font-weight: $font-weight-bold;
+  color: var(--color-primary);
+}
+
+// =============================================================================
+// Additional Quote Status Colors
+// =============================================================================
+.status-accepted {
+  background-color: $color-success-bg;
+  color: $color-success-text;
+}
+
+.status-declined {
+  background-color: $color-error-bg;
+  color: $color-error-text;
+}
+
+.status-expired {
+  background-color: $color-warning-bg;
+  color: $color-warning-text;
+}

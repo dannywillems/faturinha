@@ -197,5 +197,29 @@
     "reset": "Testgegevens Resetten",
     "resetConfirm": "Alle testgegevens terugzetten naar de initiiele demo-status?",
     "resetSuccess": "Testgegevens zijn gereset"
+  },
+  "filters": {
+    "show": "Filters tonen",
+    "hide": "Filters verbergen",
+    "clear": "Filters wissen",
+    "noResults": "Geen resultaten gevonden",
+    "documentType": "Type",
+    "status": {
+      "label": "Status"
+    },
+    "client": {
+      "label": "Klant",
+      "all": "Alle klanten"
+    },
+    "dateRange": {
+      "label": "Datumbereik",
+      "from": "Van",
+      "to": "Tot"
+    }
+  },
+  "sorting": {
+    "label": "Sorteren op",
+    "ascending": "Oplopend",
+    "descending": "Aflopend"
   }
 }

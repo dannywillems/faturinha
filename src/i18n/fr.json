@@ -197,5 +197,29 @@
     "reset": "Reinitialiser les donnees de test",
     "resetConfirm": "Reinitialiser toutes les donnees de test a l'etat initial ?",
     "resetSuccess": "Les donnees de test ont ete reinitialisees"
+  },
+  "filters": {
+    "show": "Afficher les filtres",
+    "hide": "Masquer les filtres",
+    "clear": "Effacer les filtres",
+    "noResults": "Aucun resultat correspondant",
+    "documentType": "Type",
+    "status": {
+      "label": "Statut"
+    },
+    "client": {
+      "label": "Client",
+      "all": "Tous les clients"
+    },
+    "dateRange": {
+      "label": "Periode",
+      "from": "Du",
+      "to": "Au"
+    }
+  },
+  "sorting": {
+    "label": "Trier par",
+    "ascending": "Croissant",
+    "descending": "Decroissant"
   }
 }

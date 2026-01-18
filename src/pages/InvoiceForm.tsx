@@ -10,6 +10,8 @@ import type {
   InvoiceItem,
   CurrencyCode,
   DocumentType,
+  InvoiceStatus,
+  QuoteStatus,
 } from '../types';
 
 const CURRENCIES: CurrencyCode[] = [
@@ -23,6 +25,22 @@ const CURRENCIES: CurrencyCode[] = [
   'CHF',
   'CNY',
   'INR',
+];
+
+const INVOICE_STATUSES: InvoiceStatus[] = [
+  'draft',
+  'sent',
+  'paid',
+  'overdue',
+  'cancelled',
+];
+
+const QUOTE_STATUSES: QuoteStatus[] = [
+  'draft',
+  'sent',
+  'accepted',
+  'declined',
+  'expired',
 ];
 
 // Currency symbols for input prefix display
@@ -137,6 +155,7 @@ export function InvoiceForm(): ReactElement {
 
   const [formData, setFormData] = useState<{
     documentType: DocumentType;
+    status: InvoiceStatus | QuoteStatus;
     clientId: number | null;
     currency: CurrencyCode;
     issueDate: string;
@@ -146,6 +165,7 @@ export function InvoiceForm(): ReactElement {
     notes: string;
   }>({
     documentType: 'invoice',
+    status: 'draft',
     clientId: null,
     currency: 'EUR',
     issueDate: new Date().toISOString().split('T')[0],
@@ -242,6 +262,7 @@ export function InvoiceForm(): ReactElement {
 
           setFormData({
             documentType: invoice.documentType || 'invoice',
+            status: duplicateFromId ? 'draft' : invoice.status,
             clientId: invoice.clientId,
             currency: invoice.currency,
             issueDate: issueDateStr,
@@ -300,6 +321,7 @@ export function InvoiceForm(): ReactElement {
       await db.invoices.update(Number(id), {
         clientId: formData.clientId,
         currency: formData.currency,
+        status: formData.status,
         issueDate: new Date(formData.issueDate),
         dueDate: new Date(dueDateValue),
         validUntil:
@@ -564,6 +586,32 @@ export function InvoiceForm(): ReactElement {
               </div>
             )}
           </div>
+
+          {isEditing && (
+            <div className="form-row">
+              <div className="form-group">
+                <label htmlFor="status">{t('invoices.fields.status')}</label>
+                <select
+                  id="status"
+                  value={formData.status}
+                  onChange={(e) =>
+                    setFormData((prev) => ({
+                      ...prev,
+                      status: e.target.value as InvoiceStatus | QuoteStatus,
+                    }))
+                  }
+                >
+                  {(isQuote ? QUOTE_STATUSES : INVOICE_STATUSES).map(
+                    (status) => (
+                      <option key={status} value={status}>
+                        {t(`invoices.status.${status}`)}
+                      </option>
+                    )
+                  )}
+                </select>
+              </div>
+            </div>
+          )}
         </div>
 
         <div className="form-section">

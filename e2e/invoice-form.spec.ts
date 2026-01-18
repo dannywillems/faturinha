@@ -227,4 +227,201 @@ test.describe('Invoice Form', () => {
     // Should redirect to invoices list
     await expect(page).toHaveURL('/invoices');
   });
+
+  test('should not show status field when creating new invoice', async ({ page }) => {
+    await page.goto('/invoices/new');
+
+    // Status field should not be visible when creating new invoice
+    await expect(page.locator('select#status')).not.toBeVisible();
+  });
+
+  test('should show status field when editing invoice', async ({ page }) => {
+    // First create a client and invoice
+    await createTestClient(page);
+
+    await page.goto('/invoices/new');
+    await page.selectOption('select#clientId', { label: 'Test Client for Invoices' });
+    await page.fill('input#dueDate', '2024-02-15');
+
+    const itemRow = page.locator('.items-table tbody tr').first();
+    await itemRow.locator('input[placeholder="Description"]').fill('Test Service');
+    await itemRow.locator('input[type="number"]').nth(0).fill('1');
+    await itemRow.locator('input[type="number"]').nth(1).fill('100');
+
+    await page.click('button[type="submit"]');
+    await expect(page).toHaveURL('/invoices');
+
+    // Click edit on the invoice
+    await page.click('a:has-text("Edit")');
+
+    // Status field should be visible when editing
+    await expect(page.locator('select#status')).toBeVisible();
+
+    // Default status should be 'draft'
+    await expect(page.locator('select#status')).toHaveValue('draft');
+  });
+
+  test('should allow changing invoice status when editing', async ({ page }) => {
+    // First create a client and invoice
+    await createTestClient(page);
+
+    await page.goto('/invoices/new');
+    await page.selectOption('select#clientId', { label: 'Test Client for Invoices' });
+    await page.fill('input#dueDate', '2024-02-15');
+
+    const itemRow = page.locator('.items-table tbody tr').first();
+    await itemRow.locator('input[placeholder="Description"]').fill('Test Service');
+    await itemRow.locator('input[type="number"]').nth(0).fill('1');
+    await itemRow.locator('input[type="number"]').nth(1).fill('100');
+
+    await page.click('button[type="submit"]');
+    await expect(page).toHaveURL('/invoices');
+
+    // Click edit on the invoice
+    await page.click('a:has-text("Edit")');
+
+    // Change status to 'sent'
+    await page.selectOption('select#status', 'sent');
+    await expect(page.locator('select#status')).toHaveValue('sent');
+
+    // Save changes
+    await page.click('button[type="submit"]');
+    await expect(page).toHaveURL('/invoices');
+
+    // Verify status was updated in the list
+    await expect(page.locator('.status-badge:has-text("Sent")')).toBeVisible();
+  });
+
+  test('should allow changing invoice status to paid', async ({ page }) => {
+    // First create a client and invoice
+    await createTestClient(page);
+
+    await page.goto('/invoices/new');
+    await page.selectOption('select#clientId', { label: 'Test Client for Invoices' });
+    await page.fill('input#dueDate', '2024-02-15');
+
+    const itemRow = page.locator('.items-table tbody tr').first();
+    await itemRow.locator('input[placeholder="Description"]').fill('Test Service');
+    await itemRow.locator('input[type="number"]').nth(0).fill('1');
+    await itemRow.locator('input[type="number"]').nth(1).fill('100');
+
+    await page.click('button[type="submit"]');
+    await expect(page).toHaveURL('/invoices');
+
+    // Click edit on the invoice
+    await page.click('a:has-text("Edit")');
+
+    // Change status to 'paid'
+    await page.selectOption('select#status', 'paid');
+
+    // Save changes
+    await page.click('button[type="submit"]');
+    await expect(page).toHaveURL('/invoices');
+
+    // Verify status was updated in the list
+    await expect(page.locator('.status-badge:has-text("Paid")')).toBeVisible();
+  });
+
+  test('should show invoice-specific statuses for invoices', async ({ page }) => {
+    // First create a client and invoice
+    await createTestClient(page);
+
+    await page.goto('/invoices/new');
+    await page.selectOption('select#clientId', { label: 'Test Client for Invoices' });
+    await page.fill('input#dueDate', '2024-02-15');
+
+    const itemRow = page.locator('.items-table tbody tr').first();
+    await itemRow.locator('input[placeholder="Description"]').fill('Test Service');
+    await itemRow.locator('input[type="number"]').nth(0).fill('1');
+    await itemRow.locator('input[type="number"]').nth(1).fill('100');
+
+    await page.click('button[type="submit"]');
+    await expect(page).toHaveURL('/invoices');
+
+    // Click edit on the invoice
+    await page.click('a:has-text("Edit")');
+
+    // Check that invoice-specific statuses are available
+    const statusSelect = page.locator('select#status');
+    await expect(statusSelect.locator('option[value="draft"]')).toHaveCount(1);
+    await expect(statusSelect.locator('option[value="sent"]')).toHaveCount(1);
+    await expect(statusSelect.locator('option[value="paid"]')).toHaveCount(1);
+    await expect(statusSelect.locator('option[value="overdue"]')).toHaveCount(1);
+    await expect(statusSelect.locator('option[value="cancelled"]')).toHaveCount(1);
+
+    // Quote-specific statuses should not be available
+    await expect(statusSelect.locator('option[value="accepted"]')).toHaveCount(0);
+    await expect(statusSelect.locator('option[value="declined"]')).toHaveCount(0);
+    await expect(statusSelect.locator('option[value="expired"]')).toHaveCount(0);
+  });
+
+  test('should show quote-specific statuses for quotes', async ({ page }) => {
+    // First create a client
+    await createTestClient(page);
+
+    // Create a quote
+    await page.goto('/invoices/new');
+
+    // Select quote document type
+    await page.click('label:has-text("Quote")');
+
+    await page.selectOption('select#clientId', { label: 'Test Client for Invoices' });
+    await page.fill('input#validUntil', '2024-02-15');
+
+    const itemRow = page.locator('.items-table tbody tr').first();
+    await itemRow.locator('input[placeholder="Description"]').fill('Test Service');
+    await itemRow.locator('input[type="number"]').nth(0).fill('1');
+    await itemRow.locator('input[type="number"]').nth(1).fill('100');
+
+    await page.click('button[type="submit"]');
+    await expect(page).toHaveURL('/invoices');
+
+    // Click edit on the quote
+    await page.click('a:has-text("Edit")');
+
+    // Check that quote-specific statuses are available
+    const statusSelect = page.locator('select#status');
+    await expect(statusSelect.locator('option[value="draft"]')).toHaveCount(1);
+    await expect(statusSelect.locator('option[value="sent"]')).toHaveCount(1);
+    await expect(statusSelect.locator('option[value="accepted"]')).toHaveCount(1);
+    await expect(statusSelect.locator('option[value="declined"]')).toHaveCount(1);
+    await expect(statusSelect.locator('option[value="expired"]')).toHaveCount(1);
+
+    // Invoice-specific statuses should not be available
+    await expect(statusSelect.locator('option[value="paid"]')).toHaveCount(0);
+    await expect(statusSelect.locator('option[value="overdue"]')).toHaveCount(0);
+    await expect(statusSelect.locator('option[value="cancelled"]')).toHaveCount(0);
+  });
+
+  test('should allow changing quote status to accepted', async ({ page }) => {
+    // First create a client
+    await createTestClient(page);
+
+    // Create a quote
+    await page.goto('/invoices/new');
+    await page.click('label:has-text("Quote")');
+    await page.selectOption('select#clientId', { label: 'Test Client for Invoices' });
+    await page.fill('input#validUntil', '2024-02-15');
+
+    const itemRow = page.locator('.items-table tbody tr').first();
+    await itemRow.locator('input[placeholder="Description"]').fill('Test Service');
+    await itemRow.locator('input[type="number"]').nth(0).fill('1');
+    await itemRow.locator('input[type="number"]').nth(1).fill('100');
+
+    await page.click('button[type="submit"]');
+    await expect(page).toHaveURL('/invoices');
+
+    // Click edit on the quote
+    await page.click('a:has-text("Edit")');
+
+    // Change status to 'accepted'
+    await page.selectOption('select#status', 'accepted');
+
+    // Save changes
+    await page.click('button[type="submit"]');
+    await expect(page).toHaveURL('/invoices');
+
+    // Verify status was updated in the list
+    await expect(page.locator('.status-badge:has-text("Accepted")')).toBeVisible();
+  });
 });

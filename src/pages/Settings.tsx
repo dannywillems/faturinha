@@ -336,6 +336,65 @@ export function Settings(): ReactElement {
           />
         </div>
         <div className="form-group">
+          <label>{t('settings.business.address')}</label>
+          <div className="address-fields">
+            <input
+              type="text"
+              id="businessAddress.street"
+              placeholder={t('clients.fields.street')}
+              value={getValue('businessAddress')?.street ?? ''}
+              onChange={(e) => {
+                const currentAddress = getValue('businessAddress') ?? {};
+                updateField('businessAddress', { ...currentAddress, street: e.target.value });
+              }}
+            />
+            <div className="address-row">
+              <input
+                type="text"
+                id="businessAddress.city"
+                placeholder={t('clients.fields.city')}
+                value={getValue('businessAddress')?.city ?? ''}
+                onChange={(e) => {
+                  const currentAddress = getValue('businessAddress') ?? {};
+                  updateField('businessAddress', { ...currentAddress, city: e.target.value });
+                }}
+              />
+              <input
+                type="text"
+                id="businessAddress.state"
+                placeholder={t('clients.fields.state')}
+                value={getValue('businessAddress')?.state ?? ''}
+                onChange={(e) => {
+                  const currentAddress = getValue('businessAddress') ?? {};
+                  updateField('businessAddress', { ...currentAddress, state: e.target.value });
+                }}
+              />
+            </div>
+            <div className="address-row">
+              <input
+                type="text"
+                id="businessAddress.postalCode"
+                placeholder={t('clients.fields.postalCode')}
+                value={getValue('businessAddress')?.postalCode ?? ''}
+                onChange={(e) => {
+                  const currentAddress = getValue('businessAddress') ?? {};
+                  updateField('businessAddress', { ...currentAddress, postalCode: e.target.value });
+                }}
+              />
+              <input
+                type="text"
+                id="businessAddress.country"
+                placeholder={t('clients.fields.country')}
+                value={getValue('businessAddress')?.country ?? ''}
+                onChange={(e) => {
+                  const currentAddress = getValue('businessAddress') ?? {};
+                  updateField('businessAddress', { ...currentAddress, country: e.target.value });
+                }}
+              />
+            </div>
+          </div>
+        </div>
+        <div className="form-group">
           <label>{t('settings.business.logo')}</label>
           {getValue('businessLogo') ? (
             <div className="logo-preview">

@@ -13,8 +13,6 @@ const DEFAULT_PRIMARY: [number, number, number] = [37, 99, 235]; // #2563eb
 const COLOR_TEXT = [17, 24, 39]; // #111827
 const COLOR_TEXT_SECONDARY = [107, 114, 128]; // #6b7280
 const COLOR_BORDER = [229, 231, 235]; // #e5e7eb
-const COLOR_SUCCESS = [34, 197, 94]; // #22c55e
-const COLOR_ERROR = [239, 68, 68]; // #ef4444
 
 function getPrimaryColor(settings: Settings | null): [number, number, number] {
   if (settings?.themeColor) {
@@ -96,37 +94,6 @@ function drawLine(
   setDrawColor(ctx.pdf, color);
   ctx.pdf.setLineWidth(0.3);
   ctx.pdf.line(x1, ctx.y, x2, ctx.y);
-}
-
-function getStatusColor(status: string, primaryColor: number[]): number[] {
-  switch (status) {
-    case 'paid':
-    case 'accepted':
-      return COLOR_SUCCESS;
-    case 'sent':
-      return primaryColor;
-    case 'overdue':
-    case 'declined':
-    case 'expired':
-      return COLOR_ERROR;
-    case 'draft':
-    default:
-      return COLOR_TEXT_SECONDARY;
-  }
-}
-
-function getStatusText(status: string): string {
-  const statusMap: Record<string, string> = {
-    draft: 'Draft',
-    sent: 'Sent',
-    paid: 'Paid',
-    overdue: 'Overdue',
-    cancelled: 'Cancelled',
-    accepted: 'Accepted',
-    declined: 'Declined',
-    expired: 'Expired',
-  };
-  return statusMap[status] || status;
 }
 
 function wrapText(pdf: jsPDF, text: string, maxWidth: number): string[] {
@@ -296,19 +263,8 @@ function drawClientAndMeta(
   const dateValue =
     isQuote && invoice.validUntil ? invoice.validUntil : invoice.dueDate;
   ctx.pdf.text(formatDate(dateValue), valueX, ctx.y, { align: 'right' });
-  ctx.y += LINE_HEIGHT + 2;
 
-  // Status
-  setColor(ctx.pdf, COLOR_TEXT_SECONDARY);
-  ctx.pdf.text('Status:', labelX, ctx.y);
-  const statusColor = getStatusColor(invoice.status, primaryColor);
-  setColor(ctx.pdf, statusColor);
-  ctx.pdf.setFont('helvetica', 'bold');
-  ctx.pdf.text(getStatusText(invoice.status), valueX, ctx.y, {
-    align: 'right',
-  });
-
-  ctx.y = Math.max(leftEndY, ctx.y + LINE_HEIGHT);
+  ctx.y = Math.max(leftEndY, ctx.y + LINE_HEIGHT)
   ctx.y += SECTION_GAP;
 }
 

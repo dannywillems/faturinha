@@ -53,7 +53,7 @@ test.describe('Settings Page', () => {
   });
 
   test('should have save button', async ({ page }) => {
-    const saveButton = page.locator('button.btn-primary');
+    const saveButton = page.locator('.form-actions button.btn-primary');
     await expect(saveButton).toContainText('Save');
   });
 
@@ -80,5 +80,83 @@ test.describe('Settings Page', () => {
 
     await currencySelect.selectOption('BRL');
     await expect(currencySelect).toHaveValue('BRL');
+  });
+
+  test('should display all business information fields', async ({ page }) => {
+    const businessSection = page
+      .locator('.settings-section')
+      .filter({ hasText: 'Business Information' });
+
+    // Business Name
+    await expect(businessSection.locator('label:has-text("Business Name")')).toBeVisible();
+    await expect(businessSection.locator('input[type="text"]').first()).toBeVisible();
+
+    // Email
+    await expect(businessSection.locator('label:has-text("Email")')).toBeVisible();
+    await expect(businessSection.locator('input[type="email"]')).toBeVisible();
+
+    // Phone
+    await expect(businessSection.locator('label:has-text("Phone")')).toBeVisible();
+    await expect(businessSection.locator('input[type="tel"]')).toBeVisible();
+
+    // VAT Number
+    await expect(businessSection.locator('label:has-text("VAT Number")')).toBeVisible();
+
+    // Address fields
+    await expect(businessSection.locator('label:has-text("Address")')).toBeVisible();
+    await expect(businessSection.locator('input[id="businessAddress.street"]')).toBeVisible();
+    await expect(businessSection.locator('input[id="businessAddress.city"]')).toBeVisible();
+    await expect(businessSection.locator('input[id="businessAddress.state"]')).toBeVisible();
+    await expect(businessSection.locator('input[id="businessAddress.postalCode"]')).toBeVisible();
+    await expect(businessSection.locator('input[id="businessAddress.country"]')).toBeVisible();
+
+    // Logo
+    await expect(businessSection.locator('label:has-text("Logo")')).toBeVisible();
+  });
+
+  test('should be able to fill business address fields', async ({ page }) => {
+    const businessSection = page
+      .locator('.settings-section')
+      .filter({ hasText: 'Business Information' });
+
+    // Fill address fields
+    await businessSection.locator('input[id="businessAddress.street"]').fill('123 Main Street');
+    await businessSection.locator('input[id="businessAddress.city"]').fill('New York');
+    await businessSection.locator('input[id="businessAddress.state"]').fill('NY');
+    await businessSection.locator('input[id="businessAddress.postalCode"]').fill('10001');
+    await businessSection.locator('input[id="businessAddress.country"]').fill('United States');
+
+    // Verify values are set
+    await expect(businessSection.locator('input[id="businessAddress.street"]')).toHaveValue('123 Main Street');
+    await expect(businessSection.locator('input[id="businessAddress.city"]')).toHaveValue('New York');
+    await expect(businessSection.locator('input[id="businessAddress.state"]')).toHaveValue('NY');
+    await expect(businessSection.locator('input[id="businessAddress.postalCode"]')).toHaveValue('10001');
+    await expect(businessSection.locator('input[id="businessAddress.country"]')).toHaveValue('United States');
+  });
+
+  test('should persist business address after page reload', async ({ page }) => {
+    const businessSection = page
+      .locator('.settings-section')
+      .filter({ hasText: 'Business Information' });
+
+    // Fill address fields
+    await businessSection.locator('input[id="businessAddress.street"]').fill('456 Oak Avenue');
+    await businessSection.locator('input[id="businessAddress.city"]').fill('Los Angeles');
+    await businessSection.locator('input[id="businessAddress.state"]').fill('CA');
+    await businessSection.locator('input[id="businessAddress.postalCode"]').fill('90001');
+    await businessSection.locator('input[id="businessAddress.country"]').fill('USA');
+
+    // Wait for auto-save
+    await page.waitForTimeout(200);
+
+    // Reload page
+    await page.reload();
+
+    // Verify values persist
+    await expect(businessSection.locator('input[id="businessAddress.street"]')).toHaveValue('456 Oak Avenue');
+    await expect(businessSection.locator('input[id="businessAddress.city"]')).toHaveValue('Los Angeles');
+    await expect(businessSection.locator('input[id="businessAddress.state"]')).toHaveValue('CA');
+    await expect(businessSection.locator('input[id="businessAddress.postalCode"]')).toHaveValue('90001');
+    await expect(businessSection.locator('input[id="businessAddress.country"]')).toHaveValue('USA');
   });
 });

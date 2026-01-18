@@ -1,6 +1,7 @@
 import i18n from 'i18next';
 import { initReactI18next } from 'react-i18next';
 import en from './en.json';
+import fr from './fr.json';
 import it from './it.json';
 import nl from './nl.json';
 import de from './de.json';
@@ -9,6 +10,7 @@ import ptPT from './pt-PT.json';
 
 const resources = {
   en: { translation: en },
+  fr: { translation: fr },
   it: { translation: it },
   nl: { translation: nl },
   de: { translation: de },
@@ -18,6 +20,7 @@ const resources = {
 
 export const AVAILABLE_LANGUAGES = [
   { code: 'en', name: 'English' },
+  { code: 'fr', name: 'Francais' },
   { code: 'pt-BR', name: 'Portugues (Brasil)' },
   { code: 'pt-PT', name: 'Portugues (Portugal)' },
   { code: 'it', name: 'Italiano' },

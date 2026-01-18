@@ -109,10 +109,10 @@ test.describe('Multi-Company Support', () => {
       await page.waitForTimeout(500);
 
       // First company should have EUR invoices with INV- prefix
-      await expect(page.locator('text=INV-EUR-')).toBeVisible();
+      await expect(page.locator('text=INV-EUR-').first()).toBeVisible();
 
       // Should NOT have second company's invoices
-      await expect(page.locator('text=SB-USD-')).not.toBeVisible();
+      await expect(page.locator('text=SB-USD-').first()).not.toBeVisible();
     });
 
     test('second company should have its own invoices', async ({ page }) => {
@@ -127,10 +127,10 @@ test.describe('Multi-Company Support', () => {
       await page.waitForTimeout(500);
 
       // Second company should have SB- prefix invoices
-      await expect(page.locator('text=SB-USD-')).toBeVisible();
+      await expect(page.locator('text=SB-USD-').first()).toBeVisible();
 
       // Should NOT have first company's invoices
-      await expect(page.locator('text=INV-EUR-')).not.toBeVisible();
+      await expect(page.locator('text=INV-EUR-').first()).not.toBeVisible();
     });
   });
 
@@ -277,19 +277,18 @@ test.describe('Multi-Company Support', () => {
       await page.goto('/settings');
       await page.waitForTimeout(500);
 
-      // Click edit button on second company
-      const secondCompanyItem = page
-        .locator('.company-item')
-        .filter({ hasText: 'Second Business' });
+      // Click edit button on second company (second item in list)
+      const secondCompanyItem = page.locator('.company-item').nth(1);
       await secondCompanyItem.locator('button:has-text("Edit")').click();
+      await page.waitForTimeout(300);
 
-      // Input field should appear
-      const editInput = secondCompanyItem.locator('input[type="text"]');
+      // Input field should appear in the company edit form
+      const editInput = page.locator('.company-edit input[type="text"]');
       await expect(editInput).toBeVisible();
 
       // Clear and type new name
       await editInput.fill('Renamed Company');
-      await secondCompanyItem.locator('button:has-text("Save")').click();
+      await page.locator('.company-edit button:has-text("Save")').click();
       await page.waitForTimeout(500);
 
       // Verify the name changed

@@ -82,10 +82,15 @@ test.describe('Theme Color Customization', () => {
   });
 
   test('should apply theme color to navigation active state', async ({ page }) => {
+    // First reset to default blue color
+    const bluePreset = page.locator('.color-swatch').first();
+    await bluePreset.click();
+    await page.waitForTimeout(200);
+
     // Change to red color
     const redPreset = page.locator('.color-swatch').nth(3);
     await redPreset.click();
-    await page.waitForTimeout(100);
+    await page.waitForTimeout(200);
 
     // Check that the settings nav link (active) has the theme color
     const activeNavLink = page.locator('.nav-links a.active');
@@ -98,13 +103,18 @@ test.describe('Theme Color Customization', () => {
   });
 
   test('should apply theme color to primary buttons', async ({ page }) => {
+    // First reset to default blue color to ensure clean state
+    const bluePreset = page.locator('.color-swatch').first();
+    await bluePreset.click();
+    await page.waitForTimeout(200);
+
     // Change to orange color
     const orangePreset = page.locator('.color-swatch').nth(4);
     await orangePreset.click();
-    await page.waitForTimeout(100);
+    await page.waitForTimeout(200);
 
-    // Check primary button color
-    const saveButton = page.locator('.btn-primary');
+    // Check primary button color - use the Save button in form-actions
+    const saveButton = page.locator('.form-actions .btn-primary');
     const bgColor = await saveButton.evaluate((el) => {
       return getComputedStyle(el).backgroundColor;
     });

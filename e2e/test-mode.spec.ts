@@ -107,8 +107,11 @@ test.describe('Test Mode', () => {
     await page.click('a[href="/settings"]');
     await expect(page).toHaveURL('/settings');
 
-    // Check for demo business name
-    const businessNameInput = page.locator('input').first();
+    // Check for demo business name in Business Information section
+    const businessSection = page
+      .locator('.settings-section')
+      .filter({ hasText: 'Business Information' });
+    const businessNameInput = businessSection.locator('input[type="text"]').first();
     await expect(businessNameInput).toHaveValue('Demo Freelancer');
   });
 
@@ -174,10 +177,13 @@ test.describe('Test Mode', () => {
     await page.click('a[href="/settings"]');
     await expect(page).toHaveURL('/settings');
 
+    // Get business name input from Business Information section
+    const businessSection = page
+      .locator('.settings-section')
+      .filter({ hasText: 'Business Information' });
+    const businessNameInput = businessSection.locator('input[type="text"]').first();
+
     // Verify original business name
-    const businessNameInput = page.locator(
-      'input[type="text"]'
-    ).first();
     await expect(businessNameInput).toHaveValue('Demo Freelancer');
 
     // Modify the business name
@@ -195,7 +201,10 @@ test.describe('Test Mode', () => {
     await page.reload();
 
     // Verify business name is restored to original
-    const restoredInput = page.locator('input[type="text"]').first();
+    const restoredBusinessSection = page
+      .locator('.settings-section')
+      .filter({ hasText: 'Business Information' });
+    const restoredInput = restoredBusinessSection.locator('input[type="text"]').first();
     await expect(restoredInput).toHaveValue('Demo Freelancer');
   });
 

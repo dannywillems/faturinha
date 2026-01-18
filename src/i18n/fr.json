@@ -1,0 +1,201 @@
+{
+  "app": {
+    "name": "Faturinha",
+    "tagline": "Facturez en 30 secondes"
+  },
+  "nav": {
+    "dashboard": "Tableau de bord",
+    "invoices": "Factures",
+    "clients": "Clients",
+    "settings": "Parametres"
+  },
+  "dashboard": {
+    "title": "Tableau de bord",
+    "totalInvoices": "Total des factures",
+    "pendingPayments": "Paiements en attente",
+    "paidThisMonth": "Paye ce mois",
+    "overdueInvoices": "Factures en retard"
+  },
+  "documents": {
+    "invoice": "Facture",
+    "quote": "Devis",
+    "all": "Tous les documents",
+    "invoicesOnly": "Factures uniquement",
+    "quotesOnly": "Devis uniquement"
+  },
+  "invoices": {
+    "title": "Factures",
+    "create": "Nouvelle facture",
+    "edit": "Modifier la facture",
+    "duplicate": "Dupliquer",
+    "delete": "Supprimer",
+    "send": "Envoyer",
+    "markPaid": "Marquer comme payee",
+    "status": {
+      "draft": "Brouillon",
+      "sent": "Envoyee",
+      "paid": "Payee",
+      "overdue": "En retard",
+      "cancelled": "Annulee",
+      "accepted": "Accepte",
+      "declined": "Refuse",
+      "expired": "Expire"
+    },
+    "fields": {
+      "invoiceNumber": "Numero de facture",
+      "client": "Client",
+      "issueDate": "Date d'emission",
+      "dueDate": "Date d'echeance",
+      "items": "Articles",
+      "description": "Description",
+      "quantity": "Quantite",
+      "unitPrice": "Prix unitaire",
+      "taxRate": "Taux de TVA",
+      "subtotal": "Sous-total",
+      "tax": "TVA",
+      "total": "Total",
+      "notes": "Notes",
+      "currency": "Devise"
+    },
+    "addItem": "Ajouter un article",
+    "removeItem": "Supprimer l'article",
+    "empty": "Aucune facture",
+    "emptyDescription": "Creez votre premiere facture pour commencer"
+  },
+  "quotes": {
+    "title": "Devis",
+    "create": "Nouveau devis",
+    "edit": "Modifier le devis",
+    "duplicate": "Dupliquer le devis",
+    "delete": "Supprimer",
+    "send": "Envoyer le devis",
+    "convertToInvoice": "Convertir en facture",
+    "markAccepted": "Marquer comme accepte",
+    "markDeclined": "Marquer comme refuse",
+    "status": {
+      "draft": "Brouillon",
+      "sent": "Envoye",
+      "accepted": "Accepte",
+      "declined": "Refuse",
+      "expired": "Expire"
+    },
+    "fields": {
+      "quoteNumber": "Numero de devis",
+      "validUntil": "Valide jusqu'au"
+    },
+    "empty": "Aucun devis",
+    "emptyDescription": "Creez votre premier devis pour commencer"
+  },
+  "clients": {
+    "title": "Clients",
+    "create": "Nouveau client",
+    "edit": "Modifier le client",
+    "delete": "Supprimer",
+    "fields": {
+      "name": "Nom",
+      "email": "E-mail",
+      "phone": "Telephone",
+      "address": "Adresse",
+      "street": "Rue",
+      "city": "Ville",
+      "state": "Region/Province",
+      "postalCode": "Code postal",
+      "country": "Pays",
+      "vatNumber": "Numero de TVA",
+      "notes": "Notes"
+    },
+    "empty": "Aucun client",
+    "emptyDescription": "Ajoutez votre premier client pour commencer"
+  },
+  "settings": {
+    "title": "Parametres",
+    "companies": {
+      "title": "Entreprises",
+      "description": "Gerez vos entreprises. Chaque entreprise possede sa propre base de donnees avec clients, factures et parametres.",
+      "active": "Active",
+      "createNew": "Creer une nouvelle entreprise",
+      "namePlaceholder": "Nom de l'entreprise",
+      "create": "Creer",
+      "deleteConfirm": "Etes-vous sur de vouloir supprimer cette entreprise ? Toutes les donnees seront definitivement perdues.",
+      "cannotDeleteLast": "Impossible de supprimer la derniere entreprise. Creez d'abord une autre entreprise."
+    },
+    "business": {
+      "title": "Informations de l'entreprise",
+      "name": "Nom de l'entreprise",
+      "email": "E-mail",
+      "phone": "Telephone",
+      "address": "Adresse",
+      "vatNumber": "Numero de TVA",
+      "logo": "Logo"
+    },
+    "invoice": {
+      "title": "Parametres de facturation",
+      "defaultCurrency": "Devise par defaut",
+      "defaultTaxRate": "Taux de TVA par defaut",
+      "invoicePrefix": "Prefixe du numero de facture",
+      "nextInvoiceNumber": "Prochain numero de facture",
+      "paymentTerms": "Delai de paiement par defaut (jours)",
+      "defaultNotes": "Notes par defaut"
+    },
+    "quote": {
+      "title": "Parametres de devis",
+      "quotePrefix": "Prefixe du numero de devis",
+      "nextQuoteNumber": "Prochain numero de devis",
+      "validityPeriod": "Duree de validite par defaut (jours)"
+    },
+    "data": {
+      "title": "Gestion des donnees",
+      "export": "Exporter toutes les donnees",
+      "import": "Importer des donnees",
+      "exportDescription": "Telecharger toutes vos donnees au format JSON",
+      "importDescription": "Importer des donnees depuis un fichier JSON"
+    },
+    "language": {
+      "title": "Langue",
+      "select": "Selectionner la langue"
+    },
+    "theme": {
+      "title": "Theme",
+      "primaryColor": "Couleur principale",
+      "customColor": "Personnalise"
+    }
+  },
+  "share": {
+    "title": "Partager la facture",
+    "whatsapp": "Partager via WhatsApp",
+    "telegram": "Partager via Telegram",
+    "email": "Envoyer par e-mail",
+    "download": "Telecharger le PDF",
+    "copy": "Copier le lien"
+  },
+  "common": {
+    "save": "Enregistrer",
+    "cancel": "Annuler",
+    "delete": "Supprimer",
+    "edit": "Modifier",
+    "create": "Creer",
+    "search": "Rechercher",
+    "loading": "Chargement...",
+    "error": "Une erreur s'est produite",
+    "success": "Succes",
+    "confirm": "Confirmer",
+    "confirmDelete": "Etes-vous sur de vouloir supprimer ceci ?",
+    "yes": "Oui",
+    "no": "Non"
+  },
+  "telegram": {
+    "commands": {
+      "new": "/new @client 100 \"Description du service\"",
+      "status": "/status FAC-2024-001",
+      "reminder": "/reminder FAC-2024-001"
+    }
+  },
+  "testMode": {
+    "enter": "Activer le mode test",
+    "exit": "Quitter le mode test",
+    "banner": "MODE TEST - Les modifications n'affecteront pas vos donnees reelles",
+    "reset": "Reinitialiser les donnees de test",
+    "resetConfirm": "Reinitialiser toutes les donnees de test a l'etat initial ?",
+    "resetSuccess": "Les donnees de test ont ete reinitialisees"
+  }
+}

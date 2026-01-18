@@ -435,6 +435,25 @@ td a {
   }
 }
 
+.address-fields {
+  display: flex;
+  flex-direction: column;
+  gap: $spacing-2;
+
+  input {
+    width: 100%;
+  }
+}
+
+.address-row {
+  display: flex;
+  gap: $spacing-2;
+
+  input {
+    flex: 1;
+  }
+}
+
 .form-actions {
   display: flex;
   align-items: center;

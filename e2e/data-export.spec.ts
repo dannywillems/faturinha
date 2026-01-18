@@ -248,6 +248,10 @@ test.describe('Data Export in Test Mode', () => {
     await page.click('button:has-text("Enter Test Mode")');
     await page.waitForSelector('.test-mode-banner');
 
+    // Wait for test data to be seeded by checking clients page first
+    await page.goto('/clients');
+    await page.waitForSelector('.clients-list table tbody tr', { timeout: 5000 });
+
     // Go to settings and export
     await page.goto('/settings');
 

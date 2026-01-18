@@ -1,5 +1,5 @@
 import type { ChangeEvent, ReactElement } from 'react';
-import { useState, useCallback, useEffect } from 'react';
+import { useState, useCallback, useEffect, useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useLiveQuery } from 'dexie-react-hooks';
 import { useDb, useCompany } from '../contexts/TestModeContext';
@@ -38,6 +38,9 @@ export function Settings(): ReactElement {
   // Get current settings from DB or defaults
   const currentSettings = existingSettings?.[0];
   const settingsId = currentSettings?.id;
+
+  // Memoize browser language detection to avoid recalculating on every render
+  const browserLanguage = useMemo(() => detectBrowserLanguage(), []);
 
   // Sync language with saved locale
   useEffect(() => {
@@ -541,7 +544,7 @@ export function Settings(): ReactElement {
         <div className="form-group">
           <label>{t('settings.language.select')}</label>
           <select
-            value={currentSettings?.locale ?? detectBrowserLanguage()}
+            value={currentSettings?.locale ?? browserLanguage}
             onChange={(e) => {
               const newLocale = e.target.value;
               updateField('locale', newLocale);

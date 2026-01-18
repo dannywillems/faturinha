@@ -38,12 +38,7 @@ export function detectBrowserLanguage(): string {
     return 'en';
   }
 
-  // navigator.language is the standard property, userLanguage is legacy IE
-  const browserLang =
-    navigator.language ||
-    (navigator as { userLanguage?: string }).userLanguage ||
-    'en';
-  
+  const browserLang = navigator.language;
   const supportedCodes = AVAILABLE_LANGUAGES.map((lang) => lang.code);
 
   // First, try exact match

@@ -109,6 +109,16 @@
   },
   "settings": {
     "title": "Definicoes",
+    "companies": {
+      "title": "Empresas",
+      "description": "Gira as suas empresas. Cada empresa tem a sua propria base de dados separada com clientes, faturas e definicoes.",
+      "active": "Ativa",
+      "createNew": "Criar Nova Empresa",
+      "namePlaceholder": "Nome da empresa",
+      "create": "Criar",
+      "deleteConfirm": "Tem a certeza de que pretende eliminar esta empresa? Todos os dados serao perdidos permanentemente.",
+      "cannotDeleteLast": "Nao e possivel eliminar a ultima empresa. Crie outra empresa primeiro."
+    },
     "business": {
       "title": "Informacoes da Empresa",
       "name": "Nome da Empresa",

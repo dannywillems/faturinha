@@ -146,6 +146,40 @@ body {
   border-top: 1px solid $color-border;
 }
 
+// =============================================================================
+// Company Switcher
+// =============================================================================
+.company-switcher {
+  margin-bottom: $spacing-4;
+  padding-bottom: $spacing-4;
+  border-bottom: 1px solid $color-border;
+
+  .company-select {
+    width: 100%;
+    padding: $spacing-2 $spacing-3;
+    font-size: $font-size-sm;
+    font-weight: $font-weight-medium;
+    border: 1px solid $color-border;
+    border-radius: $radius-base;
+    background-color: $color-surface;
+    color: $color-text;
+    cursor: pointer;
+    transition:
+      border-color $transition-fast,
+      box-shadow $transition-fast;
+
+    &:hover {
+      border-color: var(--color-primary);
+    }
+
+    &:focus {
+      outline: none;
+      border-color: var(--color-primary);
+      box-shadow: 0 0 0 2px var(--color-primary-light);
+    }
+  }
+}
+
 .btn-test-mode {
   width: 100%;
   background-color: transparent;
@@ -689,6 +723,93 @@ td a {
     margin-bottom: $spacing-4;
     padding-bottom: $spacing-2;
     border-bottom: 1px solid $color-border;
+  }
+}
+
+// =============================================================================
+// Company Management
+// =============================================================================
+.company-list {
+  display: flex;
+  flex-direction: column;
+  gap: $spacing-2;
+  margin-top: $spacing-4;
+  margin-bottom: $spacing-4;
+}
+
+.company-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: $spacing-3 $spacing-4;
+  background-color: $color-bg;
+  border: 1px solid $color-border;
+  border-radius: $radius-base;
+  transition: all $transition-fast;
+
+  &.active {
+    border-color: var(--color-primary);
+    background-color: var(--color-primary-light);
+  }
+
+  .company-name {
+    font-weight: $font-weight-medium;
+    display: flex;
+    align-items: center;
+    gap: $spacing-2;
+  }
+
+  .active-badge {
+    font-size: $font-size-xs;
+    font-weight: $font-weight-semibold;
+    color: var(--color-primary);
+    background-color: $color-surface;
+    padding: $spacing-1 $spacing-2;
+    border-radius: $radius-full;
+  }
+
+  .company-actions {
+    display: flex;
+    gap: $spacing-2;
+  }
+
+  .company-edit {
+    display: flex;
+    align-items: center;
+    gap: $spacing-2;
+    flex: 1;
+
+    input {
+      flex: 1;
+      padding: $spacing-2;
+      font-size: $font-size-sm;
+      border: 1px solid $color-border;
+      border-radius: $radius-base;
+
+      &:focus {
+        outline: none;
+        border-color: var(--color-primary);
+      }
+    }
+  }
+}
+
+.company-create {
+  margin-top: $spacing-4;
+  padding-top: $spacing-4;
+  border-top: 1px solid $color-border;
+}
+
+.company-create-form {
+  display: flex;
+  gap: $spacing-2;
+
+  input {
+    flex: 1;
+  }
+
+  button {
+    white-space: nowrap;
   }
 }
 

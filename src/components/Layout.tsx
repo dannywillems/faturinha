@@ -3,7 +3,7 @@ import { useEffect } from 'react';
 import { NavLink, Outlet } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { useLiveQuery } from 'dexie-react-hooks';
-import { useTestMode, useDb } from '../contexts/TestModeContext';
+import { useTestMode, useDb, useCompany } from '../contexts/TestModeContext';
 import { DEFAULT_SETTINGS } from '../types';
 import { generateHoverColor, generateLightColor } from '../utils/themePresets';
 
@@ -12,6 +12,7 @@ export function Layout(): ReactElement {
   const db = useDb();
   const { isTestMode, enterTestMode, exitTestMode, resetTestData } =
     useTestMode();
+  const { companies, activeCompany, switchCompany } = useCompany();
 
   const settings = useLiveQuery(() => db.settings.toArray(), [db]);
   const themeColor =
@@ -53,6 +54,12 @@ export function Layout(): ReactElement {
     }
   };
 
+  const handleCompanyChange = (
+    e: React.ChangeEvent<HTMLSelectElement>
+  ): void => {
+    switchCompany(e.target.value);
+  };
+
   return (
     <div className={`app-layout ${isTestMode ? 'test-mode' : ''}`}>
       {isTestMode && (
@@ -81,6 +88,21 @@ export function Layout(): ReactElement {
           <h1>{t('app.name')}</h1>
           {isTestMode && <span className="test-badge">TEST</span>}
         </div>
+        {companies.length > 0 && (
+          <div className="company-switcher">
+            <select
+              value={activeCompany?.id ?? ''}
+              onChange={handleCompanyChange}
+              className="company-select"
+            >
+              {companies.map((company) => (
+                <option key={company.id} value={company.id}>
+                  {company.name}
+                </option>
+              ))}
+            </select>
+          </div>
+        )}
         <ul className="nav-links">
           <li>
             <NavLink to="/" end>

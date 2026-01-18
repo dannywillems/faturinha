@@ -2,7 +2,7 @@ import type { ChangeEvent, ReactElement } from 'react';
 import { useState, useCallback, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useLiveQuery } from 'dexie-react-hooks';
-import { useDb } from '../contexts/TestModeContext';
+import { useDb, useCompany } from '../contexts/TestModeContext';
 import type {
   Settings as SettingsType,
   CurrencyCode,
@@ -19,10 +19,20 @@ const ALLOWED_IMAGE_TYPES = ['image/png', 'image/jpeg', 'image/svg+xml'];
 export function Settings(): ReactElement {
   const { t, i18n } = useTranslation();
   const db = useDb();
+  const {
+    companies,
+    activeCompany,
+    createCompany,
+    updateCompany,
+    deleteCompany,
+  } = useCompany();
 
   const existingSettings = useLiveQuery(() => db.settings.toArray(), [db]);
   const [saved, setSaved] = useState<boolean>(false);
   const [logoError, setLogoError] = useState<string | null>(null);
+  const [newCompanyName, setNewCompanyName] = useState<string>('');
+  const [editingCompanyId, setEditingCompanyId] = useState<string | null>(null);
+  const [editingCompanyName, setEditingCompanyName] = useState<string>('');
 
   // Get current settings from DB or defaults
   const currentSettings = existingSettings?.[0];
@@ -152,6 +162,40 @@ export function Settings(): ReactElement {
     await updateField('businessLogo', undefined);
   }, [updateField]);
 
+  const handleCreateCompany = async (): Promise<void> => {
+    if (!newCompanyName.trim()) return;
+    await createCompany(newCompanyName.trim());
+    setNewCompanyName('');
+  };
+
+  const handleStartEditCompany = (id: string, name: string): void => {
+    setEditingCompanyId(id);
+    setEditingCompanyName(name);
+  };
+
+  const handleSaveCompanyName = (): void => {
+    if (editingCompanyId && editingCompanyName.trim()) {
+      updateCompany(editingCompanyId, editingCompanyName.trim());
+    }
+    setEditingCompanyId(null);
+    setEditingCompanyName('');
+  };
+
+  const handleCancelEditCompany = (): void => {
+    setEditingCompanyId(null);
+    setEditingCompanyName('');
+  };
+
+  const handleDeleteCompany = async (id: string): Promise<void> => {
+    if (companies.length <= 1) {
+      alert(t('settings.companies.cannotDeleteLast'));
+      return;
+    }
+    if (window.confirm(t('settings.companies.deleteConfirm'))) {
+      await deleteCompany(id);
+    }
+  };
+
   if (existingSettings === undefined) {
     return <div>{t('common.loading')}</div>;
   }
@@ -159,6 +203,103 @@ export function Settings(): ReactElement {
   return (
     <div className="settings-page">
       <h1>{t('settings.title')}</h1>
+
+      <section className="settings-section">
+        <h2>{t('settings.companies.title')}</h2>
+        <p className="text-muted">{t('settings.companies.description')}</p>
+
+        <div className="company-list">
+          {companies.map((company) => (
+            <div
+              key={company.id}
+              className={`company-item ${activeCompany?.id === company.id ? 'active' : ''}`}
+            >
+              {editingCompanyId === company.id ? (
+                <div className="company-edit">
+                  <input
+                    type="text"
+                    value={editingCompanyName}
+                    onChange={(e) => setEditingCompanyName(e.target.value)}
+                    onKeyDown={(e) => {
+                      if (e.key === 'Enter') handleSaveCompanyName();
+                      if (e.key === 'Escape') handleCancelEditCompany();
+                    }}
+                    autoFocus
+                  />
+                  <button
+                    type="button"
+                    className="btn btn-sm btn-primary"
+                    onClick={handleSaveCompanyName}
+                  >
+                    {t('common.save')}
+                  </button>
+                  <button
+                    type="button"
+                    className="btn btn-sm"
+                    onClick={handleCancelEditCompany}
+                  >
+                    {t('common.cancel')}
+                  </button>
+                </div>
+              ) : (
+                <>
+                  <span className="company-name">
+                    {company.name}
+                    {activeCompany?.id === company.id && (
+                      <span className="active-badge">
+                        {t('settings.companies.active')}
+                      </span>
+                    )}
+                  </span>
+                  <div className="company-actions">
+                    <button
+                      type="button"
+                      className="btn btn-sm"
+                      onClick={() =>
+                        handleStartEditCompany(company.id, company.name)
+                      }
+                    >
+                      {t('common.edit')}
+                    </button>
+                    {companies.length > 1 && (
+                      <button
+                        type="button"
+                        className="btn btn-sm btn-danger"
+                        onClick={() => handleDeleteCompany(company.id)}
+                      >
+                        {t('common.delete')}
+                      </button>
+                    )}
+                  </div>
+                </>
+              )}
+            </div>
+          ))}
+        </div>
+
+        <div className="form-group company-create">
+          <label>{t('settings.companies.createNew')}</label>
+          <div className="company-create-form">
+            <input
+              type="text"
+              value={newCompanyName}
+              onChange={(e) => setNewCompanyName(e.target.value)}
+              placeholder={t('settings.companies.namePlaceholder')}
+              onKeyDown={(e) => {
+                if (e.key === 'Enter') handleCreateCompany();
+              }}
+            />
+            <button
+              type="button"
+              className="btn btn-primary"
+              onClick={handleCreateCompany}
+              disabled={!newCompanyName.trim()}
+            >
+              {t('settings.companies.create')}
+            </button>
+          </div>
+        </div>
+      </section>
 
       <section className="settings-section">
         <h2>{t('settings.business.title')}</h2>

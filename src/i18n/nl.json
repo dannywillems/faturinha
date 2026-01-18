@@ -109,6 +109,16 @@
   },
   "settings": {
     "title": "Instellingen",
+    "companies": {
+      "title": "Bedrijven",
+      "description": "Beheer je bedrijven. Elk bedrijf heeft zijn eigen aparte database met klanten, facturen en instellingen.",
+      "active": "Actief",
+      "createNew": "Nieuw Bedrijf Aanmaken",
+      "namePlaceholder": "Bedrijfsnaam",
+      "create": "Aanmaken",
+      "deleteConfirm": "Weet je zeker dat je dit bedrijf wilt verwijderen? Alle gegevens gaan permanent verloren.",
+      "cannotDeleteLast": "Kan het laatste bedrijf niet verwijderen. Maak eerst een ander bedrijf aan."
+    },
     "business": {
       "title": "Bedrijfsinformatie",
       "name": "Bedrijfsnaam",

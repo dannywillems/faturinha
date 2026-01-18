@@ -109,6 +109,16 @@
   },
   "settings": {
     "title": "Configuracoes",
+    "companies": {
+      "title": "Empresas",
+      "description": "Gerencie suas empresas. Cada empresa tem seu proprio banco de dados separado com clientes, faturas e configuracoes.",
+      "active": "Ativa",
+      "createNew": "Criar Nova Empresa",
+      "namePlaceholder": "Nome da empresa",
+      "create": "Criar",
+      "deleteConfirm": "Tem certeza de que deseja excluir esta empresa? Todos os dados serao perdidos permanentemente.",
+      "cannotDeleteLast": "Nao e possivel excluir a ultima empresa. Crie outra empresa primeiro."
+    },
     "business": {
       "title": "Informacoes da Empresa",
       "name": "Nome da Empresa",

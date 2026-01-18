@@ -109,6 +109,16 @@
   },
   "settings": {
     "title": "Einstellungen",
+    "companies": {
+      "title": "Unternehmen",
+      "description": "Verwalten Sie Ihre Unternehmen. Jedes Unternehmen hat seine eigene separate Datenbank mit Kunden, Rechnungen und Einstellungen.",
+      "active": "Aktiv",
+      "createNew": "Neues Unternehmen Erstellen",
+      "namePlaceholder": "Unternehmensname",
+      "create": "Erstellen",
+      "deleteConfirm": "Sind Sie sicher, dass Sie dieses Unternehmen loschen mochten? Alle Daten gehen dauerhaft verloren.",
+      "cannotDeleteLast": "Das letzte Unternehmen kann nicht geloscht werden. Erstellen Sie zuerst ein anderes Unternehmen."
+    },
     "business": {
       "title": "Unternehmensinformationen",
       "name": "Unternehmensname",

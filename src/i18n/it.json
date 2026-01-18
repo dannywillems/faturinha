@@ -109,6 +109,16 @@
   },
   "settings": {
     "title": "Impostazioni",
+    "companies": {
+      "title": "Aziende",
+      "description": "Gestisci le tue aziende. Ogni azienda ha il proprio database separato con clienti, fatture e impostazioni.",
+      "active": "Attiva",
+      "createNew": "Crea Nuova Azienda",
+      "namePlaceholder": "Nome azienda",
+      "create": "Crea",
+      "deleteConfirm": "Sei sicuro di voler eliminare questa azienda? Tutti i dati andranno persi definitivamente.",
+      "cannotDeleteLast": "Impossibile eliminare l'ultima azienda. Crea prima un'altra azienda."
+    },
     "business": {
       "title": "Informazioni Aziendali",
       "name": "Nome Azienda",

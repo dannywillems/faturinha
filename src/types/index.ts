@@ -142,6 +142,13 @@ export interface Settings {
   themeColor?: string; // Hex color, e.g., "#2563eb"
 }
 
+// Company for multi-company support
+export interface Company {
+  id: string; // UUID
+  name: string;
+  createdAt: Date;
+}
+
 // Default settings
 export const DEFAULT_SETTINGS: Omit<Settings, 'id'> = {
   defaultCurrency: 'EUR',

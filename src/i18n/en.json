@@ -109,6 +109,16 @@
   },
   "settings": {
     "title": "Settings",
+    "companies": {
+      "title": "Companies",
+      "description": "Manage your companies. Each company has its own separate database with clients, invoices, and settings.",
+      "active": "Active",
+      "createNew": "Create New Company",
+      "namePlaceholder": "Company name",
+      "create": "Create",
+      "deleteConfirm": "Are you sure you want to delete this company? All data will be permanently lost.",
+      "cannotDeleteLast": "Cannot delete the last company. Create another company first."
+    },
     "business": {
       "title": "Business Information",
       "name": "Business Name",

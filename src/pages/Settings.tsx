@@ -77,10 +77,17 @@ export function Settings(): ReactElement {
 
   const handleExport = async () => {
     const data = {
+      company: activeCompany
+        ? {
+            id: activeCompany.id,
+            name: activeCompany.name,
+          }
+        : null,
       clients: await db.clients.toArray(),
       invoices: await db.invoices.toArray(),
       settings: await db.settings.toArray(),
       exportedAt: new Date().toISOString(),
+      version: '1.0',
     };
 
     const blob = new Blob([JSON.stringify(data, null, 2)], {
@@ -88,8 +95,11 @@ export function Settings(): ReactElement {
     });
     const url = URL.createObjectURL(blob);
     const a = document.createElement('a');
+    const companySlug = activeCompany
+      ? activeCompany.name.toLowerCase().replace(/[^a-z0-9]+/g, '-')
+      : 'default';
     a.href = url;
-    a.download = `faturinha-backup-${new Date().toISOString().split('T')[0]}.json`;
+    a.download = `faturinha-${companySlug}-${new Date().toISOString().split('T')[0]}.json`;
     a.click();
     URL.revokeObjectURL(url);
   };
@@ -621,6 +631,73 @@ export function Settings(): ReactElement {
         <div className="form-group">
           <p className="text-muted">{t('settings.data.importDescription')}</p>
           <input type="file" accept=".json" onChange={handleImport} />
+        </div>
+      </section>
+
+      <section className="settings-section">
+        <h2>{t('settings.support.title')}</h2>
+        <p className="text-muted">{t('settings.support.description')}</p>
+        <div className="support-links">
+          <a
+            href="https://github.com/dannywillems/faturinha/issues/new"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="support-link"
+          >
+            <span className="support-icon">🐛</span>
+            <div className="support-link-content">
+              <span className="support-link-title">
+                {t('settings.support.reportBug')}
+              </span>
+              <span className="support-link-description">
+                {t('settings.support.reportBugDescription')}
+              </span>
+            </div>
+          </a>
+          <a
+            href="https://github.com/dannywillems/faturinha/discussions"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="support-link"
+          >
+            <span className="support-icon">💬</span>
+            <div className="support-link-content">
+              <span className="support-link-title">
+                {t('settings.support.discussions')}
+              </span>
+              <span className="support-link-description">
+                {t('settings.support.discussionsDescription')}
+              </span>
+            </div>
+          </a>
+          <a
+            href="https://leakix.github.io/sponsor/"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="support-link sponsor-link"
+          >
+            <span className="support-icon">❤️</span>
+            <div className="support-link-content">
+              <span className="support-link-title">
+                {t('settings.support.sponsor')}
+              </span>
+              <span className="support-link-description">
+                {t('settings.support.sponsorDescription')}
+              </span>
+            </div>
+          </a>
+        </div>
+        <div className="support-credits">
+          <p>
+            {t('settings.support.madeBy')}{' '}
+            <a
+              href="https://leakix.net"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              LeakIX
+            </a>
+          </p>
         </div>
       </section>
 

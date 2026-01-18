@@ -24,8 +24,8 @@ export function Layout(): ReactElement {
     settings?.[0]?.darkMode ?? DEFAULT_SETTINGS.darkMode ?? 'system';
 
   // Track system preference for dark mode
-  const [systemPrefersDark, setSystemPrefersDark] = useState<boolean>(() =>
-    window.matchMedia('(prefers-color-scheme: dark)').matches
+  const [systemPrefersDark, setSystemPrefersDark] = useState<boolean>(
+    () => window.matchMedia('(prefers-color-scheme: dark)').matches
   );
 
   // Listen for system theme changes
@@ -164,10 +164,12 @@ export function Layout(): ReactElement {
           </div>
         )}
       </nav>
-      <main className="main-content">
-        <Outlet />
-      </main>
-      <Footer />
+      <div className="main-wrapper">
+        <main className="main-content">
+          <Outlet />
+        </main>
+        <Footer />
+      </div>
     </div>
   );
 }

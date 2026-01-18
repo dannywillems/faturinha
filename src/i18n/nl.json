@@ -162,6 +162,17 @@
       "light": "Licht",
       "dark": "Donker",
       "system": "Systeem"
+    },
+    "support": {
+      "title": "Ondersteuning",
+      "description": "Hulp nodig of een probleem melden? Wij zijn er om te helpen.",
+      "reportBug": "Bug melden",
+      "reportBugDescription": "Werkt iets niet? Laat het ons weten op GitHub",
+      "discussions": "Community Discussies",
+      "discussionsDescription": "Stel vragen en deel ideeen met de community",
+      "sponsor": "Sponsor dit project",
+      "sponsorDescription": "Ondersteun de ontwikkeling van Faturinha",
+      "madeBy": "Met liefde gemaakt door"
     }
   },
   "share": {

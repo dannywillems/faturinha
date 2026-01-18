@@ -61,11 +61,11 @@ test.describe('Data Export', () => {
     // Wait for download
     const download = await downloadPromise;
 
-    // Verify download filename contains 'faturinha-backup'
-    expect(download.suggestedFilename()).toMatch(/faturinha-backup-.*\.json/);
+    // Verify download filename contains 'faturinha' and date format
+    expect(download.suggestedFilename()).toMatch(/faturinha-.*-\d{4}-\d{2}-\d{2}\.json/);
   });
 
-  test('should export valid JSON with all data', async ({ page }) => {
+  test('should export valid JSON with all data including company info', async ({ page }) => {
     // Create some data first
     await createTestData(page);
 
@@ -87,16 +87,19 @@ test.describe('Data Export', () => {
 
     // Parse and validate JSON structure
     const data = JSON.parse(content) as {
+      company: { id: string; name: string } | null;
       clients: unknown[];
       invoices: unknown[];
       settings: unknown[];
       exportedAt: string;
+      version: string;
     };
 
     expect(data).toHaveProperty('clients');
     expect(data).toHaveProperty('invoices');
     expect(data).toHaveProperty('settings');
     expect(data).toHaveProperty('exportedAt');
+    expect(data).toHaveProperty('version');
 
     // Verify we have the test data
     expect(data.clients.length).toBeGreaterThanOrEqual(1);
@@ -108,5 +111,172 @@ test.describe('Data Export', () => {
 
     const importInput = page.locator('input[type="file"][accept=".json"]');
     await expect(importInput).toBeVisible();
+  });
+
+  test('should export data with version number', async ({ page }) => {
+    await page.goto('/settings');
+
+    // Set up download listener
+    const downloadPromise = page.waitForEvent('download');
+
+    // Click export button
+    await page.click('button:has-text("Export")');
+
+    // Wait for download
+    const download = await downloadPromise;
+
+    // Read the downloaded file content
+    const path = await download.path();
+    const fs = await import('fs');
+    const content = fs.readFileSync(path!, 'utf-8');
+
+    // Parse and validate JSON structure
+    const data = JSON.parse(content) as {
+      version: string;
+    };
+
+    expect(data.version).toBe('1.0');
+  });
+
+  test('should include exportedAt timestamp in ISO format', async ({ page }) => {
+    await page.goto('/settings');
+
+    // Set up download listener
+    const downloadPromise = page.waitForEvent('download');
+
+    // Click export button
+    await page.click('button:has-text("Export")');
+
+    // Wait for download
+    const download = await downloadPromise;
+
+    // Read the downloaded file content
+    const path = await download.path();
+    const fs = await import('fs');
+    const content = fs.readFileSync(path!, 'utf-8');
+
+    // Parse and validate JSON structure
+    const data = JSON.parse(content) as {
+      exportedAt: string;
+    };
+
+    // Verify exportedAt is a valid ISO date string
+    expect(data.exportedAt).toMatch(/^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}/);
+    expect(() => new Date(data.exportedAt)).not.toThrow();
+  });
+});
+
+test.describe('Data Export with Companies', () => {
+  test.beforeEach(async ({ page }) => {
+    await page.goto('/');
+    // Clear localStorage and IndexedDB
+    await page.evaluate(() => {
+      localStorage.clear();
+      return new Promise<void>((resolve) => {
+        const req = indexedDB.deleteDatabase('FaturinhaDB');
+        req.onsuccess = () => resolve();
+        req.onerror = () => resolve();
+      });
+    });
+  });
+
+  test('should include company name in export filename when company exists', async ({ page }) => {
+    // Create a company first
+    await page.goto('/settings');
+
+    // Fill in the company name input and create a company
+    await page.fill('input[placeholder*="ompany"]', 'My Test Company');
+    await page.click('button:has-text("Create")');
+
+    // Wait for company to be created
+    await page.waitForSelector('.company-item');
+
+    // Set up download listener
+    const downloadPromise = page.waitForEvent('download');
+
+    // Click export button
+    await page.click('button:has-text("Export")');
+
+    // Wait for download
+    const download = await downloadPromise;
+
+    // Verify download filename contains company slug
+    expect(download.suggestedFilename()).toContain('my-test-company');
+  });
+
+  test('should include company info in exported JSON', async ({ page }) => {
+    // Create a company first
+    await page.goto('/settings');
+
+    // Fill in the company name input and create a company
+    await page.fill('input[placeholder*="ompany"]', 'Export Company');
+    await page.click('button:has-text("Create")');
+
+    // Wait for company to be created
+    await page.waitForSelector('.company-item');
+
+    // Set up download listener
+    const downloadPromise = page.waitForEvent('download');
+
+    // Click export button
+    await page.click('button:has-text("Export")');
+
+    // Wait for download
+    const download = await downloadPromise;
+
+    // Read the downloaded file content
+    const path = await download.path();
+    const fs = await import('fs');
+    const content = fs.readFileSync(path!, 'utf-8');
+
+    // Parse and validate JSON structure
+    const data = JSON.parse(content) as {
+      company: { id: string; name: string } | null;
+    };
+
+    expect(data.company).not.toBeNull();
+    expect(data.company?.name).toBe('Export Company');
+    expect(data.company?.id).toBeTruthy();
+  });
+});
+
+test.describe('Data Export in Test Mode', () => {
+  test('should export test mode data separately', async ({ page }) => {
+    await page.goto('/');
+
+    // Enter test mode
+    await page.click('button:has-text("Enter Test Mode")');
+    await page.waitForSelector('.test-mode-banner');
+
+    // Go to settings and export
+    await page.goto('/settings');
+
+    // Set up download listener
+    const downloadPromise = page.waitForEvent('download');
+
+    // Click export button
+    await page.click('button:has-text("Export")');
+
+    // Wait for download
+    const download = await downloadPromise;
+
+    // Read the downloaded file content
+    const path = await download.path();
+    const fs = await import('fs');
+    const content = fs.readFileSync(path!, 'utf-8');
+
+    // Parse and validate JSON structure
+    const data = JSON.parse(content) as {
+      company: { id: string; name: string } | null;
+      clients: unknown[];
+      invoices: unknown[];
+    };
+
+    // Test mode should have sample data
+    expect(data.clients.length).toBeGreaterThan(0);
+    expect(data.invoices.length).toBeGreaterThan(0);
+
+    // Company should be a test company
+    expect(data.company?.name).toContain('Demo');
   });
 });

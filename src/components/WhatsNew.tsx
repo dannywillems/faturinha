@@ -26,7 +26,9 @@ export function WhatsNew({ onClose }: WhatsNewProps): ReactElement {
   useEffect(() => {
     const fetchReleases = async (): Promise<void> => {
       try {
-        const response = await fetch(`${import.meta.env.BASE_URL}releases.json`);
+        const response = await fetch(
+          `${import.meta.env.BASE_URL}releases.json`
+        );
         if (!response.ok) {
           throw new Error('Failed to fetch releases');
         }
@@ -52,7 +54,10 @@ export function WhatsNew({ onClose }: WhatsNewProps): ReactElement {
 
   return (
     <div className="modal-overlay" onClick={onClose}>
-      <div className="modal whats-new-modal" onClick={(e) => e.stopPropagation()}>
+      <div
+        className="modal whats-new-modal"
+        onClick={(e) => e.stopPropagation()}
+      >
         <div className="modal-header">
           <h2>{t('whatsNew.title')}</h2>
           <button
@@ -74,9 +79,13 @@ export function WhatsNew({ onClose }: WhatsNewProps): ReactElement {
                   <div className="release-header">
                     <h3 className="release-title">
                       {release.title}
-                      <span className="release-version">v{release.version}</span>
+                      <span className="release-version">
+                        v{release.version}
+                      </span>
                     </h3>
-                    <span className="release-date">{formatDate(release.date)}</span>
+                    <span className="release-date">
+                      {formatDate(release.date)}
+                    </span>
                   </div>
                   <ul className="release-changes">
                     {release.changes.map((change, index) => (

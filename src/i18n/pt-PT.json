@@ -162,6 +162,17 @@
       "light": "Claro",
       "dark": "Escuro",
       "system": "Sistema"
+    },
+    "support": {
+      "title": "Suporte",
+      "description": "Precisa de ajuda ou quer reportar um problema? Estamos aqui para ajudar.",
+      "reportBug": "Reportar um Bug",
+      "reportBugDescription": "Encontrou algo que nao funciona? Avise-nos no GitHub",
+      "discussions": "Discussoes da Comunidade",
+      "discussionsDescription": "Faca perguntas e partilhe ideias com a comunidade",
+      "sponsor": "Patrocinar este Projeto",
+      "sponsorDescription": "Apoie o desenvolvimento do Faturinha",
+      "madeBy": "Feito com amor por"
     }
   },
   "share": {

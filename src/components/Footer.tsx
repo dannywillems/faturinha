@@ -12,9 +12,7 @@ export function Footer(): ReactElement {
     <>
       <footer className="app-footer">
         <div className="footer-left">
-          <span className="copyright">
-            &copy; {currentYear} Faturinha
-          </span>
+          <span className="copyright">&copy; {currentYear} Faturinha</span>
         </div>
         <div className="footer-right">
           <span className="version-info">

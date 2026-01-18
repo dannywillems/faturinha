@@ -37,6 +37,9 @@ interface TestModeContextType {
 const TEST_MODE_KEY = 'faturinha-test-mode';
 const COMPANIES_KEY = 'faturinha-companies';
 const ACTIVE_COMPANY_KEY = 'faturinha-active-company';
+const PRODUCTION_COMPANIES_BACKUP_KEY = 'faturinha-production-companies-backup';
+const PRODUCTION_ACTIVE_COMPANY_BACKUP_KEY =
+  'faturinha-production-active-company-backup';
 const DEFAULT_COMPANY_ID = 'default';
 
 function generateUUID(): string {
@@ -147,6 +150,19 @@ export function TestModeProvider({
   }, [dbName, dbVersion]);
 
   const enterTestMode = useCallback(async (): Promise<void> => {
+    // Backup production companies before entering test mode
+    const currentCompanies = localStorage.getItem(COMPANIES_KEY);
+    const currentActiveCompany = localStorage.getItem(ACTIVE_COMPANY_KEY);
+    if (currentCompanies) {
+      localStorage.setItem(PRODUCTION_COMPANIES_BACKUP_KEY, currentCompanies);
+    }
+    if (currentActiveCompany) {
+      localStorage.setItem(
+        PRODUCTION_ACTIVE_COMPANY_BACKUP_KEY,
+        currentActiveCompany
+      );
+    }
+
     localStorage.setItem(TEST_MODE_KEY, 'true');
 
     // Seed test companies in localStorage
@@ -177,6 +193,44 @@ export function TestModeProvider({
   const exitTestMode = useCallback((): void => {
     localStorage.removeItem(TEST_MODE_KEY);
     setIsTestMode(false);
+
+    // Restore production companies from backup
+    const backupCompanies = localStorage.getItem(
+      PRODUCTION_COMPANIES_BACKUP_KEY
+    );
+    const backupActiveCompany = localStorage.getItem(
+      PRODUCTION_ACTIVE_COMPANY_BACKUP_KEY
+    );
+
+    if (backupCompanies) {
+      // Restore to main storage
+      localStorage.setItem(COMPANIES_KEY, backupCompanies);
+      localStorage.removeItem(PRODUCTION_COMPANIES_BACKUP_KEY);
+    }
+    if (backupActiveCompany) {
+      localStorage.setItem(ACTIVE_COMPANY_KEY, backupActiveCompany);
+      localStorage.removeItem(PRODUCTION_ACTIVE_COMPANY_BACKUP_KEY);
+    }
+
+    // Reload from localStorage
+    const productionCompanies = loadCompanies();
+    setCompanies(productionCompanies);
+
+    // Restore active company
+    const savedActiveId = loadActiveCompanyId();
+    if (
+      savedActiveId &&
+      productionCompanies.some((c) => c.id === savedActiveId)
+    ) {
+      setActiveCompanyId(savedActiveId);
+    } else if (productionCompanies.length > 0) {
+      setActiveCompanyId(productionCompanies[0].id);
+    } else {
+      setActiveCompanyId(null);
+    }
+
+    // Force db recreation
+    setDbVersion((v) => v + 1);
   }, []);
 
   const resetTestData = useCallback(async (): Promise<void> => {

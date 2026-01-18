@@ -162,6 +162,17 @@
       "light": "Hell",
       "dark": "Dunkel",
       "system": "System"
+    },
+    "support": {
+      "title": "Support",
+      "description": "Brauchen Sie Hilfe oder mochten Sie ein Problem melden? Wir sind hier, um zu helfen.",
+      "reportBug": "Fehler melden",
+      "reportBugDescription": "Etwas funktioniert nicht? Lassen Sie es uns auf GitHub wissen",
+      "discussions": "Community-Diskussionen",
+      "discussionsDescription": "Stellen Sie Fragen und teilen Sie Ideen mit der Community",
+      "sponsor": "Dieses Projekt unterstutzen",
+      "sponsorDescription": "Unterstutzen Sie die Entwicklung von Faturinha",
+      "madeBy": "Mit Liebe gemacht von"
     }
   },
   "share": {

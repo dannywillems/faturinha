@@ -430,8 +430,8 @@ function drawTotals(ctx: PDFContext, invoice: Invoice): void {
   const labelX = PAGE_WIDTH - MARGIN - totalsWidth;
   const valueX = PAGE_WIDTH - MARGIN;
 
-  // Add top margin before totals section
-  ctx.y += SECTION_GAP;
+  // Add extra top margin before totals section for visual separation
+  ctx.y += SECTION_GAP * 2;
 
   checkPageBreak(ctx, 30);
 

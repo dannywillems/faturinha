@@ -345,7 +345,10 @@ export function Settings(): ReactElement {
               value={getValue('businessAddress')?.street ?? ''}
               onChange={(e) => {
                 const currentAddress = getValue('businessAddress') ?? {};
-                updateField('businessAddress', { ...currentAddress, street: e.target.value });
+                updateField('businessAddress', {
+                  ...currentAddress,
+                  street: e.target.value,
+                });
               }}
             />
             <div className="address-row">
@@ -356,7 +359,10 @@ export function Settings(): ReactElement {
                 value={getValue('businessAddress')?.city ?? ''}
                 onChange={(e) => {
                   const currentAddress = getValue('businessAddress') ?? {};
-                  updateField('businessAddress', { ...currentAddress, city: e.target.value });
+                  updateField('businessAddress', {
+                    ...currentAddress,
+                    city: e.target.value,
+                  });
                 }}
               />
               <input
@@ -366,7 +372,10 @@ export function Settings(): ReactElement {
                 value={getValue('businessAddress')?.state ?? ''}
                 onChange={(e) => {
                   const currentAddress = getValue('businessAddress') ?? {};
-                  updateField('businessAddress', { ...currentAddress, state: e.target.value });
+                  updateField('businessAddress', {
+                    ...currentAddress,
+                    state: e.target.value,
+                  });
                 }}
               />
             </div>
@@ -378,7 +387,10 @@ export function Settings(): ReactElement {
                 value={getValue('businessAddress')?.postalCode ?? ''}
                 onChange={(e) => {
                   const currentAddress = getValue('businessAddress') ?? {};
-                  updateField('businessAddress', { ...currentAddress, postalCode: e.target.value });
+                  updateField('businessAddress', {
+                    ...currentAddress,
+                    postalCode: e.target.value,
+                  });
                 }}
               />
               <input
@@ -388,7 +400,10 @@ export function Settings(): ReactElement {
                 value={getValue('businessAddress')?.country ?? ''}
                 onChange={(e) => {
                   const currentAddress = getValue('businessAddress') ?? {};
-                  updateField('businessAddress', { ...currentAddress, country: e.target.value });
+                  updateField('businessAddress', {
+                    ...currentAddress,
+                    country: e.target.value,
+                  });
                 }}
               />
             </div>

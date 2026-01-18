@@ -198,7 +198,7 @@ function drawClientAndMeta(
   ctx: PDFContext,
   invoice: Invoice,
   client: Client,
-  isQuote: boolean,
+  isQuote: boolean
 ): void {
   const startY = ctx.y;
   const midX = PAGE_WIDTH / 2;
@@ -263,7 +263,7 @@ function drawClientAndMeta(
     isQuote && invoice.validUntil ? invoice.validUntil : invoice.dueDate;
   ctx.pdf.text(formatDate(dateValue), valueX, ctx.y, { align: 'right' });
 
-  ctx.y = Math.max(leftEndY, ctx.y + LINE_HEIGHT)
+  ctx.y = Math.max(leftEndY, ctx.y + LINE_HEIGHT);
   ctx.y += SECTION_GAP;
 }
 
@@ -517,7 +517,7 @@ export function generateInvoicePDF(
 
   // Draw content
   drawHeader(ctx, invoice, settings, isQuote, primaryColor);
-  drawClientAndMeta(ctx, invoice, client, isQuote, primaryColor);
+  drawClientAndMeta(ctx, invoice, client, isQuote);
   drawItemsTable(ctx, invoice);
   drawTotals(ctx, invoice);
 

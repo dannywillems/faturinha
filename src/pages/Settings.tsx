@@ -8,6 +8,7 @@ import type {
   CurrencyCode,
   Client,
   Invoice,
+  DarkMode,
 } from '../types';
 import { DEFAULT_SETTINGS } from '../types';
 import { THEME_PRESETS } from '../utils/themePresets';
@@ -480,6 +481,46 @@ export function Settings(): ReactElement {
                 />
               </div>
             </div>
+          </div>
+        </div>
+        <div className="form-group">
+          <label>{t('settings.theme.darkMode')}</label>
+          <div className="dark-mode-toggle">
+            <label className="toggle-label">
+              <input
+                type="radio"
+                name="darkMode"
+                value="light"
+                checked={getValue('darkMode') === 'light'}
+                onChange={() => updateField('darkMode', 'light' as DarkMode)}
+              />
+              <span className="toggle-option">{t('settings.theme.light')}</span>
+            </label>
+            <label className="toggle-label">
+              <input
+                type="radio"
+                name="darkMode"
+                value="dark"
+                checked={getValue('darkMode') === 'dark'}
+                onChange={() => updateField('darkMode', 'dark' as DarkMode)}
+              />
+              <span className="toggle-option">{t('settings.theme.dark')}</span>
+            </label>
+            <label className="toggle-label">
+              <input
+                type="radio"
+                name="darkMode"
+                value="system"
+                checked={
+                  getValue('darkMode') === 'system' ||
+                  getValue('darkMode') === undefined
+                }
+                onChange={() => updateField('darkMode', 'system' as DarkMode)}
+              />
+              <span className="toggle-option">
+                {t('settings.theme.system')}
+              </span>
+            </label>
           </div>
         </div>
       </section>

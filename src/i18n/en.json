@@ -157,7 +157,11 @@
     "theme": {
       "title": "Theme",
       "primaryColor": "Primary Color",
-      "customColor": "Custom"
+      "customColor": "Custom",
+      "darkMode": "Appearance",
+      "light": "Light",
+      "dark": "Dark",
+      "system": "System"
     }
   },
   "share": {

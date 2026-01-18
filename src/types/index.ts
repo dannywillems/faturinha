@@ -51,6 +51,8 @@ export type QuoteStatus =
 
 export type DocumentType = 'invoice' | 'quote';
 
+export type DarkMode = 'light' | 'dark' | 'system';
+
 export interface Address {
   street?: string;
   city?: string;
@@ -140,6 +142,7 @@ export interface Settings {
   locale: string;
   // Theme
   themeColor?: string; // Hex color, e.g., "#2563eb"
+  darkMode?: DarkMode; // 'light', 'dark', or 'system'
 }
 
 // Company for multi-company support
@@ -161,4 +164,5 @@ export const DEFAULT_SETTINGS: Omit<Settings, 'id'> = {
   defaultQuoteValidityDays: 30,
   locale: 'en',
   themeColor: '#2563eb',
+  darkMode: 'system',
 };

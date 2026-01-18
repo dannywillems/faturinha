@@ -155,9 +155,13 @@
       "select": "Selectionner la langue"
     },
     "theme": {
-      "title": "Theme",
+      "title": "Thème",
       "primaryColor": "Couleur principale",
-      "customColor": "Personnalise"
+      "customColor": "Personnalisé",
+      "darkMode": "Apparence",
+      "light": "Clair",
+      "dark": "Sombre",
+      "system": "Système"
     }
   },
   "share": {

@@ -277,19 +277,37 @@ test.describe('Invoice Form', () => {
     await page.click('button[type="submit"]');
     await expect(page).toHaveURL('/invoices');
 
-    // Click edit on the invoice
-    await page.click('a:has-text("Edit")');
+    // Click edit on the invoice - use specific selector for actions cell
+    const editLink = page.locator('.actions-cell a:has-text("Edit")').first();
+    await editLink.waitFor({ state: 'visible' });
+    await editLink.click();
+
+    // Wait for edit page to load
+    await expect(page).toHaveURL(/\/invoices\/\d+\/edit/);
+    await expect(
+      page.getByRole('heading', { name: 'Edit Invoice' })
+    ).toBeVisible();
+
+    // Wait for the status select to be ready with the current value
+    const statusSelect = page.locator('select#status');
+    await statusSelect.waitFor({ state: 'visible' });
+    await expect(statusSelect).toHaveValue('draft', { timeout: 10000 });
 
     // Change status to 'sent'
-    await page.selectOption('select#status', 'sent');
-    await expect(page.locator('select#status')).toHaveValue('sent');
+    await statusSelect.selectOption('sent');
+    await expect(statusSelect).toHaveValue('sent');
 
     // Save changes
     await page.click('button[type="submit"]');
     await expect(page).toHaveURL('/invoices');
 
+    // Wait for the list to be visible first
+    await page.waitForSelector('table tbody tr', { timeout: 10000 });
+
     // Verify status was updated in the list
-    await expect(page.locator('.status-badge:has-text("Sent")')).toBeVisible();
+    await expect(
+      page.locator('.status-badge:has-text("Sent")')
+    ).toBeVisible({ timeout: 10000 });
   });
 
   test('should allow changing invoice status to paid', async ({ page }) => {
@@ -297,7 +315,9 @@ test.describe('Invoice Form', () => {
     await createTestClient(page);
 
     await page.goto('/invoices/new');
-    await page.selectOption('select#clientId', { label: 'Test Client for Invoices' });
+    await page.selectOption('select#clientId', {
+      label: 'Test Client for Invoices',
+    });
     await page.fill('input#dueDate', '2024-02-15');
 
     const itemRow = page.locator('.items-table tbody tr').first();
@@ -308,18 +328,36 @@ test.describe('Invoice Form', () => {
     await page.click('button[type="submit"]');
     await expect(page).toHaveURL('/invoices');
 
-    // Click edit on the invoice
-    await page.click('a:has-text("Edit")');
+    // Click edit on the invoice - use specific selector for actions cell
+    const editLink = page.locator('.actions-cell a:has-text("Edit")').first();
+    await editLink.waitFor({ state: 'visible' });
+    await editLink.click();
+
+    // Wait for edit page to load
+    await expect(page).toHaveURL(/\/invoices\/\d+\/edit/);
+    await expect(
+      page.getByRole('heading', { name: 'Edit Invoice' })
+    ).toBeVisible();
+
+    // Wait for the status select to be ready with the current value
+    const statusSelect = page.locator('select#status');
+    await statusSelect.waitFor({ state: 'visible' });
+    await expect(statusSelect).toHaveValue('draft', { timeout: 10000 });
 
     // Change status to 'paid'
-    await page.selectOption('select#status', 'paid');
+    await statusSelect.selectOption('paid');
 
     // Save changes
     await page.click('button[type="submit"]');
     await expect(page).toHaveURL('/invoices');
 
+    // Wait for the list to be visible first
+    await page.waitForSelector('table tbody tr', { timeout: 10000 });
+
     // Verify status was updated in the list
-    await expect(page.locator('.status-badge:has-text("Paid")')).toBeVisible();
+    await expect(
+      page.locator('.status-badge:has-text("Paid")')
+    ).toBeVisible({ timeout: 10000 });
   });
 
   test('should show invoice-specific statuses for invoices', async ({ page }) => {
@@ -327,7 +365,9 @@ test.describe('Invoice Form', () => {
     await createTestClient(page);
 
     await page.goto('/invoices/new');
-    await page.selectOption('select#clientId', { label: 'Test Client for Invoices' });
+    await page.selectOption('select#clientId', {
+      label: 'Test Client for Invoices',
+    });
     await page.fill('input#dueDate', '2024-02-15');
 
     const itemRow = page.locator('.items-table tbody tr').first();
@@ -338,8 +378,13 @@ test.describe('Invoice Form', () => {
     await page.click('button[type="submit"]');
     await expect(page).toHaveURL('/invoices');
 
-    // Click edit on the invoice
-    await page.click('a:has-text("Edit")');
+    // Click edit on the invoice - use specific selector for actions cell
+    const editLink = page.locator('.actions-cell a:has-text("Edit")').first();
+    await editLink.waitFor({ state: 'visible' });
+    await editLink.click();
+
+    // Wait for edit page to load
+    await expect(page).toHaveURL(/\/invoices\/\d+\/edit/);
 
     // Check that invoice-specific statuses are available
     const statusSelect = page.locator('select#status');
@@ -365,7 +410,9 @@ test.describe('Invoice Form', () => {
     // Select quote document type
     await page.click('label:has-text("Quote")');
 
-    await page.selectOption('select#clientId', { label: 'Test Client for Invoices' });
+    await page.selectOption('select#clientId', {
+      label: 'Test Client for Invoices',
+    });
     await page.fill('input#validUntil', '2024-02-15');
 
     const itemRow = page.locator('.items-table tbody tr').first();
@@ -376,8 +423,13 @@ test.describe('Invoice Form', () => {
     await page.click('button[type="submit"]');
     await expect(page).toHaveURL('/invoices');
 
-    // Click edit on the quote
-    await page.click('a:has-text("Edit")');
+    // Click edit on the quote - use specific selector for actions cell
+    const editLink = page.locator('.actions-cell a:has-text("Edit")').first();
+    await editLink.waitFor({ state: 'visible' });
+    await editLink.click();
+
+    // Wait for edit page to load
+    await expect(page).toHaveURL(/\/invoices\/\d+\/edit/);
 
     // Check that quote-specific statuses are available
     const statusSelect = page.locator('select#status');
@@ -400,7 +452,9 @@ test.describe('Invoice Form', () => {
     // Create a quote
     await page.goto('/invoices/new');
     await page.click('label:has-text("Quote")');
-    await page.selectOption('select#clientId', { label: 'Test Client for Invoices' });
+    await page.selectOption('select#clientId', {
+      label: 'Test Client for Invoices',
+    });
     await page.fill('input#validUntil', '2024-02-15');
 
     const itemRow = page.locator('.items-table tbody tr').first();
@@ -411,17 +465,252 @@ test.describe('Invoice Form', () => {
     await page.click('button[type="submit"]');
     await expect(page).toHaveURL('/invoices');
 
-    // Click edit on the quote
-    await page.click('a:has-text("Edit")');
+    // Click edit on the quote - use specific selector for actions cell
+    const editLink = page.locator('.actions-cell a:has-text("Edit")').first();
+    await editLink.waitFor({ state: 'visible' });
+    await editLink.click();
+
+    // Wait for edit page to load
+    await expect(page).toHaveURL(/\/invoices\/\d+\/edit/);
+    await expect(
+      page.getByRole('heading', { name: 'Edit Quote' })
+    ).toBeVisible();
+
+    // Wait for the status select to be ready with the current value
+    const statusSelect = page.locator('select#status');
+    await statusSelect.waitFor({ state: 'visible' });
+    await expect(statusSelect).toHaveValue('draft', { timeout: 10000 });
 
     // Change status to 'accepted'
-    await page.selectOption('select#status', 'accepted');
+    await statusSelect.selectOption('accepted');
 
     // Save changes
     await page.click('button[type="submit"]');
     await expect(page).toHaveURL('/invoices');
 
+    // Wait for the list to be visible first
+    await page.waitForSelector('table tbody tr', { timeout: 10000 });
+
     // Verify status was updated in the list
-    await expect(page.locator('.status-badge:has-text("Accepted")')).toBeVisible();
+    await expect(
+      page.locator('.status-badge:has-text("Accepted")')
+    ).toBeVisible({ timeout: 10000 });
+  });
+
+  test('should display custom invoice number field', async ({ page }) => {
+    await page.goto('/invoices/new');
+
+    // Check that custom document number field is visible
+    await expect(page.locator('input#customDocumentNumber')).toBeVisible();
+
+    // Check placeholder text
+    await expect(page.locator('input#customDocumentNumber')).toHaveAttribute(
+      'placeholder',
+      'Auto-generate if empty'
+    );
+  });
+
+  test('should create invoice with custom invoice number', async ({ page }) => {
+    // First create a client
+    await createTestClient(page);
+
+    // Go to new invoice form
+    await page.goto('/invoices/new');
+
+    // Select client
+    await page.selectOption('select#clientId', {
+      label: 'Test Client for Invoices',
+    });
+
+    // Fill custom invoice number
+    await page.fill('input#customDocumentNumber', 'CUSTOM-INV-001');
+
+    // Fill dates
+    await page.fill('input#dueDate', '2024-02-15');
+
+    // Fill invoice item
+    const itemRow = page.locator('.items-table tbody tr').first();
+    await itemRow
+      .locator('input[placeholder="Description"]')
+      .fill('Service with custom ID');
+    await itemRow.locator('input[type="number"]').nth(0).fill('1');
+    await itemRow.locator('input[type="number"]').nth(1).fill('100');
+
+    // Submit
+    await page.click('button[type="submit"]');
+
+    // Should redirect to invoices list
+    await expect(page).toHaveURL('/invoices');
+
+    // Custom invoice number should appear in the list
+    await expect(
+      page.locator('tbody tr td:first-child a:has-text("CUSTOM-INV-001")')
+    ).toBeVisible();
+  });
+
+  test('should auto-generate invoice number when custom field is empty', async ({
+    page,
+  }) => {
+    // First create a client
+    await createTestClient(page);
+
+    // Go to new invoice form
+    await page.goto('/invoices/new');
+
+    // Select client
+    await page.selectOption('select#clientId', {
+      label: 'Test Client for Invoices',
+    });
+
+    // Leave custom document number empty (should auto-generate)
+
+    // Fill dates
+    await page.fill('input#dueDate', '2024-02-15');
+
+    // Fill invoice item
+    const itemRow = page.locator('.items-table tbody tr').first();
+    await itemRow
+      .locator('input[placeholder="Description"]')
+      .fill('Service with auto ID');
+    await itemRow.locator('input[type="number"]').nth(0).fill('1');
+    await itemRow.locator('input[type="number"]').nth(1).fill('100');
+
+    // Submit
+    await page.click('button[type="submit"]');
+
+    // Should redirect to invoices list
+    await expect(page).toHaveURL('/invoices');
+
+    // Auto-generated invoice number should appear (format: INV-EUR-YYYY-XXXX)
+    await expect(
+      page.locator('tbody tr td:first-child a').first()
+    ).toContainText('INV-EUR-');
+  });
+
+  test('should show existing invoice number when editing', async ({ page }) => {
+    // First create a client and invoice with custom number
+    await createTestClient(page);
+
+    await page.goto('/invoices/new');
+    await page.selectOption('select#clientId', {
+      label: 'Test Client for Invoices',
+    });
+    await page.fill('input#customDocumentNumber', 'EDIT-TEST-001');
+    await page.fill('input#dueDate', '2024-02-15');
+
+    const itemRow = page.locator('.items-table tbody tr').first();
+    await itemRow.locator('input[placeholder="Description"]').fill('Test');
+    await itemRow.locator('input[type="number"]').nth(0).fill('1');
+    await itemRow.locator('input[type="number"]').nth(1).fill('100');
+
+    await page.click('button[type="submit"]');
+    await expect(page).toHaveURL('/invoices');
+
+    // Click edit on the invoice - use specific selector for the Edit link in actions cell
+    const editLink = page.locator('.actions-cell a:has-text("Edit")').first();
+    await editLink.waitFor({ state: 'visible' });
+    await editLink.click();
+
+    // Wait for edit page to load
+    await expect(page).toHaveURL(/\/invoices\/\d+\/edit/);
+    await expect(
+      page.getByRole('heading', { name: 'Edit Invoice' })
+    ).toBeVisible();
+
+    // Wait for form to load data - the field should have the value
+    await expect(page.locator('input#customDocumentNumber')).toHaveValue(
+      'EDIT-TEST-001',
+      { timeout: 10000 }
+    );
+  });
+
+  test('should allow changing invoice number when editing', async ({ page }) => {
+    // First create a client and invoice
+    await createTestClient(page);
+
+    await page.goto('/invoices/new');
+    await page.selectOption('select#clientId', {
+      label: 'Test Client for Invoices',
+    });
+    await page.fill('input#customDocumentNumber', 'ORIGINAL-001');
+    await page.fill('input#dueDate', '2024-02-15');
+
+    const itemRow = page.locator('.items-table tbody tr').first();
+    await itemRow.locator('input[placeholder="Description"]').fill('Test');
+    await itemRow.locator('input[type="number"]').nth(0).fill('1');
+    await itemRow.locator('input[type="number"]').nth(1).fill('100');
+
+    await page.click('button[type="submit"]');
+    await expect(page).toHaveURL('/invoices');
+
+    // Click edit on the invoice - wait for the link to be visible first
+    await page.waitForSelector('a:has-text("Edit")');
+    await page.click('a:has-text("Edit")');
+
+    // Wait for edit page to load
+    await expect(page).toHaveURL(/\/invoices\/\d+\/edit/);
+    await expect(
+      page.getByRole('heading', { name: 'Edit Invoice' })
+    ).toBeVisible();
+
+    // Wait for form data to load
+    await expect(page.locator('input#customDocumentNumber')).toHaveValue(
+      'ORIGINAL-001',
+      { timeout: 10000 }
+    );
+
+    // Clear and change the invoice number
+    await page.locator('input#customDocumentNumber').clear();
+    await page.fill('input#customDocumentNumber', 'MODIFIED-001');
+
+    // Save changes
+    await page.click('button[type="submit"]');
+    await expect(page).toHaveURL('/invoices');
+
+    // New invoice number should appear in the list
+    await expect(
+      page.locator('tbody tr td:first-child a:has-text("MODIFIED-001")')
+    ).toBeVisible({ timeout: 10000 });
+  });
+
+  test('should create quote with custom quote number', async ({ page }) => {
+    // First create a client
+    await createTestClient(page);
+
+    // Go to new invoice form
+    await page.goto('/invoices/new');
+
+    // Select quote document type
+    await page.click('label:has-text("Quote")');
+
+    // Select client
+    await page.selectOption('select#clientId', {
+      label: 'Test Client for Invoices',
+    });
+
+    // Fill custom quote number
+    await page.fill('input#customDocumentNumber', 'CUSTOM-QUO-001');
+
+    // Fill valid until date
+    await page.fill('input#validUntil', '2024-02-15');
+
+    // Fill quote item
+    const itemRow = page.locator('.items-table tbody tr').first();
+    await itemRow
+      .locator('input[placeholder="Description"]')
+      .fill('Quote with custom ID');
+    await itemRow.locator('input[type="number"]').nth(0).fill('1');
+    await itemRow.locator('input[type="number"]').nth(1).fill('200');
+
+    // Submit
+    await page.click('button[type="submit"]');
+
+    // Should redirect to invoices list
+    await expect(page).toHaveURL('/invoices');
+
+    // Custom quote number should appear in the list
+    await expect(
+      page.locator('tbody tr td:first-child a:has-text("CUSTOM-QUO-001")')
+    ).toBeVisible();
   });
 });

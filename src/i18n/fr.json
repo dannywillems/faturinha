@@ -55,7 +55,8 @@
       "tax": "TVA",
       "total": "Total",
       "notes": "Notes",
-      "currency": "Devise"
+      "currency": "Devise",
+      "autoGenerate": "Auto-generer si vide"
     },
     "addItem": "Ajouter un article",
     "removeItem": "Supprimer l'article",

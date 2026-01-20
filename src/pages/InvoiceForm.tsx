@@ -163,6 +163,7 @@ export function InvoiceForm(): ReactElement {
     validUntil: string;
     items: InvoiceItem[];
     notes: string;
+    customDocumentNumber: string;
   }>({
     documentType: 'invoice',
     status: 'draft',
@@ -173,6 +174,7 @@ export function InvoiceForm(): ReactElement {
     validUntil: '',
     items: [createEmptyItem()],
     notes: '',
+    customDocumentNumber: '',
   });
 
   const [existingInvoice, setExistingInvoice] = useState<Invoice | null>(null);
@@ -273,6 +275,7 @@ export function InvoiceForm(): ReactElement {
               id: duplicateFromId ? generateItemId() : item.id,
             })),
             notes: invoice.notes || '',
+            customDocumentNumber: duplicateFromId ? '' : invoice.invoiceNumber,
           });
         }
       });
@@ -314,11 +317,16 @@ export function InvoiceForm(): ReactElement {
     const totals = calculateTotals();
 
     if (isEditing && id && existingInvoice) {
-      // Update existing invoice/quote (keep same document number)
+      // Update existing invoice/quote
       // For quotes, use validUntil as dueDate since dueDate is required
       const dueDateValue = isQuote ? formData.validUntil : formData.dueDate;
 
+      // Use custom document number if provided, otherwise keep existing
+      const documentNumber =
+        formData.customDocumentNumber.trim() || existingInvoice.invoiceNumber;
+
       await db.invoices.update(Number(id), {
+        invoiceNumber: documentNumber,
         clientId: formData.clientId,
         currency: formData.currency,
         status: formData.status,
@@ -340,14 +348,36 @@ export function InvoiceForm(): ReactElement {
       let ledgerId: number;
       let documentNumber: string;
 
-      if (isQuote) {
-        const result = await generateQuoteNumber(db, formData.currency, year);
-        ledgerId = result.ledgerId;
-        documentNumber = result.quoteNumber;
+      // Use custom document number if provided, otherwise auto-generate
+      if (formData.customDocumentNumber.trim()) {
+        // Use custom number - still need a ledger for tracking
+        if (isQuote) {
+          const result = await generateQuoteNumber(db, formData.currency, year);
+          ledgerId = result.ledgerId;
+        } else {
+          const result = await generateInvoiceNumber(
+            db,
+            formData.currency,
+            year
+          );
+          ledgerId = result.ledgerId;
+        }
+        documentNumber = formData.customDocumentNumber.trim();
       } else {
-        const result = await generateInvoiceNumber(db, formData.currency, year);
-        ledgerId = result.ledgerId;
-        documentNumber = result.invoiceNumber;
+        // Auto-generate document number
+        if (isQuote) {
+          const result = await generateQuoteNumber(db, formData.currency, year);
+          ledgerId = result.ledgerId;
+          documentNumber = result.quoteNumber;
+        } else {
+          const result = await generateInvoiceNumber(
+            db,
+            formData.currency,
+            year
+          );
+          ledgerId = result.ledgerId;
+          documentNumber = result.invoiceNumber;
+        }
       }
 
       // For quotes, use validUntil as dueDate since dueDate is required
@@ -526,6 +556,26 @@ export function InvoiceForm(): ReactElement {
                   </option>
                 ))}
               </select>
+            </div>
+
+            <div className="form-group">
+              <label htmlFor="customDocumentNumber">
+                {isQuote
+                  ? t('quotes.fields.quoteNumber')
+                  : t('invoices.fields.invoiceNumber')}
+              </label>
+              <input
+                type="text"
+                id="customDocumentNumber"
+                value={formData.customDocumentNumber}
+                onChange={(e) =>
+                  setFormData((prev) => ({
+                    ...prev,
+                    customDocumentNumber: e.target.value,
+                  }))
+                }
+                placeholder={t('invoices.fields.autoGenerate')}
+              />
             </div>
           </div>
 

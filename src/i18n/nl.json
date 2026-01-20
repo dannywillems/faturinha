@@ -55,7 +55,8 @@
       "tax": "BTW",
       "total": "Totaal",
       "notes": "Opmerkingen",
-      "currency": "Valuta"
+      "currency": "Valuta",
+      "autoGenerate": "Automatisch genereren indien leeg"
     },
     "addItem": "Artikel Toevoegen",
     "removeItem": "Artikel Verwijderen",

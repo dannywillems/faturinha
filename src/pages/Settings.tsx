@@ -1,5 +1,5 @@
 import type { ChangeEvent, ReactElement } from 'react';
-import { useState, useCallback, useEffect } from 'react';
+import { useState, useCallback, useEffect, useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useLiveQuery } from 'dexie-react-hooks';
 import { useDb, useCompany } from '../contexts/TestModeContext';
@@ -12,7 +12,7 @@ import type {
 } from '../types';
 import { DEFAULT_SETTINGS } from '../types';
 import { THEME_PRESETS } from '../utils/themePresets';
-import { AVAILABLE_LANGUAGES } from '../i18n';
+import { AVAILABLE_LANGUAGES, detectBrowserLanguage } from '../i18n';
 
 const MAX_LOGO_SIZE_KB = 500;
 const ALLOWED_IMAGE_TYPES = ['image/png', 'image/jpeg', 'image/svg+xml'];
@@ -39,11 +39,15 @@ export function Settings(): ReactElement {
   const currentSettings = existingSettings?.[0];
   const settingsId = currentSettings?.id;
 
+  // Memoize browser language detection to avoid recalculating on every render
+  const browserLanguage = useMemo(() => detectBrowserLanguage(), []);
+
   // Sync language with saved locale
   useEffect(() => {
-    const savedLocale = currentSettings?.locale ?? DEFAULT_SETTINGS.locale;
-    if (savedLocale && i18n.language !== savedLocale) {
-      i18n.changeLanguage(savedLocale);
+    // Only override i18n language if there's an explicitly saved locale in the database
+    // This allows browser language detection to work when no locale has been saved yet
+    if (currentSettings?.locale && i18n.language !== currentSettings.locale) {
+      i18n.changeLanguage(currentSettings.locale);
     }
   }, [currentSettings?.locale, i18n]);
 
@@ -540,7 +544,7 @@ export function Settings(): ReactElement {
         <div className="form-group">
           <label>{t('settings.language.select')}</label>
           <select
-            value={getValue('locale')}
+            value={currentSettings?.locale ?? browserLanguage}
             onChange={(e) => {
               const newLocale = e.target.value;
               updateField('locale', newLocale);

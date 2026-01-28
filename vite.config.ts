@@ -27,4 +27,9 @@ export default defineConfig({
     __GIT_COMMIT__: JSON.stringify(getGitCommit()),
     __BUILD_DATE__: JSON.stringify(new Date().toISOString().split('T')[0]),
   },
+  test: {
+    // Exclude e2e tests from vitest - they should be run with playwright
+    // Also exclude backend folder which has its own node_modules with test files
+    exclude: ['e2e/**', 'node_modules/**', 'backend/**'],
+  },
 });

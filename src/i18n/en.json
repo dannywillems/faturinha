@@ -55,7 +55,8 @@
       "tax": "Tax",
       "total": "Total",
       "notes": "Notes",
-      "currency": "Currency"
+      "currency": "Currency",
+      "autoGenerate": "Auto-generate if empty"
     },
     "addItem": "Add Item",
     "removeItem": "Remove Item",

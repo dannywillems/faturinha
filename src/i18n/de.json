@@ -55,7 +55,8 @@
       "tax": "MwSt",
       "total": "Gesamt",
       "notes": "Anmerkungen",
-      "currency": "Wahrung"
+      "currency": "Wahrung",
+      "autoGenerate": "Automatisch generieren wenn leer"
     },
     "addItem": "Position Hinzufugen",
     "removeItem": "Position Entfernen",

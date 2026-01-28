@@ -55,7 +55,8 @@
       "tax": "Imposto",
       "total": "Total",
       "notes": "Observacoes",
-      "currency": "Moeda"
+      "currency": "Moeda",
+      "autoGenerate": "Gerar automaticamente se vazio"
     },
     "addItem": "Adicionar Item",
     "removeItem": "Remover Item",

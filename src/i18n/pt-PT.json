@@ -55,7 +55,8 @@
       "tax": "IVA",
       "total": "Total",
       "notes": "Notas",
-      "currency": "Moeda"
+      "currency": "Moeda",
+      "autoGenerate": "Gerar automaticamente se vazio"
     },
     "addItem": "Adicionar Artigo",
     "removeItem": "Remover Artigo",

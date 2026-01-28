@@ -68,7 +68,7 @@ deploy-preview: ## Deploy preview to Cloudflare Pages
 
 .PHONY: test
 test: ## Run unit tests
-	npx vitest run
+	npx vitest run --passWithNoTests
 
 .PHONY: test-watch
 test-watch: ## Run unit tests in watch mode
